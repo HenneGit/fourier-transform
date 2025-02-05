@@ -23,12 +23,10 @@ const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, sp
         const circle = d3.select(circleRef.current);
         const line = d3.select(lineRef.current);
         const angle = speed + 5 * Math.PI;
-        let x;
-        let y;
 
         if (centerX !== undefined && centerY !== undefined) {
-            x = centerX + radius * Math.cos(angle);
-            y = centerY + radius * Math.sin(angle);
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
             circle.attr("cx", x).attr("cy", y);
             line.attr("x1", centerX).attr("y1", centerY).attr("x2", x).attr("y2", y);
             setNewSpeed((prevState) => prevState + circles[circleNo].speed)
@@ -38,13 +36,10 @@ const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, sp
                 const finalLine = d3.select(finalLineRef.current);
 
                 setPoints((prevPoints) => [...prevPoints, { x, y }]);
-
-                // Create path data by connecting all points
                 const pathData = points.map((point, index) => {
                     return index === 0 ? `M${point.x},${point.y}` : `L${point.x},${point.y}`;
                 }).join(" ");
 
-                // Update path element with the new path data
                 finalLine.attr("d", pathData);
             }
         }
