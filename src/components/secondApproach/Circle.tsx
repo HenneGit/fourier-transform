@@ -29,9 +29,9 @@ const Circle: React.FC<RotatingCircleProps> = ({circle}) => {
 
     return (
         <>
-            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke="white" fill="none"
-                    strokeWidth={2.4}/>
-            <line ref={lineRef} stroke="white" strokeWidth={2.4}/>
+            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke="grey" fill="none"
+                    strokeWidth={1.4}/>
+            <line ref={lineRef} stroke="grey" strokeWidth={1.8}/>
             <circle ref={circleRef} r={2} fill="grey"/>
         </>
     );
