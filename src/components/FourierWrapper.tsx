@@ -26,12 +26,12 @@ const FourierWrapper = () => {
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);  // To store points
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
-    const intervalMs = 100;
+    const intervalMs = 1;
     const [isFirstRender, setIsFirstRender] = useState(true);
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [colors, setColors] = useState<string[]>([]);
-    const hslBase = [200, 50, 30];
-    const maxCircles = 15;
+    const hslBase = [60, 50, 30];
+    const maxCircles = 55;
 
     useEffect(() => {
         console.log("Hallo");
@@ -40,10 +40,10 @@ const FourierWrapper = () => {
 
         for (let i = 0; i < maxCircles; i++) {
             let currentCircle;
-            const radius = parseFloat((getRandomNumber(0, 360, -280)).toFixed(3));
+            const radius = parseFloat((getRandomNumber(61, 360, -60)).toFixed(3));
             const min = -0.499;
             const max = 0.499;
-            const frequency = parseFloat(getRandomNumber(min, max, 0).toFixed(3));
+            const frequency = parseFloat(getRandomNumber(min, max, 2).toFixed(3));
             fourierPoint.push({radius: radius, frequency: frequency})
             setColors(prevState => [...prevState, getBrighterColor(hslBase, 1, i)]);
             colors.push(getBrighterColor(hslBase, 1, i));
@@ -71,9 +71,8 @@ const FourierWrapper = () => {
                 newCircles.push(newCircle);
             }
         }
-
-        setCircles(newCircles);
         setFourierPoints(fourierPoint)
+        setCircles(newCircles);
     }, []);
 
     const getBrighterColor = (hslBase: number[], lightnessIncrement: number, index: number) => {
@@ -84,8 +83,6 @@ const FourierWrapper = () => {
 
 
     useEffect(() => {
-        console.log("Hallo2");
-        console.log(circles);
         if (!isStart) {
             return;
         }
@@ -97,10 +94,9 @@ const FourierWrapper = () => {
             let lastTimestamp = 0;
             let index = 0;
             const renderItems = (timestamp: number) => {
-                if (index === circles.length) {
+                if (index === circles.length -1) {
+                    console.log(fourierPoints)
                     resolveFn?.();
-                    setTimeout(()=>{}, 10)
-                    console.log(startingCircles);
                     return;
                 }
                 if (timestamp - lastTimestamp >= intervalMs) {
@@ -111,10 +107,10 @@ const FourierWrapper = () => {
                 requestAnimationFrame(renderItems);
             };
             requestAnimationFrame(renderItems);
-            renderingPromise.then(() => {
-                console.log(startingCircles);
-            });
 
+            renderingPromise.then(() => {
+                setIsStart(false);
+            });
         }
         console.log(startingCircles);
     }, [circles]);
@@ -122,9 +118,8 @@ const FourierWrapper = () => {
 
     useEffect(() => {
         if (!isStart) {
-            console.log('start');
             d3.timer((elapsed) => {
-                setFrequency(elapsed / 10000);
+                setFrequency(elapsed / 1000);
             });
         }
     }, [isStart]);
@@ -132,14 +127,10 @@ const FourierWrapper = () => {
 
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-        console.log(currentCircles);
-        console.log(startingCircles);
-        console.log(circles);
-
         if (frequency > 15) {
-            points.splice(0, 1)
+            points.splice(0,1)
         }
-        if (fourierPoints && currentCircles && currentCircles.length === maxCircles && !isStart) {
+        if (fourierPoints && currentCircles && !isStart) {
             const newCircles: ICircle[] = [];
             for (let i = 0; i < fourierPoints.length; i++) {
                 let currentCircle;
@@ -175,9 +166,6 @@ const FourierWrapper = () => {
             if (renderCycle <= currentCircles.length) {
                 setRenderCycle((prevState) => prevState + 1);
             }
-            if (isFirstRender) {
-                setIsStart(false);
-            }
             setIsFirstRender(false);
             setCircles(newCircles);
         }
@@ -205,10 +193,10 @@ const FourierWrapper = () => {
     return (
         <div className={'fourier-container'}>
             <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 5800 5800" preserveAspectRatio="xMidYMid meet">
-                {isStart && startingCircles.length > 0 ? startingCircles.map((item, index) => (
+                {isStart && startingCircles ? startingCircles.map((item, index) => (
                     <Circle key={index} circle={item}/>
                 )) : null}
-                {!isStart && circles && circles.length > 0 && circles.map((item, index) => (
+                {!isStart && circles && circles.map((item, index) => (
                     <Circle key={index} circle={item}/>
                 ))}
                 <path ref={pathRef} stroke="#FFFFFFDD" fill="none" strokeWidth={2.1}/>

@@ -18,6 +18,7 @@ const Circle: React.FC<RotatingCircleProps> = ({circle}) => {
     const lineRef = useRef<SVGLineElement>(null);
 
     useEffect(() => {
+        console.log(circle);
         const circleSvg = d3.select(circleRef.current);
         const line = d3.select(lineRef.current);
         if (circle.centerX !== undefined && circle.centerY !== undefined) {
