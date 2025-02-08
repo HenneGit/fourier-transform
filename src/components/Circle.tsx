@@ -29,10 +29,10 @@ const Circle: React.FC<RotatingCircleProps> = ({circle}) => {
 
     return (
         <>
-            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke="grey" fill="none"
+            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke="#9B8B8BFF" fill="none"
                     strokeWidth={1.4}/>
-            <line ref={lineRef} stroke="grey" strokeWidth={1.8}/>
-            <circle ref={circleRef} r={2} fill="grey"/>
+            <line ref={lineRef} stroke="#EEE3E3FF" strokeWidth={1.8}/>
+            <circle ref={circleRef} r={2} fill="#EEE3E3FF"/>
         </>
     );
 };

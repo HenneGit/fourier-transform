@@ -1,5 +1,5 @@
 import './App.css'
-import FourierWrapper from "./components/secondApproach/FourierWrapper.tsx";
+import FourierWrapper from "./components/FourierWrapper.tsx";
 
 function App() {
 

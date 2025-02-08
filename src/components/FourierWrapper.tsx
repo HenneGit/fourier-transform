@@ -32,12 +32,12 @@ const FourierWrapper = () => {
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 50; i++) {
             let currentCircle;
-            const radius = parseFloat((Math.random() * 150).toFixed(3));
-            const min = -0.999;
-            const max = 0.999;
-            const frequency = parseFloat(getRandomNumber(min, max).toFixed(3));
+            const radius = parseFloat((getRandomNumber(0, 360, -180)).toFixed(3));
+            const min = -0.499;
+            const max = 0.499;
+            const frequency = parseFloat(getRandomNumber(min, max, 7).toFixed(3));
             fourierPoint.push({radius: radius, frequency: frequency})
             if (i === 0) {
                 currentCircle = {centerX: startPosition[0], centerY: startPosition[1], radius: 1, angle: 1};
@@ -99,8 +99,8 @@ const FourierWrapper = () => {
 
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-        if (frequency % 20 < 1) {
-            points.splice(0,2)
+        if (frequency > 15) {
+            points.splice(0,1)
         }
 
         if (fourierPoints && currentCircles) {
@@ -137,12 +137,21 @@ const FourierWrapper = () => {
         }
     }, [frequency]);
 
-    function getRandomNumber(min: number, max: number) {
-        return Math.random() * (max - min) + min;
-    }
+
+    const getRandomNumber = (min: number, max: number, extremValue: number) => {
+        if (Math.random() < 1 / 20) {
+            // 1 out of 20 chance (5%)
+            return  Math.random() * (max + extremValue - min + extremValue) + min + extremValue;
+        } else {
+            // 19 out of 20 chance (95%)
+           return  Math.random() * (max - min) + min;
+        }
+    };
+
+
 
     return (
-        <div style={{background: "black", width: "100%", height: "100%"}}>
+        <div className={'fourier-container'}>
             <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 5800 5800" preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
                     <Circle key={index} circle={item}/>
@@ -150,7 +159,7 @@ const FourierWrapper = () => {
                 {!isStart && circles && circles.map((item, index) => (
                     <Circle key={index} circle={item}/>
                 ))}
-                <path ref={pathRef} stroke="white" fill="none" strokeWidth={2.8}/>
+                <path ref={pathRef} stroke="#FFFFFFDD" fill="none" strokeWidth={2.1}/>
             </svg>
         </div>
     )
