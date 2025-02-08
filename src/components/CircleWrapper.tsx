@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import StartCircle from "./StartCircle.tsx";
+import NextCircle from "./NextCircle.tsx";
 
 
 export interface CircleProps {
@@ -13,9 +13,11 @@ const CircleWrapper = () => {
 
     useEffect(() => {
         const newCircles: CircleProps[] = [];
-        for (let i = 0; i < 250; i++) {
+        for (let i = 0; i < 20; i++) {
             const radius = parseFloat((Math.random() * 180).toFixed(3));
-            const frequency = Math.random() * (0.543 - 0.67) + - 0.67;
+            const min = -0.999;
+            const max = 0.999;
+            const frequency = parseFloat(getRandomNumber(min, max).toFixed(3));
             newCircles.push({radius: radius, frequency: frequency})
         }
         setCircles(newCircles);
@@ -23,14 +25,21 @@ const CircleWrapper = () => {
     }, []);
 
 
+
+
+    function getRandomNumber(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
     return (
         <div style={{background: "black", width:"100%",  height:"100%"}}>
             <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 5800 5800" preserveAspectRatio="xMidYMid meet">
-                {circles && circles.length > 0 && <StartCircle
+                {circles && circles.length > 0 && <NextCircle
                     centerX={2800}
                     centerY={2800}
-                    radius={230}
                     circles={circles}
+                    circleNo={0}
+                    baseFrequency={0}
                 />
                 }
             </svg>

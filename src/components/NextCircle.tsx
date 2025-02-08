@@ -10,19 +10,21 @@ type RotatingCircleProps = {
     baseFrequency: number;
 };
 
-const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, circles, circleNo, baseFrequency}) => {
+const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, circles, circleNo}) => {
     const circleRef = useRef<SVGCircleElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
-    const finalLineRef = useRef<SVGPathElement>(null);  // Ref for the path element
+    const pathRef = useRef<SVGPathElement>(null);  // Ref for the path element
     const [newX, setNewX] = useState<number>()
     const [newY, setNewY] = useState<number>()
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);  // To store points
+    const [no, setNo] = useState<number>(circleNo)
 
     useEffect(() => {
         const circle = d3.select(circleRef.current);
         const line = d3.select(lineRef.current);
-        const angle = baseFrequency * circles[circleNo].frequency * Math.PI;
-
+        const angle = circleNo * circles[circleNo].frequency * Math.PI;
+        console.log("circleNo")
+        console.log(circleNo)
         if (centerX !== undefined && centerY !== undefined) {
             const x = centerX + circles[circleNo].radius * Math.cos(angle);
             const y = centerY + circles[circleNo].radius * Math.sin(angle);
@@ -31,19 +33,20 @@ const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, circles, c
             setNewX(x);
             setNewY(y);
             if (circleNo === circles.length - 1) {
-                const finalLine = d3.select(finalLineRef.current);
+                const graph = d3.select(pathRef.current);
                 setPoints((prevPoints) => [...prevPoints, {x, y}]);
                 const pathData = points.map((point, index) => {
                     return index === 0 ? `M${point.x},${point.y}` : `L${point.x},${point.y}`;
                 }).join(" ");
-                finalLine.attr("d", pathData);
+                graph.attr("d", pathData);
             }
         }
-    }, [centerX, centerY]);
+        setNo(prevState => prevState + 1);
+    }, [circleNo]);
 
     return (
         <>
-            {baseFrequency > 0 &&
+            {circleNo >= 0 &&
                 <>
                     <circle cx={centerX} cy={centerY} r={circles[circleNo].radius} stroke="white" fill="none"
                             strokeWidth={2.4}/>
@@ -51,9 +54,9 @@ const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, circles, c
                     <circle ref={circleRef} r={2} fill="grey"/>
                     <>{circles[circleNo].radius}</>
                     {circleNo < circles.length - 1 ?
-                        <NextCircle centerX={newX} centerY={newY} circles={circles} baseFrequency={baseFrequency}
-                                    circleNo={circleNo + 1}></NextCircle> :
-                        <path ref={finalLineRef} stroke="white" fill="none" strokeWidth={7.8}/>
+                        <NextCircle centerX={newX} centerY={newY} circles={circles}
+                                    circleNo={no}></NextCircle> :
+                        <path ref={pathRef} stroke="white" fill="none" strokeWidth={3.8}/>
                     }
                 </>
             }
