@@ -10,10 +10,9 @@ type RotatingCircleProps = {
 };
 
 const StartCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, speed}) => {
-    const svgRef = useRef<SVGSVGElement>(null);
     const circleRef = useRef<SVGCircleElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
-    const circles = [{radius:15, speed: 0.0019}, {radius:66, speed: 0.009}, {radius:100, speed: 0.001}, {radius:115, speed: 0.01}]
+    const circles = [{radius:270, speed: 0.05}, {radius:180, speed: 0.01}, {radius:50, speed: 0.08}, {radius:10, speed: 0.000001}]
 
     const [newY, setY] = useState<number>();
     const [newX, setX] = useState<number>();
@@ -37,14 +36,13 @@ const StartCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, s
         });
     }, [centerX, centerY]);
 
-
     return (
-        <svg ref={svgRef} width={4000} height={4000}>
+        <>
             <circle cx={centerX} cy={centerY} r={radius} stroke="black" fill="none" strokeWidth={0.4}/>
             <line ref={lineRef} stroke="black" strokeWidth={0.5}/>
             <circle ref={circleRef} r={5} fill="red"/>
             <NextCircle centerX={newY} centerY={newX} radius={circles[0].radius} speed={newSpeed} circles={circles} circleNo={0}></NextCircle>
-        </svg>
+        </>
     );
 };
 

@@ -7,11 +7,11 @@ const CircleWrapper = () => {
 
     return (
         <div>
-            <svg ref={svgRef} width={4000} height={4000}>
+            <svg ref={svgRef}  width="100%" height="100%" viewBox="0 0 1800 1800" preserveAspectRatio="xMidYMid meet">
                 <StartCircle
-                    centerX={400}
-                    centerY={400}
-                    radius={50}
+                    centerX={800}
+                    centerY={800}
+                    radius={150}
                     speed={3000}
                 />
             </svg>

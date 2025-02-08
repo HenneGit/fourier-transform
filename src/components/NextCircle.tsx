@@ -11,7 +11,6 @@ type RotatingCircleProps = {
 };
 
 const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, speed, circles, circleNo}) => {
-    const svgRef = useRef<SVGSVGElement>(null);
     const circleRef = useRef<SVGCircleElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
     const finalLineRef = useRef<SVGPathElement>(null);  // Ref for the path element
@@ -47,14 +46,14 @@ const NextCircle: React.FC<RotatingCircleProps> = ({centerX, centerY, radius, sp
     }, [centerX, centerY]);
 
     return (
-        <svg ref={svgRef} width={4000} height={4000}>
+        <>
             <circle cx={centerX} cy={centerY} r={radius} stroke="black" fill="none" strokeWidth={0.4}/>
             <line ref={lineRef} stroke="black" strokeWidth={0.5}/>
             <circle ref={circleRef} r={5} fill="red"/>
             {circleNo < circles.length  -1 ?
                 <NextCircle centerX={newX} centerY={newY} radius={circles[circleNo].radius} speed={newSpeed} circles={circles} circleNo={circleNo +1}></NextCircle> :  <path ref={finalLineRef} stroke="blue" fill="none" strokeWidth={0.5} />
             }
-        </svg>
+        </>
     );
 };
 
