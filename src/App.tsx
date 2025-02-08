@@ -1,12 +1,12 @@
 import './App.css'
-import CircleWrapper from "./components/CircleWrapper.tsx";
+import FourierWrapper from "./components/secondApproach/FourierWrapper.tsx";
 
 function App() {
 
 
     return (
         <>
-            <CircleWrapper></CircleWrapper>
+            <FourierWrapper></FourierWrapper>
         </>
     )
 }
