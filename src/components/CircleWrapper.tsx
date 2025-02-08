@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import NextCircle from "./NextCircle.tsx";
+import * as d3 from "d3";
 
 
 export interface CircleProps {
@@ -10,6 +11,7 @@ export interface CircleProps {
 const CircleWrapper = () => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [circles, setCircles] = useState<CircleProps[]>();
+    const [frequency, setFrequency] = useState(0);
 
     useEffect(() => {
         const newCircles: CircleProps[] = [];
@@ -26,6 +28,12 @@ const CircleWrapper = () => {
 
 
 
+    useEffect(() => {
+        d3.timer((elapsed) => {
+            setFrequency(elapsed / 1000);
+        });
+    }, []);
+
 
     function getRandomNumber(min, max) {
         return Math.random() * (max - min) + min;
@@ -39,7 +47,7 @@ const CircleWrapper = () => {
                     centerY={2800}
                     circles={circles}
                     circleNo={0}
-                    baseFrequency={0}
+                    baseFrequency={frequency}
                 />
                 }
             </svg>
