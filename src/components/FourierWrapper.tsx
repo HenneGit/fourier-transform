@@ -26,12 +26,12 @@ const FourierWrapper = () => {
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);  // To store points
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
-    const intervalMs = 1;
+    const intervalMs = 2;
     const [isFirstRender, setIsFirstRender] = useState(true);
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [colors, setColors] = useState<string[]>([]);
-    const hslBase = [60, 50, 30];
-    const maxCircles = 55;
+    const hslBase = [60, 50, 10];
+    const maxCircles = 200;
 
     useEffect(() => {
         console.log("Hallo");
@@ -40,7 +40,7 @@ const FourierWrapper = () => {
 
         for (let i = 0; i < maxCircles; i++) {
             let currentCircle;
-            const radius = parseFloat((getRandomNumber(61, 360, -60)).toFixed(3));
+            const radius = parseFloat((getRandomNumber(61, 210, 60)).toFixed(3));
             const min = -0.499;
             const max = 0.499;
             const frequency = parseFloat(getRandomNumber(min, max, 2).toFixed(3));
@@ -99,7 +99,7 @@ const FourierWrapper = () => {
                     resolveFn?.();
                     return;
                 }
-                if (timestamp - lastTimestamp >= intervalMs) {
+                if (index === 0 || timestamp - lastTimestamp >= intervalMs) {
                     lastTimestamp = timestamp;
                     setStartingCircles((prev) => [...prev, circles[index]]);
                     index++;
@@ -127,10 +127,11 @@ const FourierWrapper = () => {
 
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
+        console.log(currentCircles);
         if (frequency > 15) {
             points.splice(0,1)
         }
-        if (fourierPoints && currentCircles && !isStart) {
+        if (fourierPoints && currentCircles) {
             const newCircles: ICircle[] = [];
             for (let i = 0; i < fourierPoints.length; i++) {
                 let currentCircle;
