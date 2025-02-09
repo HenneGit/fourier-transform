@@ -1,8 +1,11 @@
 import {useEffect, useRef} from "react";
 import * as d3 from "d3";
+import {IFourierColorSettings, IFourierStrokeSettings} from "./FourierWrapper.tsx";
 
 type RotatingCircleProps = {
     circle: Circle;
+    strokeSettings: IFourierStrokeSettings;
+    colorSettings: IFourierColorSettings;
 };
 
 export interface Circle  {
@@ -13,7 +16,7 @@ export interface Circle  {
     color: string;
 }
 
-const Circle: React.FC<RotatingCircleProps> = ({circle}) => {
+const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSettings}) => {
     const circleRef = useRef<SVGCircleElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
 
@@ -31,9 +34,9 @@ const Circle: React.FC<RotatingCircleProps> = ({circle}) => {
     return (
         <>
             <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke={circle.color} fill="none"
-                    strokeWidth={1.4}/>
-            <line ref={lineRef} stroke="#EEE3E3FF" strokeWidth={1.8}/>
-            <circle ref={circleRef} r={2} fill="#EEE3E3FF"/>
+                    strokeWidth={strokeSettings.circleStroke}/>
+            <line ref={lineRef} stroke={colorSettings.radiusColor} strokeWidth={strokeSettings.radiusStroke}/>
+            <circle ref={circleRef} r={strokeSettings.jointPointStroke} fill={colorSettings.jointPointColor}/>
         </>
     );
 };
