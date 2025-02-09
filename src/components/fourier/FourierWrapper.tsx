@@ -48,8 +48,8 @@ export interface IFourierStrokeSettings {
 
 export interface IFourierColorSettings {
     hslBase: number[];
-    rotatingColor: boolean;
-    rotatingColorDelay: number;
+    rotateCircleColor: boolean;
+    rotateCircleColorDelay: number;
     radiusColor: string;
     circleColor: string;
     jointPointColor: string;
