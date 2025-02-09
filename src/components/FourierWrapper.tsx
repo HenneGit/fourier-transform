@@ -16,6 +16,34 @@ export interface ICircle {
     color: string;
 }
 
+export interface IFourierSettings {
+    numberOfCircles: number;
+    maxSpeed: number;
+    maxRadius: number;
+    minSpeed: number;
+    animationSpeed: number;
+    zoom: number;
+
+}
+
+export interface IFourierStrokeSettings {
+    circleStroke: number;
+    radiusStroke: number;
+    pathStroke: number;
+    jointPointStroke: number;
+}
+
+
+
+export interface IFourierColorSettings {
+    hslBase: number[];
+    rotatingColor: boolean;
+    radiusColor: number[];
+    circleColor: number[];
+    jointPointColor: number[];
+}
+
+
 const FourierWrapper = () => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
@@ -23,30 +51,29 @@ const FourierWrapper = () => {
     const [startingCircles, setStartingCircles] = useState<ICircle[]>([]);
     const [frequency, setFrequency] = useState(0);
     const startPosition = [2800, 2800];
-    const [points, setPoints] = useState<{ x: number; y: number }[]>([]);  // To store points
+    const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
     const intervalMs = 2;
     const [isFirstRender, setIsFirstRender] = useState(true);
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [colors, setColors] = useState<string[]>([]);
-    const hslBase = [60, 50, 10];
-    const maxCircles = 200;
+    const [hslBase, setHslBase] = useState<number[]>([170, 90, 40]);
+    const numberOfCircles = 10;
 
     useEffect(() => {
-        console.log("Hallo");
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
 
-        for (let i = 0; i < maxCircles; i++) {
+        for (let i = 0; i < numberOfCircles; i++) {
             let currentCircle;
-            const radius = parseFloat((getRandomNumber(61, 210, 60)).toFixed(3));
-            const min = -0.499;
-            const max = 0.499;
-            const frequency = parseFloat(getRandomNumber(min, max, 2).toFixed(3));
+            const radius = parseFloat((getRandomNumber(1, 310, 60)).toFixed(3));
+            const min = -0.199;
+            const max = 0.199;
+            const frequency = parseFloat(getRandomNumber(min, max, 0).toFixed(3));
             fourierPoint.push({radius: radius, frequency: frequency})
-            setColors(prevState => [...prevState, getBrighterColor(hslBase, 1, i)]);
-            colors.push(getBrighterColor(hslBase, 1, i));
+            setColors(prevState => [...prevState, incrementLightness(hslBase, 1, i * 0.4)]);
+            colors.push(incrementLightness(hslBase, 1, i));
             if (i === 0) {
                 currentCircle = {
                     centerX: startPosition[0],
@@ -75,13 +102,13 @@ const FourierWrapper = () => {
         setCircles(newCircles);
     }, []);
 
-    const getBrighterColor = (hslBase: number[], lightnessIncrement: number, index: number) => {
+    const incrementLightness = (hslBase: number[], lightnessIncrement: number, index: number) => {
         const [h, s, l] = hslBase;
         const newLightness = Math.min(100, l + lightnessIncrement * index);
         return `hsl(${h}, ${s}%, ${newLightness}%)`;
     };
 
-
+    //plays starting animation
     useEffect(() => {
         if (!isStart) {
             return;
@@ -94,8 +121,7 @@ const FourierWrapper = () => {
             let lastTimestamp = 0;
             let index = 0;
             const renderItems = (timestamp: number) => {
-                if (index === circles.length -1) {
-                    console.log(fourierPoints)
+                if (index === circles.length - 1) {
                     resolveFn?.();
                     return;
                 }
@@ -107,15 +133,13 @@ const FourierWrapper = () => {
                 requestAnimationFrame(renderItems);
             };
             requestAnimationFrame(renderItems);
-
             renderingPromise.then(() => {
                 setIsStart(false);
             });
         }
-        console.log(startingCircles);
     }, [circles]);
 
-
+    //starts the main animation
     useEffect(() => {
         if (!isStart) {
             d3.timer((elapsed) => {
@@ -124,12 +148,18 @@ const FourierWrapper = () => {
         }
     }, [isStart]);
 
-
+    //renders the circle stack
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-        console.log(currentCircles);
         if (frequency > 15) {
-            points.splice(0,1)
+            points.splice(0, 1)
+        }
+        if (frequency % 10 > 0 && frequency % 10 < 1) {
+            const newHslBase = hslBase[0] + 5
+            setHslBase([newHslBase, hslBase[1], hslBase[2]]);
+            for (let i = 0; i < colors.length; i++) {
+                colors[i] = incrementLightness(hslBase, i, 1.5);
+            }
         }
         if (fourierPoints && currentCircles) {
             const newCircles: ICircle[] = [];
@@ -160,6 +190,10 @@ const FourierWrapper = () => {
                     };
                     newCircles.push(newCircle);
                     if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length) {
+                        currentCircle = currentCircles[i];
+                        const angle = frequency * currentPoint.frequency * Math.PI;
+                        const x = currentCircle.centerX + currentCircle.radius * Math.cos(angle);
+                        const y = currentCircle.centerY + currentCircle.radius * Math.sin(angle);
                         renderPath(x, y);
                     }
                 }
