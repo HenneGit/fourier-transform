@@ -34,6 +34,7 @@ export interface IFourierProperties {
     zoom: number;
     deletePath: boolean;
     pathDeletionDelay: number;
+    viewPort: string;
 
 }
 
@@ -53,6 +54,10 @@ export interface IFourierColorSettings {
     circleColor: string;
     jointPointColor: string;
     backgroundColor: string;
+    showPathGradient: boolean,
+    gradientColor: string;
+    gradientColor1: string;
+    gradientColor2: string;
 }
 
 
@@ -62,7 +67,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     const [circles, setCircles] = useState<ICircle[]>();
     const [startingCircles, setStartingCircles] = useState<ICircle[]>([]);
     const [frequency, setFrequency] = useState(0);
-    const startPosition = [4800, 4800];
+    const startPosition = [5, 5];
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
@@ -163,7 +168,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     //renders the circle stack
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-        if (frequency > 90 && properties.deletePath) {
+        if (frequency > properties.pathDeletionDelay && properties.deletePath) {
             points.splice(0, 1)
         }
         if (frequency % 10 > 0 && frequency % 10 < 1) {
@@ -238,22 +243,24 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     };
 
     return (
-        <div className={'fourier-container'}>
-            <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 10800 10800" preserveAspectRatio="xMidYMid meet">
+        <div className={'fourier-container'} style={{backgroundColor: colors.backgroundColor}}>
+            <svg ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort} preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                 )) : null}
                 {!isStart && circles && circles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                 ))}
-                <defs>
-                    <linearGradient id="grad">
-                        <stop offset="0%" stopColor="red" />
-                        <stop offset="50%" stopColor="pink" />
-                        <stop offset="100%" stopColor="yellow" />
-                    </linearGradient>
-                </defs>
-                <path ref={pathRef} stroke="url(#grad)"   fill="none" strokeWidth={5.1}/>
+                {colors.showPathGradient ?
+                    <defs>
+                        <linearGradient id="grad">
+                            <stop offset="0%" stopColor={colors.gradientColor} />
+                            <stop offset="50%" stopColor={colors.gradientColor1} />
+                            <stop offset="100%" stopColor={colors.gradientColor2} />
+                        </linearGradient>
+                    </defs> : null
+                }
+                <path ref={pathRef} stroke="url(#grad)"   fill="none" strokeWidth={strokes.pathStroke}/>
             </svg>
         </div>
     )
