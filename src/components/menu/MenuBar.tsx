@@ -40,11 +40,17 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         <SidebarGroupContent>
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
-                                    <SwitchWithLabel value={properties.deletePath} lable={"Delete Path"}
+                                    <SwitchWithLabel value={properties.deletePath} lable={"deletePath"}
                                                      setValue={(checked) => setProperties((prev) => ({
                                                          ...prev,
                                                          deletePath: checked
                                                      }))}/>
+                                    <SliderWithNumber number={properties.pathDeletionDelay} min={1} max={150} steps={1}
+                                                      lable={'deletePathDelay'}
+                                                      setNumber={(number) => setProperties((prev) => ({
+                                                          ...prev,
+                                                          pathDeletionDelay: number[0]
+                                                      }))}/>
                                     <SliderWithNumber number={properties.numberOfCircles} min={1} max={150} steps={1}
                                                       lable={'numberOfCircles'}
                                                       setNumber={(number) => setProperties((prev) => ({
@@ -71,7 +77,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                                           speedDelta: number[0]
                                                       }))}/>
                                     <Separator className="my-2" orientation="horizontal"/>
-                                    <SliderWithNumber number={properties.maxRadius} min={1} max={10} steps={0.1}
+                                    <SliderWithNumber number={properties.maxRadius} min={0.1} max={10} steps={0.1}
                                                       lable={'maxRadius'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
@@ -166,6 +172,11 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  backgroundColor: color
+                                             })))}/>
+                                <ColorPicker lable={'pathColor'} color={colors.pathColor}
+                                             setColor={((color) => setColors((prev) => ({
+                                                 ...prev,
+                                                 pathColor: color
                                              })))}/>
                                 <Separator className="my-2" orientation="horizontal"/>
 

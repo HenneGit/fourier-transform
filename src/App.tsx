@@ -30,6 +30,7 @@ function App() {
         jointPointColor: getHslString(250, 90, 60),
         backgroundColor: getHslString(123, 50, 1),
         showPathGradient: true,
+        pathColor: getHslString(123, 50, 1),
         gradientColor: getHslString(90, 90, 50),
         gradientColor1: getHslString(90, 90, 50),
         gradientColor2: getHslString(90, 90, 50),
@@ -45,7 +46,7 @@ function App() {
         animationSpeed: 10,
         zoom: 90,
         deletePath: false,
-        pathDeletionDelay: 5,
+        pathDeletionDelay: 15,
         viewPort: "0 0 100 100"
     });
 
@@ -70,7 +71,8 @@ function App() {
                          strokes={strokes} properties={properties}/>
                 <main>
                     {properties && strokes && colors ?
-                        <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes} startPosition={[50, 50]} />
+                        <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}
+                                        startPosition={[50, 50]}/>
                         : null
                     }
                 </main>

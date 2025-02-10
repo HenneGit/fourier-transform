@@ -53,6 +53,7 @@ export interface IFourierColorSettings {
     rotateCircleColorDelay: number;
     radiusColor: string;
     circleColor: string;
+    pathColor: string;
     jointPointColor: string;
     backgroundColor: string;
     showPathGradient: boolean,
@@ -82,15 +83,18 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
 
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
-        console.log(colors);
+        console.log('colors',colors);
+        console.log('properties', properties);
+        console.log('strokes',strokes);
+
         for (let i = 0; i < numberOfCircles; i++) {
             let currentCircle;
             const radius = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
             const min = properties.minSpeed;
             const max = properties.maxSpeed;
             const frequency = parseFloat(getRandomNumber(min, max, properties.speedDelta).toFixed(3));
-            fourierPoint.push({radius: radius, frequency: frequency})
-            setCircleColorArray(prevState => [...prevState, incrementLightness(hslBase, 1, i * 0.001)]);
+            fourierPoint.push({radius: radius, frequency: frequency});
+            setCircleColorArray(prevState => [...prevState, incrementLightness(hslBase, 1, i * 0.1)]);
             circleColorArray.push(incrementLightness(hslBase, 1, i));
             if (i === 0) {
                 currentCircle = {
@@ -180,9 +184,11 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
         if (frequency > properties.pathDeletionDelay && properties.deletePath) {
+            console.log('delete path');
             points.splice(0, 1)
         }
-        if (frequency % 10 > 0 && frequency % 10 < 1) {
+        if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
+            console.log('change colors');
             const newHslBase = hslBase[0] + 5
             setHslBase([newHslBase, hslBase[1], hslBase[2]]);
             for (let i = 0; i < circleColorArray.length; i++) {
@@ -257,7 +263,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
         <div className={'fourier-container'} style={{backgroundColor: colors.backgroundColor}}>
             <svg ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort} preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
-                    <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
+                    <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors} />
                 )) : null}
                 {!isStart && circles && circles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
@@ -271,7 +277,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                         </linearGradient>
                     </defs> : null
                 }
-                <path ref={pathRef} stroke="url(#grad)"   fill="none" strokeWidth={strokes.pathStroke}/>
+                <path ref={pathRef} stroke={colors.showPathGradient ? "url(#grad)"  : colors.pathColor}  fill="none" strokeWidth={strokes.pathStroke}/>
             </svg>
         </div>
     )
