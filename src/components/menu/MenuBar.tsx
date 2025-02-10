@@ -40,12 +40,12 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         <SidebarGroupContent>
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
-                                    <SwitchWithLabel value={properties.deletePath} lable={"deletePath"}
+                                    <SwitchWithLabel value={strokes.deletePath} lable={"deletePath"}
                                                      setValue={(checked) => setProperties((prev) => ({
                                                          ...prev,
                                                          deletePath: checked
                                                      }))}/>
-                                    <SliderWithNumber number={properties.pathDeletionDelay} min={1} max={150} steps={1}
+                                    <SliderWithNumber number={strokes.pathDeletionDelay} min={1} max={150} steps={1}
                                                       lable={'deletePathDelay'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,

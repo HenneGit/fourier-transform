@@ -20,16 +20,19 @@ function App() {
         radiusStroke: 0.05,
         pathStroke: 0.09,
         jointPointStroke: 0.2,
+        deletePath: false,
+        pathDeletionDelay: 15,
+
     });
     const [colors, setColors] = useState<IFourierColorSettings>({
         hslBase: [140, 5, 9],
-        rotateCircleColor: false,
-        rotateCircleColorDelay: 20,
+        rotateCircleColor: true,
+        rotateCircleColorDelay: 1,
         radiusColor: getHslString(190, 20, 10),
         circleColor: getHslString(1, 20, 100),
         jointPointColor: getHslString(250, 90, 60),
         backgroundColor: getHslString(123, 50, 1),
-        showPathGradient: true,
+        showPathGradient: false,
         pathColor: getHslString(123, 50, 1),
         gradientColor: getHslString(90, 90, 50),
         gradientColor1: getHslString(90, 90, 50),
@@ -45,9 +48,7 @@ function App() {
         radiusDelta: 7,
         animationSpeed: 10,
         zoom: 90,
-        deletePath: false,
-        pathDeletionDelay: 15,
-        viewPort: "0 0 100 100"
+        viewPort: "0 0 200 200"
     });
 
 
@@ -72,7 +73,7 @@ function App() {
                 <main>
                     {properties && strokes && colors ?
                         <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}
-                                        startPosition={[50, 50]}/>
+                                        startPosition={[100, 100]}/>
                         : null
                     }
                 </main>

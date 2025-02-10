@@ -33,8 +33,6 @@ export interface IFourierProperties {
     radiusDelta: number;
     animationSpeed: number;
     zoom: number;
-    deletePath: boolean;
-    pathDeletionDelay: number;
     viewPort: string;
 
 }
@@ -44,6 +42,8 @@ export interface IFourierStrokeSettings {
     radiusStroke: number;
     pathStroke: number;
     jointPointStroke: number;
+    deletePath: boolean;
+    pathDeletionDelay: number;
 }
 
 
@@ -77,7 +77,6 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [circleColorArray, setCircleColorArray] = useState<string[]>([]);
     const [hslBase, setHslBase] = useState<number[]>(colors.hslBase);
-    const numberOfCircles = properties.numberOfCircles;
     const [savedElapsed, setSavedElapsed] = useState(0);
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
@@ -88,7 +87,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         console.log('properties', properties);
         console.log('strokes', strokes);
 
-        for (let i = 0; i < numberOfCircles; i++) {
+        for (let i = 0; i < properties.numberOfCircles; i++) {
             let currentCircle;
             const radius = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
             const min = properties.minSpeed;
@@ -160,7 +159,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
             requestAnimationFrame(renderItems);
             renderingPromise.then(() => {
                 setIsStart(false);
-                renderPath(startingCircles[numberOfCircles-1].centerX, startingCircles[numberOfCircles-1].centerY);
+                renderPath(startingCircles[properties.numberOfCircles-1].centerX, startingCircles[properties.numberOfCircles-1].centerY);
             });
         }
     }, [circles]);
@@ -197,7 +196,9 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     //renders the circle stack
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-        if (frequency > properties.pathDeletionDelay && properties.deletePath) {
+
+        console.log(colors.showPathGradient);
+        if (frequency > strokes.pathDeletionDelay && strokes.deletePath) {
             console.log('deletes path');
             points.splice(0, 1)
         }
@@ -237,7 +238,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
                         color: circleColorArray[i]
                     };
                     newCircles.push(newCircle);
-                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + numberOfCircles) {
+                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + properties.numberOfCircles) {
                         currentCircle = currentCircles[i];
                         const angle = frequency * currentPoint.frequency * Math.PI;
                         const x = currentCircle.centerX + currentCircle.radius * Math.cos(angle);
@@ -246,7 +247,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
                     }
                 }
             }
-            if (renderCycle <= currentCircles.length + numberOfCircles) {
+            if (renderCycle <= currentCircles.length + properties.numberOfCircles) {
                 setRenderCycle((prevState) => prevState + 1);
             }
             setIsFirstRender(false);
@@ -274,7 +275,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     };
 
     return (
-        <div className={'fourier-container'} style={{backgroundColor: colors.backgroundColor}}>
+        <div className={'fourier-container'}>
             <svg     style={{ backgroundColor: colors.backgroundColor }}  ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort}
                  preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
