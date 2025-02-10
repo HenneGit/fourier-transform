@@ -78,7 +78,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     const [circleColorArray, setCircleColorArray] = useState<string[]>([]);
     const [hslBase, setHslBase] = useState<number[]>(colors.hslBase);
     const numberOfCircles = properties.numberOfCircles;
-
+    const [savedElapsed, setSavedElapsed] = useState(0);
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
@@ -123,7 +123,9 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         }
         setFourierPoints(fourierPoint)
         setCircles(newCircles);
-    }, [properties, colors, strokes]);
+    }, [properties]);
+
+
 
     const incrementLightness = (hslBase: number[], lightnessIncrement: number, index: number) => {
         const [h, s, l] = hslBase;
@@ -163,29 +165,40 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         }
     }, [circles]);
 
-    //starts the main animation
+
+
     useEffect(() => {
         let animationFrameId: number;
+        let startTime: number | null = null;
 
         if (!isStart && !isPause) {
-            const animate = (elapsed: number) => {
+            startTime = performance.now();
+            const animate = () => {
+                if (!startTime) {
+                    startTime = 0;
+                }
+                const elapsed = performance.now() - startTime  + savedElapsed;
                 setFrequency(elapsed / 1000);
                 animationFrameId = requestAnimationFrame(animate);
             };
             animationFrameId = requestAnimationFrame(animate);
+        } else if (isPause) {
+            setSavedElapsed(frequency * 1000);
         }
+
         return () => {
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
             }
         };
-
     }, [isStart, isPause]);
+
 
     //renders the circle stack
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
         if (frequency > properties.pathDeletionDelay && properties.deletePath) {
+            console.log('deletes path');
             points.splice(0, 1)
         }
         if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
@@ -225,7 +238,6 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
                     };
                     newCircles.push(newCircle);
                     if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + numberOfCircles) {
-                        console.log("renders path");
                         currentCircle = currentCircles[i];
                         const angle = frequency * currentPoint.frequency * Math.PI;
                         const x = currentCircle.centerX + currentCircle.radius * Math.cos(angle);
@@ -240,7 +252,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
             setIsFirstRender(false);
             setCircles(newCircles);
         }
-    }, [frequency]);
+    }, [frequency, colors, strokes]);
 
 
     const getRandomNumber = (min: number, max: number, extremeValue: number) => {
