@@ -21,6 +21,7 @@ type IFourierSettings = {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     startPosition: number[];
+    isPause: boolean;
 }
 
 export interface IFourierProperties {
@@ -61,7 +62,7 @@ export interface IFourierColorSettings {
 }
 
 
-const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes, startPosition}) => {
+const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes, startPosition, isPause}) => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
     const [circles, setCircles] = useState<ICircle[]>();
@@ -78,9 +79,9 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     const numberOfCircles = properties.numberOfCircles;
 
     useEffect(() => {
+
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
-        setPoints([]);
         console.log(colors);
         for (let i = 0; i < numberOfCircles; i++) {
             let currentCircle;
@@ -158,12 +159,22 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
 
     //starts the main animation
     useEffect(() => {
-        if (!isStart) {
-            d3.timer((elapsed) => {
+        let animationFrameId: number;
+
+        if (!isStart && !isPause) {
+            const animate = (elapsed : number) => {
                 setFrequency(elapsed / 1000);
-            });
+                animationFrameId = requestAnimationFrame(animate);
+            };
+            animationFrameId = requestAnimationFrame(animate);
         }
-    }, [isStart]);
+        return () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+
+    }, [isStart, isPause]);
 
     //renders the circle stack
     useEffect(() => {
@@ -206,7 +217,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                         color: circleColorArray[i]
                     };
                     newCircles.push(newCircle);
-                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length) {
+                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + 150) {
                         currentCircle = currentCircles[i];
                         const angle = frequency * currentPoint.frequency * Math.PI;
                         const x = currentCircle.centerX + currentCircle.radius * Math.cos(angle);
@@ -215,7 +226,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                     }
                 }
             }
-            if (renderCycle <= currentCircles.length) {
+            if (renderCycle <= currentCircles.length + 150 ) {
                 setRenderCycle((prevState) => prevState + 1);
             }
             setIsFirstRender(false);

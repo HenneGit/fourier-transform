@@ -45,7 +45,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                                          ...prev,
                                                          deletePath: checked
                                                      }))}/>
-                                    <SliderWithNumber number={properties.numberOfCircles} min={1} max={250} steps={1}
+                                    <SliderWithNumber number={properties.numberOfCircles} min={1} max={150} steps={1}
                                                       lable={'numberOfCircles'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
@@ -202,7 +202,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                     </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter>
-                    <span className="font-sans text-xs font-medium text-gray-400">v0.10</span>
+                    <span className="font-sans text-xs font-medium text-gray-400">v0.0.1-alpha</span>
                 </SidebarFooter>
             </Sidebar>
         </>
