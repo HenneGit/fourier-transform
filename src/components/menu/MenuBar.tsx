@@ -38,7 +38,6 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                     <SidebarGroup>
                         <SidebarGroupLabel>Properties</SidebarGroupLabel>
                         <SidebarGroupContent>
-
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
                                     <SwitchWithLabel value={properties.deletePath} lable={"Delete Path"}
@@ -65,20 +64,20 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                                           ...prev,
                                                           minSpeed: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={properties.speedDelta} min={2} max={8} steps={1}
+                                    <SliderWithNumber number={properties.speedDelta} min={0} max={5} steps={0.1}
                                                       lable={'deltaSpeed'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
                                                           speedDelta: number[0]
                                                       }))}/>
                                     <Separator className="my-2" orientation="horizontal"/>
-                                    <SliderWithNumber number={properties.maxRadius} min={1} max={300} steps={1}
+                                    <SliderWithNumber number={properties.maxRadius} min={1} max={10} steps={0.1}
                                                       lable={'maxRadius'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
                                                           maxRadius: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={properties.radiusDelta} min={0} max={300} steps={1}
+                                    <SliderWithNumber number={properties.radiusDelta} min={0} max={20} steps={0.1}
                                                       lable={'deltaRadius'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
@@ -109,8 +108,8 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                                           ...prev,
                                                           radiusStroke: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={strokes.jointPointStroke} min={0.000} max={0.499}
-                                                      steps={0.001}
+                                    <SliderWithNumber number={strokes.jointPointStroke} min={0.000} max={1}
+                                                      steps={0.01}
                                                       lable={'jointPointStroke'}
                                                       setNumber={(number) => setStrokes((prev) => ({
                                                           ...prev,
@@ -202,7 +201,9 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         </SidebarGroupContent>
                     </SidebarGroup>
                 </SidebarContent>
-                <SidebarFooter/>
+                <SidebarFooter>
+                    <span className="font-sans text-xs font-medium text-gray-400">v0.10</span>
+                </SidebarFooter>
             </Sidebar>
         </>
     );

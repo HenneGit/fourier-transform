@@ -1,7 +1,7 @@
+@import "@fontsource/inter/index.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@fontsource/inter/index.css";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
