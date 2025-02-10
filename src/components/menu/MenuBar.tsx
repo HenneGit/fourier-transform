@@ -40,17 +40,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         <SidebarGroupContent>
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
-                                    <SwitchWithLabel value={strokes.deletePath} lable={"deletePath"}
-                                                     setValue={(checked) => setProperties((prev) => ({
-                                                         ...prev,
-                                                         deletePath: checked
-                                                     }))}/>
-                                    <SliderWithNumber number={strokes.pathDeletionDelay} min={1} max={150} steps={1}
-                                                      lable={'deletePathDelay'}
-                                                      setNumber={(number) => setProperties((prev) => ({
-                                                          ...prev,
-                                                          pathDeletionDelay: number[0]
-                                                      }))}/>
+
                                     <SliderWithNumber number={properties.numberOfCircles} min={1} max={150} steps={1}
                                                       lable={'numberOfCircles'}
                                                       setNumber={(number) => setProperties((prev) => ({
@@ -100,6 +90,20 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
 
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
+                                    <SwitchWithLabel value={strokes.deletePath} lable={"deletePath"}
+                                                     setValue={(checked) => setStrokes((prev) => ({
+                                                         ...prev,
+                                                         deletePath: checked
+                                                     }))}/>
+                                    {strokes.deletePath ?
+                                        <SliderWithNumber number={strokes.deletePathDelay} min={1} max={150} steps={1}
+                                                          lable={'deletePathDelay'}
+                                                          setNumber={(number) => setStrokes((prev) => ({
+                                                              ...prev,
+                                                              deletePathDelay: number[0]
+                                                          }))}/>
+
+                                        : null}
                                     <SliderWithNumber number={strokes.circleStroke} min={0.000} max={0.499}
                                                       steps={0.001}
                                                       lable={'circleStroke'}

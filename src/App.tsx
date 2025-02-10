@@ -21,7 +21,7 @@ function App() {
         pathStroke: 0.09,
         jointPointStroke: 0.2,
         deletePath: false,
-        pathDeletionDelay: 15,
+        deletePathDelay: 15,
 
     });
     const [colors, setColors] = useState<IFourierColorSettings>({

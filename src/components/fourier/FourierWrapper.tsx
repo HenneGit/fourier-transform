@@ -43,7 +43,7 @@ export interface IFourierStrokeSettings {
     pathStroke: number;
     jointPointStroke: number;
     deletePath: boolean;
-    pathDeletionDelay: number;
+    deletePathDelay: number;
 }
 
 
@@ -78,11 +78,14 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     const [circleColorArray, setCircleColorArray] = useState<string[]>([]);
     const [hslBase, setHslBase] = useState<number[]>(colors.hslBase);
     const [savedElapsed, setSavedElapsed] = useState(0);
+
+
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
         setPoints([]);
         setRenderCycle(0);
+        setSavedElapsed(0);
         console.log('colors', colors);
         console.log('properties', properties);
         console.log('strokes', strokes);
@@ -196,9 +199,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     //renders the circle stack
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
-
-        console.log(colors.showPathGradient);
-        if (frequency > strokes.pathDeletionDelay && strokes.deletePath) {
+        if (frequency > strokes.deletePathDelay + savedElapsed / 1000 && strokes.deletePath) {
             console.log('deletes path');
             points.splice(0, 1)
         }
@@ -253,7 +254,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
             setIsFirstRender(false);
             setCircles(newCircles);
         }
-    }, [frequency, colors, strokes]);
+    }, [frequency, colors]);
 
 
     const getRandomNumber = (min: number, max: number, extremeValue: number) => {
