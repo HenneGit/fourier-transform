@@ -13,15 +13,17 @@ export interface Circle  {
     centerY: number;
     radius: number;
     angle: number;
-    color: string;
+    color: number[];
 }
 
 const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSettings}) => {
     const circleRef = useRef<SVGCircleElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
 
+    const getHslString = (hsl: number[]): string => {
+        return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
+    }
     useEffect(() => {
-
         const circleSvg = d3.select(circleRef.current);
         const line = d3.select(lineRef.current);
         if (circle.centerX !== undefined && circle.centerY !== undefined) {
@@ -34,10 +36,10 @@ const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSet
 
     return (
         <>
-            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke={colorSettings.rotateCircleColor ? colorSettings.circleColor : circle.color} fill="none"
+            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke={colorSettings.rotateCircleColor ? getHslString(circle.color) : getHslString(colorSettings.circleColor)} fill="none"
                     strokeWidth={strokeSettings.circleStroke}/>
-            <line ref={lineRef} stroke={colorSettings.radiusColor} strokeWidth={strokeSettings.radiusStroke}/>
-            <circle ref={circleRef} r={strokeSettings.jointPointStroke} fill={colorSettings.jointPointColor}/>
+            <line ref={lineRef} stroke={getHslString(colorSettings.radiusColor)} strokeWidth={strokeSettings.radiusStroke}/>
+            <circle ref={circleRef} r={strokeSettings.jointPointStroke} fill={getHslString(colorSettings.jointPointColor)}/>
         </>
     );
 };

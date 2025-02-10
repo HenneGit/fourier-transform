@@ -160,27 +160,27 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                 <ColorPicker lable={'circleColor'} color={colors.circleColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
-                                                 circleColor: color
+                                                 circleColor: [color.h, color.s, color.l]
                                              })))}/>
                                 <ColorPicker lable={'radiusColor'} color={colors.radiusColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
-                                                 radiusColor: color
+                                                 radiusColor: [color.h, color.s, color.l]
                                              })))}/>
                                 <ColorPicker lable={'jointPointColor'} color={colors.jointPointColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
-                                                 jointPointColor: color
+                                                 jointPointColor: [color.h, color.s, color.l]
                                              })))}/>
                                 <ColorPicker lable={'backgroundColor'} color={colors.backgroundColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
-                                                 backgroundColor: color
+                                                 backgroundColor: [color.h, color.s, color.l]
                                              })))}/>
                                 <ColorPicker lable={'pathColor'} color={colors.pathColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
-                                                 pathColor: color
+                                                 pathColor: [color.h, color.s, color.l]
                                              })))}/>
                                 <Separator className="my-2" orientation="horizontal"/>
 
@@ -194,17 +194,17 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                         <ColorPicker lable={'gradientColor'} color={colors.gradientColor}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
-                                                         gradientColor: color
+                                                         gradientColor: [color.h, color.s, color.l]
                                                      })))}/>
                                         <ColorPicker lable={'gradientColor1'} color={colors.gradientColor1}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
-                                                         gradientColor1: color
+                                                         gradientColor1: [color.h, color.s, color.l]
                                                      })))}/>
                                         <ColorPicker lable={'gradientColor2'} color={colors.gradientColor2}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
-                                                         gradientColor2: color
+                                                         gradientColor2: [color.h, color.s, color.l]
                                                      })))}/></> : null
 
                                 }

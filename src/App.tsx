@@ -11,44 +11,40 @@ import {useEffect, useState} from "react";
 
 function App() {
 
-    const getHslString = (h: number, s: number, l: number): string => {
-        return `hsl(${h}, ${s}%, ${l}%)`;
-    }
     const [isPause, setPause] = useState(false);
     const [strokes, setStrokes] = useState<IFourierStrokeSettings>({
         circleStroke: 0.04,
-        radiusStroke: 0.05,
-        pathStroke: 0.09,
+        radiusStroke: 0.1,
+        pathStroke: 0.1,
         jointPointStroke: 0.2,
-        deletePath: false,
-        deletePathDelay: 15,
+        deletePath: true,
+        deletePathDelay: 25,
 
     });
     const [colors, setColors] = useState<IFourierColorSettings>({
         hslBase: [140, 5, 9],
         rotateCircleColor: true,
-        rotateCircleColorDelay: 1,
-        radiusColor: getHslString(190, 20, 10),
-        circleColor: getHslString(1, 20, 100),
-        jointPointColor: getHslString(250, 90, 60),
-        backgroundColor: getHslString(123, 50, 1),
+        rotateCircleColorDelay: 5,
+        radiusColor: [190, 20, 90],
+        circleColor: [1, 20, 60],
+        jointPointColor: [250, 90, 60],
+        backgroundColor: [286, 90, 14],
         showPathGradient: false,
-        pathColor: getHslString(123, 50, 1),
-        gradientColor: getHslString(90, 90, 50),
-        gradientColor1: getHslString(90, 90, 50),
-        gradientColor2: getHslString(90, 90, 50),
+        pathColor: [132, 71, 70],
+        gradientColor: [90, 90, 50],
+        gradientColor1: [90, 90, 50],
+        gradientColor2: [250, 90, 50],
 
     });
     const [properties, setProperties] = useState<IFourierProperties>({
-        numberOfCircles: 25,
-        maxSpeed: 0.499,
-        minSpeed: -0.499,
-        speedDelta: 2,
+        numberOfCircles: 40,
+        maxSpeed: 0.399,
+        minSpeed: -0.399,
+        speedDelta: 3,
         maxRadius: 5,
-        radiusDelta: 7,
-        animationSpeed: 10,
+        radiusDelta: 5,
         zoom: 90,
-        viewPort: "0 0 200 200"
+        viewPort: "0 0 100 100"
     });
 
 
@@ -73,7 +69,7 @@ function App() {
                 <main>
                     {properties && strokes && colors ?
                         <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}
-                                        startPosition={[100, 100]}/>
+                                        startPosition={[50, 50]}/>
                         : null
                     }
                 </main>
