@@ -20,7 +20,7 @@ type IFourierSettings = {
     properties: IFourierProperties;
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
-
+    startPosition: number[];
 }
 
 export interface IFourierProperties {
@@ -61,13 +61,12 @@ export interface IFourierColorSettings {
 }
 
 
-const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes}) => {
+const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes, startPosition}) => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
     const [circles, setCircles] = useState<ICircle[]>();
     const [startingCircles, setStartingCircles] = useState<ICircle[]>([]);
     const [frequency, setFrequency] = useState(0);
-    const startPosition = [5, 5];
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
@@ -81,7 +80,8 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
-
+        setPoints([]);
+        console.log(colors);
         for (let i = 0; i < numberOfCircles; i++) {
             let currentCircle;
             const radius = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
@@ -117,7 +117,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
         }
         setFourierPoints(fourierPoint)
         setCircles(newCircles);
-    }, []);
+    }, [properties, colors, strokes]);
 
     const incrementLightness = (hslBase: number[], lightnessIncrement: number, index: number) => {
         const [h, s, l] = hslBase;

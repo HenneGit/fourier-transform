@@ -7,8 +7,7 @@ import {
     SidebarGroupLabel,
     SidebarHeader,
 } from "@/components/ui/sidebar.tsx";
-import {useEffect, useState} from "react";
-import FourierWrapper, {
+import {
     IFourierColorSettings,
     IFourierProperties,
     IFourierStrokeSettings
@@ -19,49 +18,14 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
 
 
-const getHslString = (h: number, s: number, l: number): string => {
-    return `hsl(${h}, ${s}%, ${l}%)`;
-}
-
-export const MenuBar = () => {
-
-    const [strokes, setStrokes] = useState<IFourierStrokeSettings>({
-        circleStroke: 0.01,
-        radiusStroke: 0.01,
-        pathStroke: 0.09,
-        jointPointStroke: 0.01,
-    });
-    const [colors, setColors] = useState<IFourierColorSettings>({
-        hslBase: [140, 5, 9],
-        rotateCircleColor: false,
-        rotateCircleColorDelay: 30,
-        radiusColor: getHslString(190, 20, 1),
-        circleColor: getHslString(248, 20, 1),
-        jointPointColor: getHslString(132, 20, 102),
-        backgroundColor: getHslString(123, 50, 112),
-        showPathGradient: false,
-        gradientColor: getHslString(190, 50, 60),
-        gradientColor1: getHslString(90, 100, 120),
-        gradientColor2: getHslString(10, 20, 30),
-
-    });
-    const [properties, setProperties] = useState<IFourierProperties>({
-        numberOfCircles: 2,
-        maxSpeed: 0.499,
-        minSpeed: -0.499,
-        speedDelta: 3,
-        maxRadius: 5,
-        radiusDelta: 2,
-        animationSpeed: 10,
-        zoom: 90,
-        deletePath: true,
-        pathDeletionDelay: 5,
-        viewPort: "0 0 5800 5800"
-    });
-
-    useEffect(() => {
-
-    }, []);
+export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, properties}: {
+    colors: IFourierColorSettings;
+    strokes: IFourierStrokeSettings;
+    properties: IFourierProperties;
+    setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
+    setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
+    setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
+}) => {
 
 
     return (
@@ -69,15 +33,7 @@ export const MenuBar = () => {
             <Sidebar>
                 <SidebarHeader/>
                 <SidebarContent>
-
                     <SidebarGroup>
-                        <SidebarGroupLabel>Application</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <div style={{height: '200px', backgroundColor: colors.backgroundColor}}>
-                                <FourierWrapper strokes={strokes} properties={properties}
-                                                colors={colors}></FourierWrapper>
-                            </div>
-                        </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>
                         <SidebarGroupLabel>Properties</SidebarGroupLabel>
@@ -90,7 +46,12 @@ export const MenuBar = () => {
                                                          ...prev,
                                                          deletePath: checked
                                                      }))}/>
-
+                                    <SliderWithNumber number={properties.numberOfCircles} min={1} max={250} steps={1}
+                                                      lable={'numberOfCircles'}
+                                                      setNumber={(number) => setProperties((prev) => ({
+                                                          ...prev,
+                                                          numberOfCircles: number[0]
+                                                      }))}/>
                                     <SliderWithNumber number={properties.maxSpeed} min={0.000} max={0.499} steps={0.001}
                                                       lable={'maxSpeed'}
                                                       setNumber={(number) => setProperties((prev) => ({
@@ -179,12 +140,12 @@ export const MenuBar = () => {
                                                  }))}/>
                                 {colors.rotateCircleColor ?
                                     <SliderWithNumber
-                                                      number={colors.rotateCircleColorDelay} min={0} max={100} steps={1}
-                                                      lable={'rotateCircleColorDelay'}
-                                                      setNumber={(number) => setColors((prev) => ({
-                                                          ...prev,
-                                                          rotateCircleColorDelay: number[0]
-                                                      }))}/> : null
+                                        number={colors.rotateCircleColorDelay} min={0} max={100} steps={1}
+                                        lable={'rotateCircleColorDelay'}
+                                        setNumber={(number) => setColors((prev) => ({
+                                            ...prev,
+                                            rotateCircleColorDelay: number[0]
+                                        }))}/> : null
                                 }
                                 <Separator/>
                                 <ColorPicker lable={'circleColor'} color={colors.circleColor}
