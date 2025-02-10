@@ -63,7 +63,7 @@ export interface IFourierColorSettings {
 }
 
 
-const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes, startPosition, isPause}) => {
+const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes, startPosition, isPause}) => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
     const [circles, setCircles] = useState<ICircle[]>();
@@ -80,12 +80,13 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     const numberOfCircles = properties.numberOfCircles;
 
     useEffect(() => {
-
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
-        console.log('colors',colors);
+        setPoints([]);
+        setRenderCycle(0);
+        console.log('colors', colors);
         console.log('properties', properties);
-        console.log('strokes',strokes);
+        console.log('strokes', strokes);
 
         for (let i = 0; i < numberOfCircles; i++) {
             let currentCircle;
@@ -157,6 +158,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
             requestAnimationFrame(renderItems);
             renderingPromise.then(() => {
                 setIsStart(false);
+                renderPath(startingCircles[numberOfCircles-1].centerX, startingCircles[numberOfCircles-1].centerY);
             });
         }
     }, [circles]);
@@ -166,7 +168,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
         let animationFrameId: number;
 
         if (!isStart && !isPause) {
-            const animate = (elapsed : number) => {
+            const animate = (elapsed: number) => {
                 setFrequency(elapsed / 1000);
                 animationFrameId = requestAnimationFrame(animate);
             };
@@ -184,7 +186,6 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
     useEffect(() => {
         const currentCircles = isFirstRender ? startingCircles : circles;
         if (frequency > properties.pathDeletionDelay && properties.deletePath) {
-            console.log('delete path');
             points.splice(0, 1)
         }
         if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
@@ -223,7 +224,8 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                         color: circleColorArray[i]
                     };
                     newCircles.push(newCircle);
-                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + 150) {
+                    if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + numberOfCircles) {
+                        console.log("renders path");
                         currentCircle = currentCircles[i];
                         const angle = frequency * currentPoint.frequency * Math.PI;
                         const x = currentCircle.centerX + currentCircle.radius * Math.cos(angle);
@@ -232,7 +234,7 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                     }
                 }
             }
-            if (renderCycle <= currentCircles.length + 150 ) {
+            if (renderCycle <= currentCircles.length + numberOfCircles) {
                 setRenderCycle((prevState) => prevState + 1);
             }
             setIsFirstRender(false);
@@ -261,9 +263,10 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
 
     return (
         <div className={'fourier-container'} style={{backgroundColor: colors.backgroundColor}}>
-            <svg ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort} preserveAspectRatio="xMidYMid meet">
+            <svg ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort}
+                 preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
-                    <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors} />
+                    <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                 )) : null}
                 {!isStart && circles && circles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
@@ -271,13 +274,15 @@ const FourierWrapper:React.FC<IFourierSettings>  = ({properties, colors, strokes
                 {colors.showPathGradient ?
                     <defs>
                         <linearGradient id="grad">
-                            <stop offset="0%" stopColor={colors.gradientColor} />
-                            <stop offset="50%" stopColor={colors.gradientColor1} />
-                            <stop offset="100%" stopColor={colors.gradientColor2} />
+                            <stop offset="0%" stopColor={colors.gradientColor}/>
+                            <stop offset="50%" stopColor={colors.gradientColor1}/>
+                            <stop offset="100%" stopColor={colors.gradientColor2}/>
                         </linearGradient>
                     </defs> : null
                 }
-                <path ref={pathRef} stroke={colors.showPathGradient ? "url(#grad)"  : colors.pathColor}  fill="none" strokeWidth={strokes.pathStroke}/>
+                {points.length > 0 ?  <path ref={pathRef} stroke={colors.showPathGradient ? "url(#grad)" : colors.pathColor} fill="none"
+                      strokeWidth={strokes.pathStroke}/> : null
+                }
             </svg>
         </div>
     )
