@@ -275,7 +275,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
 
     return (
         <div className={'fourier-container'} style={{backgroundColor: colors.backgroundColor}}>
-            <svg ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort}
+            <svg     style={{ backgroundColor: colors.backgroundColor }}  ref={svgRef} width="100%" height="100%" viewBox={properties.viewPort}
                  preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
