@@ -7,6 +7,7 @@ import FourierWrapper, {
     IFourierStrokeSettings
 } from "@/components/fourier/FourierWrapper.tsx";
 import {useEffect, useState} from "react";
+import MouseTracker from "@/components/ui/MouseTracker.tsx";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
                         : null
                     }
                 </main>
+                <MouseTracker isPaused={isPause} setClicked={setPause}/>
             </SidebarProvider>
         </>
     );

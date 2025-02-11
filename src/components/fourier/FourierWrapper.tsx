@@ -168,7 +168,6 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     useEffect(() => {
         let animationFrameId: number;
         let startTime: number | null = null;
-
         if (!isStart && !isPause) {
             startTime = performance.now();
             const animate = () => {
@@ -183,7 +182,6 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         } else if (isPause) {
             setSavedElapsed(frequency * 1000);
         }
-
         return () => {
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
@@ -250,9 +248,9 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     }, [frequency, colors]);
 
 
-    const getRandomNumber = (min: number, max: number, extremeValue: number) => {
+    const getRandomNumber = (min: number, max: number, delta: number) => {
         if (Math.random() < 1 / 20) {
-            return Math.random() * (max + extremeValue - min + extremeValue) + min + extremeValue;
+            return Math.random() * (max + delta - min + delta) + min + delta;
         } else {
             return Math.random() * (max - min) + min;
         }
