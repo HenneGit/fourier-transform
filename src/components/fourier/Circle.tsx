@@ -1,20 +1,15 @@
 import {useEffect, useRef} from "react";
 import * as d3 from "d3";
-import {IFourierColorSettings, IFourierStrokeSettings} from "./FourierWrapper.tsx";
+import {IFourierColorSettings, IFourierStrokeSettings} from "@/model/model.ts";
+import {RenderedCircle} from "@/model/model.ts";
+
 
 type RotatingCircleProps = {
-    circle: Circle;
+    circle: RenderedCircle;
     strokeSettings: IFourierStrokeSettings;
     colorSettings: IFourierColorSettings;
 };
 
-export interface Circle {
-    centerX: number;
-    centerY: number;
-    radius: number;
-    angle: number;
-    color: number[];
-}
 
 const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSettings}) => {
     const circleRef = useRef<SVGCircleElement>(null);

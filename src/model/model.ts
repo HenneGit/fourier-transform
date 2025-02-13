@@ -1,0 +1,45 @@
+
+export interface IFourierProperties {
+    numberOfCircles: number;
+    maxSpeed: number;
+    minSpeed: number;
+    speedDelta: number;
+    maxRadius: number;
+    radiusDelta: number;
+    zoom: number;
+    addViewPortZoom: boolean;
+    viewPort: [number, number, number, number];
+
+}
+
+export interface IFourierStrokeSettings {
+    circleStroke: number;
+    radiusStroke: number;
+    pathStroke: number;
+    jointPointStroke: number;
+    deletePath: boolean;
+    deletePathDelay: number;
+}
+
+
+export interface IFourierColorSettings {
+    rotateCircleColor: boolean;
+    rotateCircleColorDelay: number;
+    radiusColor: number[];
+    circleColor: Array<number>;
+    pathColor: Array<number>;
+    jointPointColor: Array<number>;
+    backgroundColor: Array<number>;
+    showPathGradient: boolean,
+    gradientColor: Array<number>;
+    gradientColor1: Array<number>;
+    gradientColor2: Array<number>;
+}
+
+export interface RenderedCircle {
+    centerX: number;
+    centerY: number;
+    radius: number;
+    angle: number;
+    color: number[];
+}

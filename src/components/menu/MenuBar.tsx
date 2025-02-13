@@ -6,17 +6,14 @@ import {
     SidebarGroupContent,
     SidebarGroupLabel,
 } from "@/components/ui/sidebar.tsx";
-import {
-    IFourierColorSettings,
-    IFourierProperties,
-    IFourierStrokeSettings
-} from "@/components/fourier/FourierWrapper.tsx";
+
 import {ColorPicker} from "@/components/menu/controll/ColorPicker.tsx";
 import {SliderWithNumber} from "@/components/menu/controll/SliderWithNumber.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
+import {IFourierColorSettings, IFourierStrokeSettings, IFourierProperties} from "@/model/model.ts";
 
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3]};
@@ -62,7 +59,11 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         <SidebarGroupContent>
                             <div style={{width: '100%'}} className={"flex flex-col items-center"}>
                                 <div style={{width: '90%'}} className={"flex flex-col gap-3.5"}>
-
+                                    <SwitchWithLabel value={properties.addViewPortZoom} lable={"addViewPortZoom"}
+                                                     setValue={(checked) => setProperties((prev) => ({
+                                                         ...prev,
+                                                         addViewPortZoom: checked
+                                                     }))}/>
                                     <SliderWithNumber number={properties.numberOfCircles} min={1} max={200} steps={1}
                                                       lable={'numberOfCircles'}
                                                       setNumber={(number) => setProperties((prev) => ({

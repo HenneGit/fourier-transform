@@ -37,7 +37,9 @@ const LilaGreenPresetColors : IFourierColorSettings= {
     gradientColor2: [314, 90, 50],
 
 }
+
 const LilaGreenPresetProps : IFourierProperties = {
+    addViewPortZoom: false,
     numberOfCircles: 40,
     maxSpeed: 0.299,
     minSpeed: -0.299,
@@ -45,7 +47,7 @@ const LilaGreenPresetProps : IFourierProperties = {
     maxRadius: 5,
     radiusDelta: 1,
     zoom: 90,
-    viewPort: "0 0 100 100"
+    viewPort:[0, 0, 100, 100],
 }
 
 
@@ -55,7 +57,7 @@ const PinkSolarSystemStrokes :IFourierStrokeSettings = {
     pathStroke: 0.1,
     jointPointStroke: 0.4,
     deletePath: true,
-    deletePathDelay: 5,
+    deletePathDelay: 7,
 };
 
 
@@ -74,6 +76,7 @@ const PinkSolarSystemColors : IFourierColorSettings= {
 
 }
 const PinkSolarSystemProperties : IFourierProperties = {
+    addViewPortZoom: true,
     numberOfCircles: 99,
     maxSpeed: 0.199,
     minSpeed: -0.199,
@@ -81,7 +84,7 @@ const PinkSolarSystemProperties : IFourierProperties = {
     maxRadius: 5,
     radiusDelta: 5,
     zoom: 90,
-    viewPort: "0 0 100 100"
+    viewPort: [0, 0, 100, 100],
 }
 
 
@@ -92,7 +95,7 @@ const BlueWormsStrokes :IFourierStrokeSettings = {
     pathStroke: 0,
     jointPointStroke: 0.35,
     deletePath: true,
-    deletePathDelay: 1,
+    deletePathDelay: 0,
 };
 
 
@@ -111,6 +114,7 @@ const BlueWormsColors : IFourierColorSettings= {
 
 }
 const BlueWormsProperties : IFourierProperties = {
+    addViewPortZoom: false,
     numberOfCircles: 200,
     maxSpeed: 0.199,
     minSpeed: -0.388,
@@ -118,7 +122,7 @@ const BlueWormsProperties : IFourierProperties = {
     maxRadius: 0.1,
     radiusDelta: 8,
     zoom: 90,
-    viewPort: "0 0 100 100"
+    viewPort:[0, 0, 100, 100],
 }
 
 
@@ -147,6 +151,7 @@ const WindyTreeColors : IFourierColorSettings= {
 
 }
 const WindyTreeProperties : IFourierProperties = {
+    addViewPortZoom: false,
     numberOfCircles: 120,
     maxSpeed: 0.299,
     minSpeed: -0.288,
@@ -154,14 +159,8 @@ const WindyTreeProperties : IFourierProperties = {
     maxRadius: 2.5,
     radiusDelta: 0,
     zoom: 90,
-    viewPort: "0 0 100 100"
+    viewPort: [0, 0, 100, 100],
 }
-
-
-
-
-
-
 
 export const presets: Preset[] = [
     {properties: LilaGreenPresetProps, colors: LilaGreenPresetColors, strokes: LilaGreenPresetStrokes},

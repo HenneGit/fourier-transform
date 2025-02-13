@@ -1,7 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
 import * as d3 from "d3";
-
+import {presets} from "@/presets.ts";
+import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings} from "@/model/model.ts";
 
 export interface FourierPoint {
     radius: number;
@@ -13,55 +14,29 @@ export interface ICircle {
     centerY: number;
     radius: number;
     angle: number;
-    color: number[];
+    color: Array<number>;
 }
 
-type IFourierSettings = {
+type FourierWrapperProps = {
     properties: IFourierProperties;
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
-    startPosition: number[];
+    startPosition: Array<number>;
     isPause: boolean;
-}
-
-export interface IFourierProperties {
-    numberOfCircles: number;
-    maxSpeed: number;
-    minSpeed: number;
-    speedDelta: number;
-    maxRadius: number;
-    radiusDelta: number;
-    zoom: number;
-    viewPort: string;
-
-}
-
-export interface IFourierStrokeSettings {
-    circleStroke: number;
-    radiusStroke: number;
-    pathStroke: number;
-    jointPointStroke: number;
-    deletePath: boolean;
-    deletePathDelay: number;
+    setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
+    setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
 }
 
 
-export interface IFourierColorSettings {
-    rotateCircleColor: boolean;
-    rotateCircleColorDelay: number;
-    radiusColor: number[];
-    circleColor: number[];
-    pathColor: number[];
-    jointPointColor: number[];
-    backgroundColor: number[];
-    showPathGradient: boolean,
-    gradientColor: number[];
-    gradientColor1: number[];
-    gradientColor2: number[];
-}
-
-
-const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes, startPosition, isPause}) => {
+const FourierWrapper: React.FC<FourierWrapperProps> = ({
+                                                           properties,
+                                                           colors,
+                                                           strokes,
+                                                           startPosition,
+                                                           isPause,
+                                                           setStrokes,
+                                                           setColors
+                                                       }) => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
     const [circles, setCircles] = useState<ICircle[]>();
@@ -75,12 +50,13 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
     const [savedElapsed, setSavedElapsed] = useState(0);
-
+    const [viewPort, setViewPort] = useState<[number, number, number, number]>(properties.viewPort)
 
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
         setPoints([]);
+        setViewPort([0, 0, 100, 100])
         setRenderCycle(0);
         setSavedElapsed(0);
         const circleColors = generateHSLSteps(colors.circleColor, 2);
@@ -199,11 +175,8 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         if (frequency > strokes.deletePathDelay + savedElapsed / 1000 && strokes.deletePath) {
             points.splice(0, 1)
         }
-        const generateNewColors = generateHSLSteps([90, 30, 30], 1.5);
         if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
-            for (let i = 0; i < circleColorArray.length; i++) {
-                circleColorArray[circleColorArray.length - i - 1] = generateNewColors[i];
-            }
+            cycleCircleColor();
         }
         if (fourierPoints && currentCircles) {
             const newCircles: ICircle[] = [];
@@ -249,8 +222,54 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
             }
             setIsFirstRender(false);
             setCircles(newCircles);
+            if (properties.addViewPortZoom) {
+                incrementViewPort();
+
+            }
         }
     }, [frequency, colors]);
+
+
+    const cycleCircleColor = () => {
+        for (let i = 0; i < circleColorArray.length; i++) {
+            const generateNewColors = generateHSLSteps([90, 30, 30], 1.5);
+            circleColorArray[circleColorArray.length - i - 1] = generateNewColors[i];
+        }
+    }
+
+    const incrementViewPort = () => {
+        setViewPort(prevNumbers => {
+            if (prevNumbers.length < 2) {
+                return prevNumbers;
+            }
+            // const randomNumber = Math.random();
+            // if ((randomNumber > 0.99 && randomNumber < 0.9999)) {
+            //     setColors(presets[0].colors)
+            //     setStrokes(presets[0].strokes)
+            //     console.log((randomNumber > 0.9 && randomNumber < 0.99));
+            // }
+
+            if (properties.numberOfCircles > 500) {
+                setColors(presets[0].colors)
+                setStrokes(presets[0].strokes)
+            }
+            if (prevNumbers[2] < 0.3 || prevNumbers[2] < 0.5) {
+
+                return [
+                    0,
+                    0,
+                    100,
+                    100
+                ];
+            }
+            return [
+                prevNumbers[0] + 0.03,
+                prevNumbers[1] + 0.02,
+                prevNumbers[2] - 0.05,
+                prevNumbers[3] - 0.04
+            ];
+        });
+    };
 
 
     const getRandomNumber = (min: number, max: number, delta: number) => {
@@ -274,10 +293,15 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
     const getHslString = (hsl: number[]): string => {
         return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
     }
+
+    const getViewPortString = () => {
+        return viewPort.join(' ');
+    };
+
     return (
         <div className={'fourier-container'}>
             <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                 viewBox={properties.viewPort}
+                 viewBox={getViewPortString()}
                  preserveAspectRatio="xMidYMid meet">
                 {isStart && startingCircles ? startingCircles.map((item, index) => (
                     <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
