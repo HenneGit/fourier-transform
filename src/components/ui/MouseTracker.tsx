@@ -44,9 +44,9 @@ export default function MouseTracker({ setClicked, isPaused }: MouseTrackerProps
                         onClick={() => setClicked(prev => !prev)}
                     >
                         {isPaused ? (
-                            <Play className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]" />
+                            <Play className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]" />
                         ) : (
-                            <Pause className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]" />
+                            <Pause className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]" />
                         )}
                     </motion.div>
                 )}

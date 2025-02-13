@@ -8,7 +8,7 @@ type RotatingCircleProps = {
     colorSettings: IFourierColorSettings;
 };
 
-export interface Circle  {
+export interface Circle {
     centerX: number;
     centerY: number;
     radius: number;
@@ -36,10 +36,18 @@ const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSet
 
     return (
         <>
-            <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius} stroke={colorSettings.rotateCircleColor ? getHslString(circle.color) : getHslString(colorSettings.circleColor)} fill="none"
-                    strokeWidth={strokeSettings.circleStroke}/>
-            <line ref={lineRef} stroke={getHslString(colorSettings.radiusColor)} strokeWidth={strokeSettings.radiusStroke}/>
-            <circle ref={circleRef} r={strokeSettings.jointPointStroke} fill={getHslString(colorSettings.jointPointColor)}/>
+            {circle && colorSettings && strokeSettings ?
+                <>
+                    <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius}
+                            stroke={colorSettings.rotateCircleColor ? getHslString(circle.color) : getHslString(colorSettings.circleColor)}
+                            fill="none"
+                            strokeWidth={strokeSettings.circleStroke}/>
+                    <line ref={lineRef} stroke={getHslString(colorSettings.radiusColor)}
+                          strokeWidth={strokeSettings.radiusStroke}/>
+                    <circle ref={circleRef} r={strokeSettings.jointPointStroke}
+                            fill={getHslString(colorSettings.jointPointColor)}/>
+                </> : null
+            }
         </>
     );
 };

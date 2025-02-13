@@ -47,7 +47,6 @@ export interface IFourierStrokeSettings {
 
 
 export interface IFourierColorSettings {
-    hslBase: number[];
     rotateCircleColor: boolean;
     rotateCircleColorDelay: number;
     radiusColor: number[];
@@ -158,8 +157,12 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
             };
             requestAnimationFrame(renderItems);
             renderingPromise.then(() => {
+                console.log(properties.numberOfCircles);
+                console.log(startingCircles);
                 setIsStart(false);
-                renderPath(startingCircles[properties.numberOfCircles - 1].centerX, startingCircles[properties.numberOfCircles - 1].centerY);
+                if (startingCircles.length === properties.numberOfCircles) {
+                    renderPath(startingCircles[properties.numberOfCircles - 1].centerX, startingCircles[properties.numberOfCircles - 1].centerY);
+                }
             });
         }
     }, [circles]);
@@ -199,7 +202,7 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
         const generateNewColors = generateHSLSteps([90, 30, 30], 1.5);
         if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
             for (let i = 0; i < circleColorArray.length; i++) {
-                circleColorArray[circleColorArray.length - i -1 ] = generateNewColors[i];
+                circleColorArray[circleColorArray.length - i - 1] = generateNewColors[i];
             }
         }
         if (fourierPoints && currentCircles) {
@@ -219,17 +222,19 @@ const FourierWrapper: React.FC<IFourierSettings> = ({properties, colors, strokes
                     newCircles.push(currentCircle);
                 } else {
                     currentCircle = currentCircles[i - 1];
-                    const angle = frequency * currentPoint.frequency * Math.PI;
-                    const x = currentCircle.centerX + currentCircle.radius * Math.cos(currentCircle.angle);
-                    const y = currentCircle.centerY + currentCircle.radius * Math.sin(currentCircle.angle);
-                    const newCircle = {
-                        centerX: x,
-                        centerY: y,
-                        radius: currentPoint.radius,
-                        angle: angle,
-                        color: circleColorArray[i]
-                    };
-                    newCircles.push(newCircle);
+                    if (currentCircle) {
+                        const angle = frequency * currentPoint.frequency * Math.PI;
+                        const x = currentCircle.centerX + currentCircle.radius * Math.cos(currentCircle.angle);
+                        const y = currentCircle.centerY + currentCircle.radius * Math.sin(currentCircle.angle);
+                        const newCircle = {
+                            centerX: x,
+                            centerY: y,
+                            radius: currentPoint.radius,
+                            angle: angle,
+                            color: circleColorArray[i]
+                        };
+                        newCircles.push(newCircle);
+                    }
                     if (newCircles.length === fourierPoints.length && !isFirstRender && renderCycle > currentCircles.length + properties.numberOfCircles) {
                         currentCircle = currentCircles[i];
                         const angle = frequency * currentPoint.frequency * Math.PI;
