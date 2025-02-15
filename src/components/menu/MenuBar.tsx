@@ -14,9 +14,10 @@ import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
 import {IFourierColorSettings, IFourierStrokeSettings, IFourierProperties} from "@/model/model.ts";
+import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
 
 
-const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3]};
+const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
 export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, properties}: {
     colors: IFourierColorSettings;
@@ -52,6 +53,10 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                     ))}
                                 </SelectContent>
                             </Select>
+                        </SidebarGroupContent>
+                    </SidebarGroup>                 <SidebarGroup>
+                        <SidebarGroupContent>
+                            <CsvUploader/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>
