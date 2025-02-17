@@ -79,7 +79,7 @@ const PinkSolarSystemProperties: IFourierProperties = {
     maxRadius: 5,
     radiusDelta: 5,
     zoom: 90,
-    viewPort: [0, 0, 100, 100],
+    viewPort: [-250, -250, 500, 500],
 }
 
 
@@ -116,7 +116,7 @@ const BlueWormsProperties: IFourierProperties = {
     maxRadius: 0.1,
     radiusDelta: 8,
     zoom: 90,
-    viewPort: [0, 0, 100, 100],
+    viewPort: [0, 0, 200, 200],
 }
 
 

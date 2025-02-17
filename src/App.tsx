@@ -11,9 +11,9 @@ import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
 
 function App() {
     const [isPause, setPause] = useState(false);
-    const [strokes, setStrokes] = useState<IFourierStrokeSettings>(presets[1].strokes);
-    const [colors, setColors] = useState<IFourierColorSettings>(presets[1].colors);
-    const [properties, setProperties] = useState<IFourierProperties>(presets[1].properties);
+    const [strokes, setStrokes] = useState<IFourierStrokeSettings>(presets[2].strokes);
+    const [colors, setColors] = useState<IFourierColorSettings>(presets[2].colors);
+    const [properties, setProperties] = useState<IFourierProperties>(presets[2].properties);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,7 +36,7 @@ function App() {
                 <main>
                     {properties && strokes && colors ?
                         <FourierWrapper setColors={setColors} setStrokes={setStrokes} isPause={isPause} properties={properties} colors={colors} strokes={strokes}
-                                        startPosition={[50, 50]}/>
+                                        startPosition={[0, 0]}/>
                         : null
                     }
                 </main>

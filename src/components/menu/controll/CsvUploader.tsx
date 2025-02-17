@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Papa from "papaparse";
-import {add, Complex, complex, divide, multiply,subtract} from "mathjs";
+import {add, Complex, complex, divide, multiply, subtract} from "mathjs";
 
 interface CsvRow {
     [key: string]: string; // Adjust the type based on your CSV structure
@@ -37,21 +37,21 @@ const CsvUploader: React.FC = () => {
             complete: (result) => {
                 setData(result.data);
                 const pathComplex: Complex[] = result.data.map(([real, imag]) => complex(real, imag));
-                let {center, targetWidth, targetHeight, topLeft} = getCanvas();
-                let {
+                const {center, targetWidth, targetHeight, topLeft} = getCanvas();
+                const {
                     leftmostPoint,
                     rightmostPoint,
                     topmostPoint,
                     bottommostPoint
                 } = getInputCanvasDimension(pathComplex)
-                let width: number = rightmostPoint - leftmostPoint;
-                let height: Complex = subtract(bottommostPoint ,topmostPoint)
-                let marginTop = (targetHeight - height.im / width * targetWidth) / 2
+                const width: Complex = subtract(rightmostPoint, leftmostPoint);
+                const height: Complex = subtract(bottommostPoint, topmostPoint)
+                const marginTop = (targetHeight - height.im / width * targetWidth) / 2
 
                 const transformedPath = [];
                 for (const complexPoint of pathComplex) {
-                    let marginComplex = complex(0, marginTop);
-                    let transformedPoint = add(add(multiply(divide(subtract(subtract(complexPoint, leftmostPoint), topmostPoint), width), targetWidth), topLeft),marginComplex );
+                    const marginComplex = complex(0, marginTop);
+                    const transformedPoint = add(add(multiply(divide(subtract(subtract(complexPoint, leftmostPoint), topmostPoint), width), targetWidth), topLeft), marginComplex);
                     transformedPath.push(transformedPoint)
                 }
                 console.log("Complex Data:", transformedPath);
