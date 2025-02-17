@@ -35,8 +35,7 @@ function App() {
                          strokes={strokes} properties={properties} colors={colors}/>
                 <main>
                     {properties && strokes && colors ?
-                        <FourierWrapper setColors={setColors} setStrokes={setStrokes} isPause={isPause} properties={properties} colors={colors} strokes={strokes}
-                                        startPosition={[0, 0]}/>
+                        <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
                         : null
                     }
                 </main>

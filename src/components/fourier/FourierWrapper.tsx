@@ -22,8 +22,6 @@ type FourierWrapperProps = {
     strokes: IFourierStrokeSettings;
     startPosition: Array<number>;
     isPause: boolean;
-    setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
-    setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
 }
 
 
@@ -31,11 +29,9 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                                                            properties,
                                                            colors,
                                                            strokes,
-                                                           startPosition,
                                                            isPause,
-                                                           setStrokes,
-                                                           setColors
                                                        }) => {
+    const viewPortZoom = 0.06;
     const svgRef = useRef<SVGSVGElement>(null);
     const [fourierPoints, setFourierPoints] = useState<FourierPoint[]>();
     const [circles, setCircles] = useState<ICircle[]>();
@@ -44,13 +40,16 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
     const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
     const pathRef = useRef<SVGPathElement>(null);
     const [isStart, setIsStart] = useState(true);
-    const intervalMs = 2;
+    const intervalMs = 1;
     const [isFirstRender, setIsFirstRender] = useState(true);
     const [renderCycle, setRenderCycle] = useState<number>(1);
     const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
     const [savedElapsed, setSavedElapsed] = useState(0);
     const [viewPort, setViewPort] = useState<[number, number, number, number]>(properties.viewPort)
     const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
+
+
+
     useEffect(() => {
         const fourierPoint: FourierPoint[] = [];
         const newCircles: ICircle[] = [];
@@ -68,8 +67,8 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             fourierPoint.push({radius: radius, frequency: frequency});
             if (i === 0) {
                 currentCircle = {
-                    centerX: startPosition[0],
-                    centerY: startPosition[1],
+                    centerX: 0,
+                    centerY: 0,
                     radius: parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3)),
                     angle: parseFloat(getRandomNumber(min, max, properties.speedDelta).toFixed(3)),
                     color: circleColors[i]
@@ -185,8 +184,8 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                 if (i === 0) {
                     const angle = frequency * currentPoint.frequency * Math.PI;
                     currentCircle = {
-                        centerX: startPosition[0],
-                        centerY: startPosition[1],
+                        centerX: 0,
+                        centerY: 0,
                         radius: 1,
                         angle: angle,
                         color: circleColorArray[i]
@@ -221,10 +220,8 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             }
             setIsFirstRender(false);
             setCircles(newCircles);
-            renderFastZoom();
             if (properties.addViewPortZoom) {
                 incrementViewPort();
-
             }
         }
     }, [frequency, colors]);
@@ -249,7 +246,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                 prevNumbers[3] - viewPortIncrement
             ];
         });
-        setSetViewPortIncrement((prevState) => prevState + 0.012);
+        setSetViewPortIncrement((prevState) => prevState + 0.011);
     }
 
     const incrementViewPort = () => {
@@ -257,21 +254,15 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             if (prevNumbers.length < 2) {
                 return prevNumbers;
             }
-            // const randomNumber = Math.random();
-            // if ((randomNumber > 0.99 && randomNumber < 0.9999)) {
-            //     setColors(presets[0].colors)
-            //     setStrokes(presets[0].strokes)
-            //     console.log((randomNumber > 0.9 && randomNumber < 0.99));
-            // }
 
-            if (prevNumbers[2] < 10|| prevNumbers[2] < 10) {
+            if (prevNumbers[2] < 10 || prevNumbers[2] < 10) {
                 return properties.viewPort;
             }
             return [
-                prevNumbers[0] + 0.03,
-                prevNumbers[1] + 0.03,
-                prevNumbers[2] - 0.06,
-                prevNumbers[3] - 0.06
+                prevNumbers[0] + viewPortZoom / 2,
+                prevNumbers[1] + viewPortZoom / 2,
+                prevNumbers[2] - viewPortZoom,
+                prevNumbers[3] - viewPortZoom
             ];
         });
     };
@@ -300,9 +291,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
     }
 
     const getViewPortString = () => {
-        const s = viewPort.join(' ');
-        console.log(s);
-        return s;
+        return viewPort.join(' ');
     };
 
     return (

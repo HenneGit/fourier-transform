@@ -66,10 +66,6 @@ const CsvUploader: React.FC = () => {
         topmostPoint: Complex,
         bottommostPoint: Complex
     } => {
-        if (numbers.length === 0) {
-            throw new Error("Array is empty");
-        }
-
         let minRe = numbers[0].re;
         let maxRe = numbers[0].re;
         let minIm = numbers[0].im;
@@ -81,7 +77,6 @@ const CsvUploader: React.FC = () => {
             if (num.im < minIm) minIm = num.im;
             if (num.im > maxIm) maxIm = num.im;
         }
-
         const leftmostPoint = complex(minRe, 0);
         const rightmostPoint = complex(maxRe, 0);
         const topmostPoint = complex(0, minIm);
