@@ -13,7 +13,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
-import {IFourierColorSettings, IFourierStrokeSettings, IFourierProperties} from "@/model/model.ts";
+import {IFourierColorSettings, IFourierStrokeSettings, IFourierProperties, Point, ViewPort} from "@/model/model.ts";
 import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
 
 
@@ -34,6 +34,19 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
         setColors(preset.colors);
         setStrokes(preset.strokes);
     };
+
+    const setPathProperties = (path: Point[]) => {
+        setProperties((prev) => ({
+            ...prev,
+            path: path
+        }));
+    }
+    const setViewPort = (viewPort: ViewPort) => {
+        setProperties((prev) => ({
+            ...prev,
+            viewPort: viewPort
+        }));
+    }
 
     return (
         <>
@@ -56,7 +69,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                         </SidebarGroupContent>
                     </SidebarGroup>                 <SidebarGroup>
                         <SidebarGroupContent>
-                            <CsvUploader/>
+                            <CsvUploader setViewPort={setViewPort} setPath={setPathProperties}/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>

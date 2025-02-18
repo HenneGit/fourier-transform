@@ -42,7 +42,12 @@ const LilaGreenPresetProps: IFourierProperties = {
     maxRadius: 5,
     radiusDelta: 1,
     zoom: 90,
-    viewPort: [-250, -250, 500, 500],
+    viewPort:  {
+        minX: -75,
+        minY: -75,
+        height: 150,
+        width: 150
+    }
 }
 
 
@@ -79,8 +84,12 @@ const PinkSolarSystemProperties: IFourierProperties = {
     maxRadius: 5,
     radiusDelta: 5,
     zoom: 90,
-    viewPort: [-250, -250, 500, 500],
-}
+    viewPort:  {
+        minX: -75,
+        minY: -75,
+        height: 150,
+        width: 150
+    }}
 
 
 const BlueWormsStrokes: IFourierStrokeSettings = {
@@ -116,7 +125,12 @@ const BlueWormsProperties: IFourierProperties = {
     maxRadius: 0.1,
     radiusDelta: 8,
     zoom: 90,
-    viewPort: [-150, -150, 300, 300],
+    viewPort:  {
+        minX: -75,
+        minY: -75,
+        height: 150,
+        width: 150
+    }
 }
 
 
@@ -153,7 +167,12 @@ const WindyTreeProperties: IFourierProperties = {
     maxRadius: 2.5,
     radiusDelta: 0,
     zoom: 90,
-    viewPort: [-250, -250, 500, 500],
+    viewPort:  {
+        minX: -75,
+        minY: -75,
+        height: 150,
+        width: 150
+    }
 }
 
 const SlowGreenCirclesProperties: IFourierProperties = {
@@ -165,7 +184,12 @@ const SlowGreenCirclesProperties: IFourierProperties = {
     maxRadius: 10,
     radiusDelta: 20,
     zoom: 90,
-    viewPort: [-250, -250, 500, 500],
+    viewPort:  {
+        minX: -75,
+        minY: -75,
+        height: 150,
+        width: 150
+    }
 }
 
 

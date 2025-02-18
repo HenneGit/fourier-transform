@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Papa from "papaparse";
-import {add, Complex, complex, divide, multiply, subtract} from "mathjs";
+import Complex from "complex.js";
+import {Point, ViewPort} from "@/model/model.ts";
 
 interface CsvRow {
-    [key: string]: string; // Adjust the type based on your CSV structure
+    [key: string]: string;
 }
 
 const useWindowSize = () => {
@@ -19,14 +20,25 @@ const useWindowSize = () => {
     return size;
 };
 
-const CsvUploader: React.FC = () => {
+const CsvUploader = ({setPath, setViewPort}: {
+    setPath: (path: Point[]) => void;
+    setViewPort: (path: ViewPort) => void;
+}) => {
     const [data, setData] = useState<CsvRow[]>([]);
     const {width, height} = useWindowSize();
 
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-
+        console.log(width, height);
+        setViewPort(
+            {
+                minX: -width / 2,
+                minY: -height / 2,
+                height: height,
+                width: width
+            }
+        )
         if (!file) return;
 
         Papa.parse<CsvRow>(file, {
@@ -36,7 +48,7 @@ const CsvUploader: React.FC = () => {
             dynamicTyping: true,
             complete: (result) => {
                 setData(result.data);
-                const pathComplex: Complex[] = result.data.map(([real, imag]) => complex(real, imag));
+                const pathComplex: Complex[] = result.data.map(([real, imag]: [number, number]) => new Complex(real, imag));
                 const {center, targetWidth, targetHeight, topLeft} = getCanvas();
                 const {
                     leftmostPoint,
@@ -44,16 +56,17 @@ const CsvUploader: React.FC = () => {
                     topmostPoint,
                     bottommostPoint
                 } = getInputCanvasDimension(pathComplex)
-                const width: Complex = subtract(rightmostPoint, leftmostPoint);
-                const height: Complex = subtract(bottommostPoint, topmostPoint)
+                const width: Complex = rightmostPoint.sub(leftmostPoint);
+                const height: Complex = bottommostPoint.sub(topmostPoint);
                 const marginTop = (targetHeight - height.im / width * targetWidth) / 2
 
-                const transformedPath = [];
+                const transformedPath: Point[] = [];
                 for (const complexPoint of pathComplex) {
-                    const marginComplex = complex(0, marginTop);
-                    const transformedPoint = add(add(multiply(divide(subtract(subtract(complexPoint, leftmostPoint), topmostPoint), width), targetWidth), topLeft), marginComplex);
-                    transformedPath.push(transformedPoint)
+                    const marginComplex = new Complex(0, marginTop);
+                    const transformedPoint = topmostPoint.sub(complexPoint.sub(leftmostPoint)).div(width).mul(targetWidth).add(marginComplex);
+                    transformedPath.push({x: transformedPoint.im, y: transformedPoint.re});
                 }
+                setPath(transformedPath);
                 console.log("Complex Data:", transformedPath);
             },
         });
@@ -77,10 +90,10 @@ const CsvUploader: React.FC = () => {
             if (num.im < minIm) minIm = num.im;
             if (num.im > maxIm) maxIm = num.im;
         }
-        const leftmostPoint = complex(minRe, 0);
-        const rightmostPoint = complex(maxRe, 0);
-        const topmostPoint = complex(0, minIm);
-        const bottommostPoint = complex(0, maxIm);
+        const leftmostPoint = new Complex(minRe, 0);
+        const rightmostPoint = new Complex(maxRe, 0);
+        const topmostPoint = new Complex(0, minIm);
+        const bottommostPoint = new Complex(0, maxIm);
 
         return {
             leftmostPoint,
@@ -92,10 +105,13 @@ const CsvUploader: React.FC = () => {
 
 
     const getCanvas = (): { center: Complex, targetWidth: number, targetHeight: number, topLeft: Complex } => {
-        const canvas: Complex = complex(width, height);
-        const topLeft: Complex = multiply(divide(canvas, 8), -3);
-        const bottomRight: Complex = multiply(divide(canvas, 8), 3);
-        const center: Complex = divide(add(topLeft, bottomRight), 2);
+
+
+        const canvas: Complex = new Complex(width, height);
+
+        const topLeft: Complex = canvas.div(8).mul(-3);
+        const bottomRight: Complex = canvas.div(8).mul(3);
+        const center: Complex = topLeft.add(bottomRight).div(2);
         const targetWidth = bottomRight.re - topLeft.re
         const targetHeight = bottomRight.im - topLeft.im
 

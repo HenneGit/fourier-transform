@@ -8,7 +8,8 @@ export interface IFourierProperties {
     radiusDelta: number;
     zoom: number;
     addViewPortZoom: boolean;
-    viewPort: [number, number, number, number];
+    viewPort: ViewPort;
+    path: Point[] | undefined;
 
 }
 
@@ -42,4 +43,16 @@ export interface RenderedCircle {
     radius: number;
     angle: number;
     color: number[];
+}
+
+export interface Point {
+    x: number;
+    y: number;
+}
+
+export interface ViewPort {
+    minX: number;
+    minY: number;
+    height: number;
+    width: number;
 }
