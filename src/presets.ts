@@ -196,7 +196,7 @@ const SlowGreenCirclesProperties: IFourierProperties = {
 const SlowGreenCirclestrokes: IFourierStrokeSettings = {
     circleStroke: 0.5,
     radiusStroke: 0.3,
-    pathStroke: 0.04,
+    pathStroke: 0.49,
     jointPointStroke: 0,
     deletePath: true,
     deletePathDelay: 15,

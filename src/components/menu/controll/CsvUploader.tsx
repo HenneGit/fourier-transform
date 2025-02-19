@@ -48,23 +48,31 @@ const CsvUploader = ({setPath, setViewPort}: {
             dynamicTyping: true,
             complete: (result) => {
                 setData(result.data);
-                const pathComplex: Complex[] = result.data.map(([real, imag]: [number, number]) => new Complex(real, imag));
-                const {center, targetWidth, targetHeight, topLeft} = getCanvas();
+                const inputPathData: [number, number][] = result.data
+
                 const {
                     leftmostPoint,
-                    rightmostPoint,
+                    rightMostPoint,
+                    bottommostPoint,
                     topmostPoint,
-                    bottommostPoint
-                } = getInputCanvasDimension(pathComplex)
-                const width: Complex = rightmostPoint.sub(leftmostPoint);
-                const height: Complex = bottommostPoint.sub(topmostPoint);
-                const marginTop = (targetHeight - height.im / width * targetWidth) / 2
+                } = getInputCanvasDimension(inputPathData)
+
+                const offsetX = width - rightMostPoint;
+                const offsetY = width - rightMostPoint;
+                const inputHeight = topmostPoint - bottommostPoint;
+                const inputWidth = rightMostPoint - leftmostPoint;
+
+                console.log('width', inputWidth);
+                console.log('height', inputHeight);
+
+                const centerX = rightMostPoint - (inputWidth / 2)
+                const centerY = topmostPoint - (inputHeight / 2)
 
                 const transformedPath: Point[] = [];
-                for (const complexPoint of pathComplex) {
-                    const marginComplex = new Complex(0, marginTop);
-                    const transformedPoint = topmostPoint.sub(complexPoint.sub(leftmostPoint)).div(width).mul(targetWidth).add(marginComplex);
-                    transformedPath.push({x: transformedPoint.im, y: transformedPoint.re});
+                for (const point of inputPathData) {
+                    const transformedX = point[0] - centerX
+                    const transformedY = point[1] - centerY
+                    transformedPath.push({x: transformedX, y: transformedY});
                 }
                 setPath(transformedPath);
                 console.log("Complex Data:", transformedPath);
@@ -73,33 +81,38 @@ const CsvUploader = ({setPath, setViewPort}: {
     };
 
 
-    const getInputCanvasDimension = (numbers: Complex[]): {
-        leftmostPoint: Complex,
-        rightmostPoint: Complex,
-        topmostPoint: Complex,
-        bottommostPoint: Complex
+    const getInputCanvasDimension = (numbers: [number, number][]): {
+        leftmostPoint: number,
+        rightMostPoint: number,
+        bottommostPoint: number,
+        topmostPoint: number;
     } => {
-        let minRe = numbers[0].re;
-        let maxRe = numbers[0].re;
-        let minIm = numbers[0].im;
-        let maxIm = numbers[0].im;
+        let rightMostPoint = numbers[0][0];
+        let leftmostPoint = numbers[0][0];
+        let bottommostPoint = numbers[0][1];
+        let topmostPoint = numbers[0][1];
 
         for (const num of numbers) {
-            if (num.re < minRe) minRe = num.re;
-            if (num.re > maxRe) maxRe = num.re;
-            if (num.im < minIm) minIm = num.im;
-            if (num.im > maxIm) maxIm = num.im;
+            if (num[0] < leftmostPoint) {
+                leftmostPoint = num[0];
+            }
+            if (num[0] > rightMostPoint) {
+                rightMostPoint = num[0];
+            }
+            if (num[1] < bottommostPoint) {
+                bottommostPoint = num[1];
+            }
+            if (num[1] > topmostPoint) {
+                topmostPoint = num[1];
+            }
         }
-        const leftmostPoint = new Complex(minRe, 0);
-        const rightmostPoint = new Complex(maxRe, 0);
-        const topmostPoint = new Complex(0, minIm);
-        const bottommostPoint = new Complex(0, maxIm);
+
 
         return {
-            leftmostPoint,
-            rightmostPoint,
-            topmostPoint,
-            bottommostPoint
+            leftmostPoint: leftmostPoint,
+            rightMostPoint: rightMostPoint,
+            bottommostPoint: bottommostPoint,
+            topmostPoint: topmostPoint,
         };
     };
 
@@ -109,8 +122,8 @@ const CsvUploader = ({setPath, setViewPort}: {
 
         const canvas: Complex = new Complex(width, height);
 
-        const topLeft: Complex = canvas.div(8).mul(-3);
-        const bottomRight: Complex = canvas.div(8).mul(3);
+        const topLeft: Complex = canvas.div(20).mul(-16);
+        const bottomRight: Complex = canvas.div(20).mul(16);
         const center: Complex = topLeft.add(bottomRight).div(2);
         const targetWidth = bottomRight.re - topLeft.re
         const targetHeight = bottomRight.im - topLeft.im
