@@ -57,21 +57,19 @@ const CsvUploader = ({setPath, setViewPort}: {
                     topmostPoint,
                 } = getInputCanvasDimension(inputPathData)
 
-                const offsetX = width - rightMostPoint;
-                const offsetY = width - rightMostPoint;
                 const inputHeight = topmostPoint - bottommostPoint;
                 const inputWidth = rightMostPoint - leftmostPoint;
-
                 console.log('width', inputWidth);
                 console.log('height', inputHeight);
-
+                //find center of current svg coordinates
                 const centerX = rightMostPoint - (inputWidth / 2)
                 const centerY = topmostPoint - (inputHeight / 2)
 
                 const transformedPath: Point[] = [];
                 for (const point of inputPathData) {
-                    const transformedX = point[0] - centerX
-                    const transformedY = point[1] - centerY
+
+                    const transformedX = (point[0] - centerX) * (height / 2 / inputWidth);
+                    const transformedY = (point[1] - centerY) * (height / 2 / inputHeight);
                     transformedPath.push({x: transformedX, y: transformedY});
                 }
                 setPath(transformedPath);
