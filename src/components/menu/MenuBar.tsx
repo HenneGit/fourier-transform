@@ -13,19 +13,20 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
-import {IFourierColorSettings, IFourierStrokeSettings, IFourierProperties, Point, ViewPort} from "@/model/model.ts";
+import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point} from "@/model/model.ts";
 import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
 
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
-export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, properties}: {
+export const MenuBar = ({setProperties,height, setStrokes, setColors, colors, strokes, properties}: {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
     setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
     setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
     setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
+    height: number
 }) => {
 
     const onSelectChange = (value: string) => {
@@ -41,12 +42,7 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
             path: path
         }));
     }
-    const setViewPort = (viewPort: ViewPort) => {
-        setProperties((prev) => ({
-            ...prev,
-            viewPort: viewPort
-        }));
-    }
+
 
     return (
         <>
@@ -67,9 +63,10 @@ export const MenuBar = ({setProperties, setStrokes, setColors, colors, strokes, 
                                 </SelectContent>
                             </Select>
                         </SidebarGroupContent>
-                    </SidebarGroup>                 <SidebarGroup>
+                    </SidebarGroup>
+                    <SidebarGroup>
                         <SidebarGroupContent>
-                            <CsvUploader setViewPort={setViewPort} setPath={setPathProperties}/>
+                            <CsvUploader height={height} setPath={setPathProperties}/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>

@@ -1,4 +1,3 @@
-
 export interface IFourierProperties {
     numberOfCircles: number;
     maxSpeed: number;
@@ -56,3 +55,18 @@ export interface ViewPort {
     height: number;
     width: number;
 }
+
+export interface FourierPoint {
+    radius: number;
+    frequency: number;
+    phase: number;
+}
+
+export interface ICircle {
+    centerX: number;
+    centerY: number;
+    radius: number;
+    angle: number;
+    color: Array<number>;
+}
+
