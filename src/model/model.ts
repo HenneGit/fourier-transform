@@ -56,7 +56,7 @@ export interface ViewPort {
     width: number;
 }
 
-export interface FourierPoint {
+export interface FourierTransform {
     radius: number;
     frequency: number;
     phase: number;

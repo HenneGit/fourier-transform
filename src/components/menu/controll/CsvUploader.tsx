@@ -6,9 +6,10 @@ interface CsvRow {
     [key: string]: string;
 }
 
-const CsvUploader = ({setPath, height }: {
+const CsvUploader = ({setPath, height, width }: {
     setPath: (path: Point[]) => void;
     height: number
+    width: number
 }) => {
 
 
@@ -28,19 +29,30 @@ const CsvUploader = ({setPath, height }: {
                     bottommostPoint,
                     topmostPoint,
                 } = getInputCanvasDimension(inputPathData)
+                const marginFactor = 0.9;
+
+                const maxWidth = width * marginFactor;
+                const maxHeight = height * marginFactor;
 
                 const inputHeight = topmostPoint - bottommostPoint;
                 const inputWidth = rightMostPoint - leftmostPoint;
-                //find center of current svg coordinates
-                const centerX = rightMostPoint - (inputWidth / 2)
-                const centerY = topmostPoint - (inputHeight / 2)
 
-                const transformedPath: Point[] = [];
-                for (const point of inputPathData) {
-                    const transformedX = (point[0] - centerX) * (height / 2 / inputWidth);
-                    const transformedY = (point[1] - centerY) * (height / 2 / inputHeight);
-                    transformedPath.push({x: transformedX, y: transformedY});
+                const centerX = rightMostPoint - inputWidth / 2;
+                const centerY = topmostPoint - inputHeight / 2;
+
+                const inputAspectRatio = inputWidth / inputHeight;
+                const canvasAspectRatio = width / height;
+
+                let scale: number;
+                if (inputAspectRatio > canvasAspectRatio) {
+                    scale = (maxWidth / inputWidth);
+                } else {
+                    scale = (maxHeight / inputHeight);
                 }
+                const transformedPath: Point[] = inputPathData.map(([x, y]) => ({
+                    x: (x - centerX) * scale,
+                    y: (y - centerY) * scale
+                }));
                 setPath(transformedPath);
                 sessionStorage.setItem('path', JSON.stringify(transformedPath))
             },

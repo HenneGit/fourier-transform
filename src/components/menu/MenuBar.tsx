@@ -19,7 +19,7 @@ import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
-export const MenuBar = ({setProperties,height, setStrokes, setColors, colors, strokes, properties}: {
+export const MenuBar = ({setProperties,height, width, setStrokes, setColors, colors, strokes, properties}: {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
@@ -27,6 +27,7 @@ export const MenuBar = ({setProperties,height, setStrokes, setColors, colors, st
     setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
     setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
     height: number
+    width: number
 }) => {
 
     const onSelectChange = (value: string) => {
@@ -66,7 +67,7 @@ export const MenuBar = ({setProperties,height, setStrokes, setColors, colors, st
                     </SidebarGroup>
                     <SidebarGroup>
                         <SidebarGroupContent>
-                            <CsvUploader height={height} setPath={setPathProperties}/>
+                            <CsvUploader height={height} setPath={setPathProperties} width={width}/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>

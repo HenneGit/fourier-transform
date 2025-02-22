@@ -5,7 +5,7 @@ import {MenuBar} from "@/components/menu/MenuBar.tsx";
 import {useEffect, useState} from "react";
 import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {presets} from "@/presets.ts";
-import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point, ViewPort} from "@/model/model.ts";
+import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point} from "@/model/model.ts";
 import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
 
 
@@ -71,7 +71,7 @@ function App() {
         <>
             <SidebarProvider open={isPause}>
                 <MenuBar setProperties={setProperties} setStrokes={setStrokes} setColors={setColors}
-                         strokes={strokes} properties={properties} colors={colors} height={height}/>
+                         strokes={strokes} properties={properties} colors={colors} height={height} width={width}/>
                 <main>
                     {properties && strokes && colors ?
                         <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
