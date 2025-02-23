@@ -6,16 +6,19 @@ interface CsvRow {
     [key: string]: string;
 }
 
-const CsvUploader = ({setPath, height, width }: {
+const CsvUploader = ({setPath, height, width, setIsUploading, setKey }: {
     setPath: (path: Point[]) => void;
-    height: number
-    width: number
+    height: number;
+    width: number;
+    setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
+    setKey: React.Dispatch<React.SetStateAction<number>>
 }) => {
 
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
+        setIsUploading(true);
         Papa.parse<CsvRow>(file, {
             delimiter: ";",
             header: false,
@@ -54,6 +57,8 @@ const CsvUploader = ({setPath, height, width }: {
                     y: (y - centerY) * scale
                 }));
                 setPath(transformedPath);
+                setIsUploading(false);
+                setKey(prevKey => prevKey + 1);
                 sessionStorage.setItem('path', JSON.stringify(transformedPath))
             },
         });

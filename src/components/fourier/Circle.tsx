@@ -1,7 +1,6 @@
 import {useEffect, useRef} from "react";
 import * as d3 from "d3";
-import {IFourierColorSettings, IFourierStrokeSettings} from "@/model/model.ts";
-import {RenderedCircle} from "@/model/model.ts";
+import {IFourierColorSettings, IFourierStrokeSettings, RenderedCircle} from "@/model/model.ts";
 
 
 type RotatingCircleProps = {
@@ -19,13 +18,15 @@ const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSet
         return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
     }
     useEffect(() => {
-        const circleSvg = d3.select(circleRef.current);
-        const line = d3.select(lineRef.current);
-        if (circle.centerX !== undefined && circle.centerY !== undefined) {
-            const x = circle.centerX + circle.radius * Math.cos(circle.angle);
-            const y = circle.centerY + circle.radius * Math.sin(circle.angle);
-            circleSvg.attr("cx", x).attr("cy", y);
-            line.attr("x1", circle.centerX).attr("y1", circle.centerY).attr("x2", x).attr("y2", y);
+        if (circle) {
+            const circleSvg = d3.select(circleRef.current);
+            const line = d3.select(lineRef.current);
+            if (circle.centerX !== undefined && circle.centerY !== undefined) {
+                const x = circle.centerX + circle.radius * Math.cos(circle.angle);
+                const y = circle.centerY + circle.radius * Math.sin(circle.angle);
+                circleSvg.attr("cx", x).attr("cy", y);
+                line.attr("x1", circle.centerX).attr("y1", circle.centerY).attr("x2", x).attr("y2", y);
+            }
         }
     }, [circle, colorSettings]);
 

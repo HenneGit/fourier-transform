@@ -28,6 +28,8 @@ function App() {
     const [colors, setColors] = useState<IFourierColorSettings>(presets[4].colors);
     const [properties, setProperties] = useState<IFourierProperties>(presets[4 ].properties);
     const {width, height} = useWindowSize();
+    const [isUploading, setIsUploading] = useState(false);
+    const [key, setKey] = useState(0);
 
     useEffect(() => {
         const json = sessionStorage.getItem('path');
@@ -50,8 +52,6 @@ function App() {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-
-
     }, []);
 
 
@@ -70,12 +70,11 @@ function App() {
     return (
         <>
             <SidebarProvider open={isPause}>
-                <MenuBar setProperties={setProperties} setStrokes={setStrokes} setColors={setColors}
+                <MenuBar setKey={setKey} setIsUploading={setIsUploading} setProperties={setProperties} setStrokes={setStrokes} setColors={setColors}
                          strokes={strokes} properties={properties} colors={colors} height={height} width={width}/>
                 <main>
-                    {properties && strokes && colors ?
-                        <FourierWrapper isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
-                        : null
+                    {!isUploading && properties && strokes && colors &&
+                        <FourierWrapper key={key} isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
                     }
                 </main>
                 <MouseTracker isPaused={isPause} setClicked={setPause}/>

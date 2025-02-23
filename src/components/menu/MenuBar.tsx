@@ -19,7 +19,7 @@ import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
-export const MenuBar = ({setProperties,height, width, setStrokes, setColors, colors, strokes, properties}: {
+export const MenuBar = ({setProperties, height, width, setStrokes, setColors, colors, strokes, properties, setKey, setIsUploading}: {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
@@ -28,7 +28,10 @@ export const MenuBar = ({setProperties,height, width, setStrokes, setColors, col
     setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
     height: number
     width: number
+    setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
+    setKey: React.Dispatch<React.SetStateAction<number>>
 }) => {
+
 
     const onSelectChange = (value: string) => {
         const preset: Preset = presetMap[value];
@@ -47,12 +50,12 @@ export const MenuBar = ({setProperties,height, width, setStrokes, setColors, col
 
     return (
         <>
-            <Sidebar >
+            <Sidebar>
                 <SidebarContent>
                     <SidebarGroup>
                         <SidebarGroupContent>
                             <Select onValueChange={onSelectChange}>
-                                <SelectTrigger >
+                                <SelectTrigger>
                                     <SelectValue placeholder="Try a preset!"/>
                                 </SelectTrigger>
                                 <SelectContent>
@@ -67,7 +70,7 @@ export const MenuBar = ({setProperties,height, width, setStrokes, setColors, col
                     </SidebarGroup>
                     <SidebarGroup>
                         <SidebarGroupContent>
-                            <CsvUploader height={height} setPath={setPathProperties} width={width}/>
+                            <CsvUploader setIsUploading={setIsUploading} setKey={setKey} height={height} setPath={setPathProperties} width={width}/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup>
