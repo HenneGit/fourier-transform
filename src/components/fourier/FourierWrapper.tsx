@@ -39,7 +39,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [stepIncrement, setStepIncrement] = useState(0);
         const [isFirstRender, setIsFirstRender] = useState(true);
-
+        const [animationSpeed, setAnimationSpeed] = useState(16.67);
 
         useEffect(() => {
             const fourierPoints: FourierTransform[] = [];
@@ -82,12 +82,17 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             setStepIncrement(1 / fourier.length)
         }
 
-
         useEffect(() => {
             let animationFrameId: number;
+            let lastUpdateTime = performance.now();
+
             const animate = () => {
+                const now = performance.now();
                 if (!isPause && properties.path !== undefined) {
-                    setCurrentFrequency(prevState => prevState + (stepIncrement));
+                    if (now - lastUpdateTime >= animationSpeed) {
+                        setCurrentFrequency(prevState => prevState + stepIncrement);
+                        lastUpdateTime = now;
+                    }
                     animationFrameId = requestAnimationFrame(animate);
                 }
             };
@@ -99,10 +104,12 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             };
         }, [isPause, fourierSteps]);
 
-
         useEffect(() => {
             if (!fourierSteps) {
                 return;
+            }
+            if (path.length > fourierSteps.length) {
+                path.splice(0, 1);
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));
         }, [currentFrequency]);
@@ -156,9 +163,9 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                     )) : null}
                     {path.length > 0 ? <path ref={pathRef}
-                                               stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
-                                               fill="none"
-                                               strokeWidth={strokes.pathStroke}/> : null
+                                             stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
+                                             fill="none"
+                                             strokeWidth={strokes.pathStroke}/> : null
                     }
                 </svg>
             </div>
