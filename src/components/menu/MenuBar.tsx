@@ -109,13 +109,13 @@ export const MenuBar = ({setProperties, height, width, setStrokes, setColors, co
                                                           speedDelta: number[0]
                                                       }))}/>
                                     <Separator className="my-2" orientation="horizontal"/>
-                                    <SliderWithNumber number={properties.maxRadius} min={0.1} max={10} steps={0.1}
+                                    <SliderWithNumber number={properties.maxRadius} min={0.1} max={100} steps={0.1}
                                                       lable={'maxRadius'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
                                                           maxRadius: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={properties.radiusDelta} min={0} max={20} steps={0.1}
+                                    <SliderWithNumber number={properties.radiusDelta} min={0} max={200} steps={0.1}
                                                       lable={'deltaRadius'}
                                                       setNumber={(number) => setProperties((prev) => ({
                                                           ...prev,
@@ -146,28 +146,28 @@ export const MenuBar = ({setProperties, height, width, setStrokes, setColors, co
                                                           }))}/>
 
                                         : null}
-                                    <SliderWithNumber number={strokes.circleStroke} min={0.000} max={0.499}
+                                    <SliderWithNumber number={strokes.circleStroke} min={0.000} max={1}
                                                       steps={0.001}
                                                       lable={'circleStroke'}
                                                       setNumber={(number) => setStrokes((prev) => ({
                                                           ...prev,
                                                           circleStroke: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={strokes.radiusStroke} min={0.000} max={0.499}
+                                    <SliderWithNumber number={strokes.radiusStroke} min={0.000} max={1}
                                                       steps={0.001}
                                                       lable={'radiusStroke'}
                                                       setNumber={(number) => setStrokes((prev) => ({
                                                           ...prev,
                                                           radiusStroke: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={strokes.jointPointStroke} min={0.000} max={1}
+                                    <SliderWithNumber number={strokes.jointPointStroke} min={0.000} max={5}
                                                       steps={0.01}
                                                       lable={'jointPointStroke'}
                                                       setNumber={(number) => setStrokes((prev) => ({
                                                           ...prev,
                                                           jointPointStroke: number[0]
                                                       }))}/>
-                                    <SliderWithNumber number={strokes.pathStroke} min={0.000} max={0.499} steps={0.001}
+                                    <SliderWithNumber number={strokes.pathStroke} min={0.000} max={20} steps={0.001}
                                                       lable={'pathStroke'}
                                                       setNumber={(number) => setStrokes((prev) => ({
                                                           ...prev,

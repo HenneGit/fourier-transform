@@ -11,7 +11,7 @@ import {
     ViewPort
 } from "@/model/model.ts";
 import path from "path";
-import {getHslString, getViewPortString} from "@/components/fourier/helpers.ts";
+import {getHslString, getRandomNumber, getViewPortString} from "@/components/fourier/helpers.ts";
 
 
 type FourierWrapperProps = {
@@ -22,12 +22,12 @@ type FourierWrapperProps = {
 }
 
 
-const FourierWrapper: React.FC<FourierWrapperProps> = ({
-                                                           properties,
-                                                           colors,
-                                                           strokes,
-                                                           isPause,
-                                                       }) => {
+const RandomCircles: React.FC<FourierWrapperProps> = ({
+                                                          properties,
+                                                          colors,
+                                                          strokes,
+                                                          isPause,
+                                                      }) => {
         const svgRef = useRef<SVGSVGElement>(null);
         const pathRef = useRef<SVGPathElement>(null);
         const [fourierSteps, setFourierSteps] = useState<FourierTransform[]>();
@@ -37,79 +37,73 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
         const [viewPort, setViewPort] = useState<ViewPort>(properties.viewPort)
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
-        const [stepIncrement, setStepIncrement] = useState(0);
         const [isFirstRender, setIsFirstRender] = useState(true);
-        const [animationSpeed, setAnimationSpeed] = useState(16.67);
+        const [startingTime, setStartingTime] = useState(2);
+        const [savedElapsed, setSavedElapsed] = useState(2);
+
 
         useEffect(() => {
             const fourierPoints: FourierTransform[] = [];
             setCurrentFrequency(0);
-            setStepIncrement(0);
             setFourierSteps(undefined)
             setPath([]);
             setIsFirstRender(true);
             setCircles([]);
             setViewPort(properties.viewPort)
-            if (properties.path) {
-                generateFourierProps(properties.path, fourierPoints);
-                fourierPoints.sort((a, b) => {
-                    return b.radius - a.radius;
-                })
-                setFourierSteps(fourierPoints);
-                setCircles(renderCircles(0, fourierPoints));
-            }
+            generateRandomFourierProps(fourierPoints);
+            setFourierSteps(fourierPoints);
+            setCircles(renderCircles(savedElapsed, fourierPoints));
         }, [properties]);
 
-        const generateFourierProps = (
-            points: Point[],
-            fourier: FourierTransform[],
-        ) => {
-            const N = points.length;
-            for (let k = 0; k < N; k++) {
-                const sum = {re: 0, im: 0};
-                for (let n = 0; n < N; n++) {
-                    const angle = (2 * Math.PI * k * n) / N;
-                    sum.re += points[n].x * Math.cos(angle) + points[n].y * Math.sin(angle);
-                    sum.im += -points[n].x * Math.sin(angle) + points[n].y * Math.cos(angle);
-                }
-                sum.re /= N;
-                sum.im /= N;
 
-                const amplitude = Math.sqrt(sum.re ** 2 + sum.im ** 2);
-                const phase = Math.atan2(sum.im, sum.re);
-                fourier.push({radius: amplitude, frequency: k, phase: phase});
+        const generateRandomFourierProps = (fourierProps: FourierTransform[]) => {
+            for (let i = 0; i < properties.numberOfCircles; i++) {
+                const radius = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
+                const phase = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
+                const min = properties.minSpeed;
+                const max = properties.maxSpeed;
+                const frequency = parseFloat(getRandomNumber(min, max, properties.speedDelta).toFixed(3));
+                fourierProps.push({radius: radius, frequency: frequency, phase: phase});
             }
-            setStepIncrement(1 / fourier.length)
+            return fourierProps
         }
 
         useEffect(() => {
             let animationFrameId: number;
-            let lastUpdateTime = performance.now();
-
-            const animate = () => {
-                const now = performance.now();
-                if (!isPause && properties.path !== undefined) {
-                    if (now - lastUpdateTime >= animationSpeed) {
-                        setCurrentFrequency(prevState => prevState + stepIncrement);
-                        lastUpdateTime = now;
+            let startTime: number | null = null;
+            let isFirstRender = true;
+            if ( !isPause) {
+                startTime = performance.now();
+                const animate = () => {
+                    if (!startTime) {
+                        startTime = 0;
                     }
+                    if (isFirstRender) {
+                        startTime = startingTime;
+                        isFirstRender = false;
+                    }
+                    const elapsed = performance.now() - startTime + savedElapsed;
+                    setCurrentFrequency(elapsed / 1000);
                     animationFrameId = requestAnimationFrame(animate);
-                }
-            };
-            if (!isPause) {
+                };
                 animationFrameId = requestAnimationFrame(animate);
+            } else if (isPause) {
+                setSavedElapsed(currentFrequency * 1000);
             }
             return () => {
-                cancelAnimationFrame(animationFrameId);
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
             };
-        }, [isPause, fourierSteps]);
+        }, [isPause]);
+
 
         useEffect(() => {
             if (!fourierSteps) {
                 return;
             }
             if (path.length > fourierSteps.length) {
-                path.splice(0, 2);
+                // path.splice(0, 2);
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));
         }, [currentFrequency]);
@@ -122,11 +116,10 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             let prevCircle: ICircle | null = null;
 
             for (let i = 0; i < currentFourier.length; i++) {
-                const {radius, frequency, phase} = currentFourier[i];
-                const angle = 2 * Math.PI * frequency * step + phase;
+                const {radius, frequency} = currentFourier[i];
+                const angle = Math.PI * frequency * step;
                 const centerX = prevCircle ? prevCircle.centerX + prevCircle.radius * Math.cos(prevCircle.angle) : 0;
                 const centerY = prevCircle ? prevCircle.centerY + prevCircle.radius * Math.sin(prevCircle.angle) : 0;
-
                 const newCircle: ICircle = {
                     centerX,
                     centerY,
@@ -157,7 +150,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
 
         return (
             <div className={'fourier-container'}>
-                <svg fill={'none'} ref={svgRef} width="100%" height="100%"
+                <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
                      viewBox={getViewPortString(viewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
@@ -173,4 +166,4 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
     }
 ;
 
-export default FourierWrapper;
+export default RandomCircles;

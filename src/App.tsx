@@ -7,6 +7,7 @@ import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {presets} from "@/presets.ts";
 import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point} from "@/model/model.ts";
 import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
+import RandomCircles from "@/components/fourier/RandomCircles.tsx";
 
 
 const useWindowSize = () => {
@@ -74,7 +75,10 @@ function App() {
                          strokes={strokes} properties={properties} colors={colors} height={height} width={width}/>
                 <main>
                     {!isUploading && properties && strokes && colors &&
-                        <FourierWrapper key={key} isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
+                        <>
+                            <RandomCircles key={key} isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
+                            <FourierWrapper key={key} isPause={isPause} properties={properties} colors={colors} strokes={strokes}/>
+                        </>
                     }
                 </main>
                 <MouseTracker isPaused={isPause} setClicked={setPause}/>
