@@ -109,7 +109,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                 return;
             }
             if (path.length > fourierSteps.length) {
-                path.splice(0, 1);
+                path.splice(0, 2);
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));
         }, [currentFrequency]);
