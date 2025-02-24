@@ -1,7 +1,7 @@
 import React from "react";
 import Papa from "papaparse";
 import {Point} from "@/model/model.ts";
-import {transFormPathToDimensions} from "@/components/menu/csv.helper.ts";
+import {transformNumberArrayToDimensions} from "@/components/menu/csv.helper.ts";
 
 interface CsvRow {
     [key: string]: string;
@@ -27,7 +27,7 @@ const CsvUploader = ({setPath, height, width, setIsUploading, setKey }: {
             dynamicTyping: true,
             complete: (result) => {
                 const inputPathData: [number, number][] = result.data
-                const transformedPath = transFormPathToDimensions(inputPathData, width, height);
+                const transformedPath = transformNumberArrayToDimensions(inputPathData, width, height);
                 if (transformedPath) {
                     setPath(transformedPath);
                     setIsUploading(false);

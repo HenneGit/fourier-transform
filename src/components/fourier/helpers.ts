@@ -27,6 +27,7 @@ export const getHslString = (hsl: number[]): string => {
 export const getViewPortString = (viewPort: ViewPort) => {
     return `${viewPort.minX} ${viewPort.minY} ${viewPort.width} ${viewPort.height}`;
 };
+
 export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: IFourierProperties) => {
     setViewPort(prevNumbers => {
         if (prevNumbers.width < 10 || prevNumbers.height < 10) {

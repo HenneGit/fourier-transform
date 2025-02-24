@@ -1,32 +1,21 @@
 import {Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,} from "@/components/ui/sidebar.tsx";
-import {Preset, presets} from "@/presets.ts";
 import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
 import StaticSVGPath from "@/components/fourier/StaticSVGPath.tsx";
-import {transFormPathToDimensions} from "@/components/menu/csv.helper.ts";
+import {transformNumberArrayToDimensions} from "@/components/menu/csv.helper.ts";
 
 
 export const SvgMenu = ({
-                            setProperties,
-                            setStrokes,
-                            setColors,
                             colors,
                             strokes,
                             properties,
-                            setKey,
-                            setIsUploading
+                            setPath
                         }: {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
-    setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
-    setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
-    setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
-    height: number
-    width: number
-    setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
-    setKey: React.Dispatch<React.SetStateAction<number>>
+    setPath: (path: Point[])=> void;
 }) => {
     const width = 400;
     const height = 200
@@ -63,13 +52,17 @@ export const SvgMenu = ({
                         skipEmptyLines: true,
                         dynamicTyping: true
                     });
-                    const transformedPath = transFormPathToDimensions(parsed.data, 200, 100);
+                    const transformedPath = transformNumberArrayToDimensions(parsed.data, 200, 100);
                     if (transformedPath) {
                         setPathArray(prevState => [...prevState, transformedPath]);
                     }
                 });
         });
     }, []);
+
+    const onSVGClick = (path: Point[]) => {
+        setPath(path);
+    }
 
 
     return (
@@ -80,8 +73,10 @@ export const SvgMenu = ({
                         <SidebarGroupContent>
                             <div className={'flex flex-col gap-2.5 h-full w-full'}>
                                 {viewPort && pathArray ? pathArray.map((path, index) => (
-                                    <div key={index} className={'w-full h-[15vh]'}>
-                                        <StaticSVGPath viewPort={viewPort} key={index} properties={properties} colors={colors}
+                                    <div key={index} className={'w-full h-[15vh] cursor-pointer'}
+                                         onClick={() => onSVGClick(path)}>
+                                        <StaticSVGPath viewPort={viewPort} key={index} properties={properties}
+                                                       colors={colors}
                                                        strokes={strokes}
                                                        inputPath={path}/>
                                     </div>

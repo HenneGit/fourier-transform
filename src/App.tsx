@@ -7,8 +7,8 @@ import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {presets} from "@/presets.ts";
 import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {SvgMenu} from "@/components/menu/svg/SvgMenu.tsx";
-import StaticSVGPath from "@/components/fourier/StaticSVGPath.tsx";
-import RandomCircles from "@/components/fourier/RandomCircles.tsx";
+import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
+import {transformNumberArrayToDimensions, transformPathToDimensions} from "@/components/menu/csv.helper.ts";
 
 
 const useWindowSize = () => {
@@ -32,16 +32,14 @@ function App() {
     const [isUploading, setIsUploading] = useState(false);
     const [key, setKey] = useState(0);
     const [path, setPath] = useState<Point[]>([]);
-    const [viewPort, setViewPort] = useState<ViewPort>()
+    const [viewPort, setViewPort] = useState<ViewPort>();
+
     useEffect(() => {
         const json = sessionStorage.getItem('path');
         if (json) {
             const item: Point[] = JSON.parse(json);
             if (item) {
-                setProperties((prev) => ({
-                    ...prev,
-                    path: item
-                }));
+                setPath(item);
             }
         }
 
@@ -56,6 +54,15 @@ function App() {
         };
     }, []);
 
+
+    const adjustPathToViewPort = (path: Point[]) => {
+        const transformedPath = transformPathToDimensions(path, width, height);
+        console.log(path);
+
+        if (transformedPath) {
+            setPath(transformedPath);
+        }
+    };
 
     useEffect(() => {
         setViewPort({
@@ -74,15 +81,14 @@ function App() {
                                 setStrokes={setStrokes} setColors={setColors}
                                 strokes={strokes} properties={properties} colors={colors} height={height}
                                 width={width}/>
-                <SvgMenu setKey={setKey} setIsUploading={setIsUploading} setProperties={setProperties}
-                         setStrokes={setStrokes} setColors={setColors}
-                         strokes={strokes} properties={properties} colors={colors} height={height} width={width}/>
+                <SvgMenu setPath={adjustPathToViewPort} strokes={strokes} properties={properties} colors={colors}/>
                 <main>
-                    {!isUploading && properties && strokes && colors && viewPort &&
+                    {properties && strokes && colors && viewPort && path ?
                         <>
-                            <RandomCircles isPause={isPause} viewPort={viewPort} key={key} properties={properties}
-                                           colors={colors} strokes={strokes}/>
-                        </>
+                            <FourierWrapper inputPath={path} isPause={isPause} viewPort={viewPort} key={key}
+                                            properties={properties}
+                                            colors={colors} strokes={strokes}/>
+                        </> : null
                     }
                 </main>
                 <MouseTracker isPaused={isPause} setClicked={setPause}/>

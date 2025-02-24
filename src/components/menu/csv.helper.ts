@@ -1,31 +1,31 @@
 import {Point} from "@/model/model.ts";
 
-export const getInputCanvasDimension = (numbers: [number, number][]): {
+export const getInputCanvasDimension = (path: Point[]): {
     leftmostPoint: number,
     rightMostPoint: number,
     bottommostPoint: number,
     topmostPoint: number;
 } | undefined => {
-    if (!numbers || numbers.length === 0) {
+    if (!path || path.length === 0) {
         return undefined;
     }
-    let rightMostPoint = numbers[0][0];
-    let leftmostPoint = numbers[0][0];
-    let bottommostPoint = numbers[0][1];
-    let topmostPoint = numbers[0][1];
+    let rightMostPoint = path[0].x;
+    let leftmostPoint = path[0].x;
+    let bottommostPoint = path[0].y;
+    let topmostPoint = path[0].y;
 
-    for (const num of numbers) {
-        if (num[0] < leftmostPoint) {
-            leftmostPoint = num[0];
+    for (const num of path) {
+        if (num.x < leftmostPoint) {
+            leftmostPoint = num.x;
         }
-        if (num[0] > rightMostPoint) {
-            rightMostPoint = num[0];
+        if (num.x > rightMostPoint) {
+            rightMostPoint = num.x;
         }
-        if (num[1] < bottommostPoint) {
-            bottommostPoint = num[1];
+        if (num.y < bottommostPoint) {
+            bottommostPoint = num.y;
         }
-        if (num[1] > topmostPoint) {
-            topmostPoint = num[1];
+        if (num.y > topmostPoint) {
+            topmostPoint = num.y;
         }
     }
     return {
@@ -37,7 +37,17 @@ export const getInputCanvasDimension = (numbers: [number, number][]): {
 };
 
 
-export const transFormPathToDimensions = (inputPathData: [number, number][], width: number, height: number) => {
+export const transformNumberArrayToDimensions = (inputPathData: [number, number][], width: number, height: number) => {
+
+    const transformedPath: Point[] = inputPathData.map(([x, y]) => ({
+        x: x,
+        y: y
+    }));
+    return transformPathToDimensions(transformedPath, width, height);
+};
+
+
+export const transformPathToDimensions = (inputPathData: Point[], width: number, height: number) => {
     const inputCanvasDimension = getInputCanvasDimension(inputPathData);
     if (inputCanvasDimension) {
         const {
@@ -65,9 +75,9 @@ export const transFormPathToDimensions = (inputPathData: [number, number][], wid
         } else {
             scale = (maxHeight / inputHeight);
         }
-        const transformedPath: Point[] = inputPathData.map(([x, y]) => ({
-            x: (x - centerX) * scale,
-            y: (y - centerY) * scale
+        const transformedPath: Point[] = inputPathData.map((point) => ({
+            x: (point.x - centerX) * scale,
+            y: (point.y - centerY) * scale
         }));
         return transformedPath;
     }
