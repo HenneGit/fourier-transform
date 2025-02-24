@@ -167,7 +167,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                     )) : null}
-                    {path.length > 0 ? <path ref={pathRef} 
+                    {path.length > 0 ? <path ref={pathRef} stroke-linejoin={'royb'}
                                              stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
                                              fill="none"
                                              strokeWidth={strokes.pathStroke}/> : null
