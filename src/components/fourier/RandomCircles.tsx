@@ -4,9 +4,9 @@ import * as d3 from "d3";
 import {
     FourierTransform,
     ICircle,
-    IFourierColorSettings,
-    IFourierProperties,
-    IFourierStrokeSettings,
+    ColorSettings,
+    RandomCirclesSettings,
+    StrokeSettings,
     Point,
     ViewPort
 } from "@/model/model.ts";
@@ -15,9 +15,9 @@ import {getHslString, getRandomNumber, getViewPortString} from "@/components/fou
 
 
 type FourierWrapperProps = {
-    properties: IFourierProperties;
-    colors: IFourierColorSettings;
-    strokes: IFourierStrokeSettings;
+    properties: RandomCirclesSettings;
+    colors: ColorSettings;
+    strokes: StrokeSettings;
     isPause: boolean;
     viewPort: ViewPort;
 }

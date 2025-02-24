@@ -1,6 +1,6 @@
-import {IFourierColorSettings, IFourierProperties, ViewPort} from "@/model/model.ts";
+import {ColorSettings, RandomCirclesSettings, ViewPort} from "@/model/model.ts";
 
-export const generateHSLSteps = (startColor: number[], step: number, properties: IFourierProperties): [number, number, number][] => {
+export const generateHSLSteps = (startColor: number[], step: number, properties: RandomCirclesSettings): [number, number, number][] => {
     const [h, s, l] = startColor;
     const colors: [number, number, number][] = [];
     for (let i = 0; i < properties.numberOfCircles; i++) {
@@ -28,7 +28,7 @@ export const getViewPortString = (viewPort: ViewPort) => {
     return `${viewPort.minX} ${viewPort.minY} ${viewPort.width} ${viewPort.height}`;
 };
 
-export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: IFourierProperties) => {
+export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: RandomCirclesSettings) => {
     setViewPort(prevNumbers => {
         if (prevNumbers.width < 10 || prevNumbers.height < 10) {
             return properties.viewPort;
@@ -43,7 +43,7 @@ export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateActi
 };
 
 
-export const cycleCircleColor = (frequency: number, colors: IFourierColorSettings, circleColorArray: [number, number, number][], properties: IFourierProperties) => {
+export const cycleCircleColor = (frequency: number, colors: ColorSettings, circleColorArray: [number, number, number][], properties: RandomCirclesSettings) => {
     if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
         for (let i = 0; i < circleColorArray.length; i++) {
             const generateNewColors = generateHSLSteps([90, 30, 30], 1.5, properties);

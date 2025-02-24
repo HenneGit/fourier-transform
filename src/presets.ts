@@ -1,14 +1,14 @@
-import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings} from "@/model/model.ts";
+import {ColorSettings, RandomCirclesSettings, StrokeSettings} from "@/model/model.ts";
 
 
 export interface Preset {
-    properties: IFourierProperties;
-    colors: IFourierColorSettings;
-    strokes: IFourierStrokeSettings;
+    properties: RandomCirclesSettings;
+    colors: ColorSettings;
+    strokes: StrokeSettings;
 }
 
 
-const LilaGreenPresetStrokes: IFourierStrokeSettings = {
+const LilaGreenPresetStrokes: StrokeSettings = {
     circleStroke: 0.04,
     radiusStroke: 0.1,
     pathStroke: 0.1,
@@ -18,7 +18,7 @@ const LilaGreenPresetStrokes: IFourierStrokeSettings = {
 };
 
 
-const LilaGreenPresetColors: IFourierColorSettings = {
+const LilaGreenPresetColors: ColorSettings = {
     rotateCircleColor: true,
     rotateCircleColorDelay: 5,
     radiusColor: [65, 82, 50],
@@ -33,7 +33,7 @@ const LilaGreenPresetColors: IFourierColorSettings = {
 
 }
 
-const LilaGreenPresetProps: IFourierProperties = {
+const LilaGreenPresetProps: RandomCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 40,
     maxSpeed: 0.299,
@@ -51,7 +51,7 @@ const LilaGreenPresetProps: IFourierProperties = {
 }
 
 
-const PinkSolarSystemStrokes: IFourierStrokeSettings = {
+const PinkSolarSystemStrokes: StrokeSettings = {
     circleStroke: 0.04,
     radiusStroke: 0,
     pathStroke: 0.1,
@@ -61,7 +61,7 @@ const PinkSolarSystemStrokes: IFourierStrokeSettings = {
 };
 
 
-const PinkSolarSystemColors: IFourierColorSettings = {
+const PinkSolarSystemColors: ColorSettings = {
     rotateCircleColor: false,
     rotateCircleColorDelay: 5,
     radiusColor: [0, 0, 0],
@@ -75,7 +75,7 @@ const PinkSolarSystemColors: IFourierColorSettings = {
     gradientColor2: [314, 90, 50],
 
 }
-const PinkSolarSystemProperties: IFourierProperties = {
+const PinkSolarSystemProperties: RandomCirclesSettings = {
     addViewPortZoom: true,
     numberOfCircles: 99,
     maxSpeed: 0.199,
@@ -92,7 +92,7 @@ const PinkSolarSystemProperties: IFourierProperties = {
     }}
 
 
-const BlueWormsStrokes: IFourierStrokeSettings = {
+const BlueWormsStrokes: StrokeSettings = {
     circleStroke: 0.00,
     radiusStroke: 0,
     pathStroke: 0,
@@ -102,7 +102,7 @@ const BlueWormsStrokes: IFourierStrokeSettings = {
 };
 
 
-const BlueWormsColors: IFourierColorSettings = {
+const BlueWormsColors: ColorSettings = {
     rotateCircleColor: false,
     rotateCircleColorDelay: 5,
     radiusColor: [0, 0, 0],
@@ -116,7 +116,7 @@ const BlueWormsColors: IFourierColorSettings = {
     gradientColor2: [314, 90, 50],
 
 }
-const BlueWormsProperties: IFourierProperties = {
+const BlueWormsProperties: RandomCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 200,
     maxSpeed: 0.199,
@@ -134,7 +134,7 @@ const BlueWormsProperties: IFourierProperties = {
 }
 
 
-const WindyTreeStrokes: IFourierStrokeSettings = {
+const WindyTreeStrokes: StrokeSettings = {
     circleStroke: 0.00,
     radiusStroke: 0.2,
     pathStroke: 0,
@@ -144,7 +144,7 @@ const WindyTreeStrokes: IFourierStrokeSettings = {
 };
 
 
-const WindyTreeColors: IFourierColorSettings = {
+const WindyTreeColors: ColorSettings = {
     rotateCircleColor: false,
     rotateCircleColorDelay: 5,
     radiusColor: [360, 76, 55],
@@ -158,7 +158,7 @@ const WindyTreeColors: IFourierColorSettings = {
     gradientColor2: [314, 90, 50],
 
 }
-const WindyTreeProperties: IFourierProperties = {
+const WindyTreeProperties: RandomCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 120,
     maxSpeed: 0.299,
@@ -175,7 +175,7 @@ const WindyTreeProperties: IFourierProperties = {
     }
 }
 
-const SlowGreenCirclesProperties: IFourierProperties = {
+const SlowGreenCirclesProperties: RandomCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 10,
     maxSpeed: 0.299,
@@ -193,7 +193,7 @@ const SlowGreenCirclesProperties: IFourierProperties = {
 }
 
 
-const SlowGreenCirclestrokes: IFourierStrokeSettings = {
+const SlowGreenCirclestrokes: StrokeSettings = {
     circleStroke: 0.5,
     radiusStroke: 0.3,
     pathStroke: 0.49,
@@ -203,7 +203,7 @@ const SlowGreenCirclestrokes: IFourierStrokeSettings = {
 };
 
 
-const SlowGreenCirclesColors: IFourierColorSettings = {
+const SlowGreenCirclesColors: ColorSettings = {
     rotateCircleColor: false,
     rotateCircleColorDelay: 5,
     radiusColor: [44, 58.44, 84.9],

@@ -2,12 +2,12 @@ import {useEffect, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
 import * as d3 from "d3";
 import {
+    ColorSettings,
     FourierTransform,
     ICircle,
-    IFourierColorSettings,
-    IFourierProperties,
-    IFourierStrokeSettings,
     Point,
+    RandomCirclesSettings,
+    StrokeSettings,
     ViewPort
 } from "@/model/model.ts";
 import path from "path";
@@ -15,9 +15,9 @@ import {getHslString, getViewPortString} from "@/components/fourier/helpers.ts";
 
 
 type FourierWrapperProps = {
-    properties: IFourierProperties;
-    colors: IFourierColorSettings;
-    strokes: IFourierStrokeSettings;
+    properties: RandomCirclesSettings;
+    colors: ColorSettings;
+    strokes: StrokeSettings;
     isPause: boolean;
     viewPort: ViewPort;
     inputPath: Point[];
@@ -26,7 +26,6 @@ type FourierWrapperProps = {
 
 
 const FourierWrapper: React.FC<FourierWrapperProps> = ({
-                                                           properties,
                                                            colors,
                                                            strokes,
                                                            isPause,
@@ -45,9 +44,10 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         const [stepIncrement, setStepIncrement] = useState(0);
         const [isFirstRender, setIsFirstRender] = useState(true);
         const [animationSpeed, setAnimationSpeed] = useState(16.67);
+        const [isCompleteCycle, setIsCompleteCycle] = useState(false);
 
         useEffect(() => {
-            const fourierPoints: FourierTransform[] = [];
+            setIsCompleteCycle(false);
             setCurrentFrequency(0);
             setStepIncrement(0);
             setFourierSteps(undefined)
@@ -56,19 +56,20 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             setCircles([]);
             setNewViewPort(viewPort)
             if (inputPath) {
-                generateFourierProps(inputPath, fourierPoints);
-                fourierPoints.sort((a, b) => {
+                const fourierCoefficient = generateFourierProps(inputPath);
+                fourierCoefficient.sort((a, b) => {
                     return b.radius - a.radius;
                 })
-                setFourierSteps(fourierPoints);
-                setCircles(renderCircles(0, fourierPoints));
+                setFourierSteps(fourierCoefficient);
+                setCircles(renderCircles(0, fourierCoefficient));
             }
-        }, [properties, inputPath]);
+        }, [inputPath]);
 
         const generateFourierProps = (
             points: Point[],
-            fourier: FourierTransform[],
+
         ) => {
+            const fourierPoints: FourierTransform[] = [];
             const N = points.length;
             for (let k = 0; k < N; k++) {
                 const sum = {re: 0, im: 0};
@@ -82,9 +83,12 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
 
                 const amplitude = Math.sqrt(sum.re ** 2 + sum.im ** 2);
                 const phase = Math.atan2(sum.im, sum.re);
-                fourier.push({radius: amplitude, frequency: k, phase: phase});
+                fourierPoints.push({radius: amplitude, frequency: k, phase: phase});
             }
-            setStepIncrement(1 / fourier.length)
+            setStepIncrement(1 / fourierPoints.length)
+            console.log(fourierPoints.length)
+
+            return fourierPoints;
         }
 
         useEffect(() => {
@@ -113,8 +117,8 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             if (!fourierSteps) {
                 return;
             }
-            if (path.length > fourierSteps.length) {
-                path.splice(0, 2);
+            if (currentFrequency > 1) {
+                setIsCompleteCycle(true);
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));
         }, [currentFrequency]);
@@ -144,7 +148,9 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                 if (i === currentFourier.length - 1) {
                     const centerX = prevCircle ? prevCircle.centerX + prevCircle.radius * Math.cos(angle) : 0;
                     const centerY = prevCircle ? prevCircle.centerY + prevCircle.radius * Math.sin(angle) : 0;
-                    renderPath(centerX, centerY)
+                    if (!isCompleteCycle) {
+                        renderPath(centerX, centerY);
+                    }
                 }
             }
             return newCircles;

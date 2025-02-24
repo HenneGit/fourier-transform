@@ -5,7 +5,7 @@ import {PropertiesMenu} from "@/components/menu/properties/PropertiesMenu.tsx";
 import {useEffect, useState} from "react";
 import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {presets} from "@/presets.ts";
-import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point, ViewPort} from "@/model/model.ts";
+import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {SvgMenu} from "@/components/menu/svg/SvgMenu.tsx";
 import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
 import {transformNumberArrayToDimensions, transformPathToDimensions} from "@/components/menu/csv.helper.ts";
@@ -25,9 +25,9 @@ const useWindowSize = () => {
 
 function App() {
     const [isPause, setPause] = useState(false);
-    const [strokes, setStrokes] = useState<IFourierStrokeSettings>(presets[4].strokes);
-    const [colors, setColors] = useState<IFourierColorSettings>(presets[4].colors);
-    const [properties, setProperties] = useState<IFourierProperties>(presets[4].properties);
+    const [strokes, setStrokes] = useState<StrokeSettings>(presets[4].strokes);
+    const [colors, setColors] = useState<ColorSettings>(presets[4].colors);
+    const [properties, setProperties] = useState<RandomCirclesSettings>(presets[4].properties);
     const {width, height} = useWindowSize();
     const [isUploading, setIsUploading] = useState(false);
     const [key, setKey] = useState(0);

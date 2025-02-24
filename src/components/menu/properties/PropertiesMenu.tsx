@@ -13,20 +13,20 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/properties/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
-import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point} from "@/model/model.ts";
+import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point} from "@/model/model.ts";
 import CsvUploader from "@/components/menu/properties/controll/CsvUploader.tsx";
 
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
 export const PropertiesMenu = ({setProperties, height, width, setStrokes, setColors, colors, strokes, properties, setKey, setIsUploading, setPath}: {
-    colors: IFourierColorSettings;
-    strokes: IFourierStrokeSettings;
-    properties: IFourierProperties;
-    setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
+    colors: ColorSettings;
+    strokes: StrokeSettings;
+    properties: RandomCirclesSettings;
+    setProperties: React.Dispatch<React.SetStateAction<RandomCirclesSettings>>;
     setPath: React.Dispatch<React.SetStateAction<Point[]>>;
-    setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
-    setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
+    setStrokes: React.Dispatch<React.SetStateAction<StrokeSettings>>;
+    setColors: React.Dispatch<React.SetStateAction<ColorSettings>>;
     height: number
     width: number
     setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
