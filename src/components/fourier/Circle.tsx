@@ -34,7 +34,7 @@ const Circle: React.FC<RotatingCircleProps> = ({circle, colorSettings, strokeSet
         <>
             {circle && colorSettings && strokeSettings ?
                 <>
-                    <circle cx={circle.centerX} cy={circle.centerY} r={circle.radius}
+                    <circle shape-rendering={"geometricPrecision"} cx={circle.centerX} cy={circle.centerY} r={circle.radius}
                             stroke={colorSettings.rotateCircleColor ? getHslString(circle.color) : getHslString(colorSettings.circleColor)}
                             fill="none"
                             strokeWidth={strokeSettings.circleStroke}/>
