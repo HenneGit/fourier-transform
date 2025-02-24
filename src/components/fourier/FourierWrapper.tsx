@@ -19,6 +19,8 @@ type FourierWrapperProps = {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     isPause: boolean;
+    viewPort: ViewPort;
+
 }
 
 
@@ -27,6 +29,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
                                                            colors,
                                                            strokes,
                                                            isPause,
+                                                           viewPort
                                                        }) => {
         const svgRef = useRef<SVGSVGElement>(null);
         const pathRef = useRef<SVGPathElement>(null);
@@ -35,7 +38,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         const [currentFrequency, setCurrentFrequency] = useState(0);
         const [path, setPath] = useState<Point[]>([]);
         const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
-        const [viewPort, setViewPort] = useState<ViewPort>(properties.viewPort)
+        const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [stepIncrement, setStepIncrement] = useState(0);
         const [isFirstRender, setIsFirstRender] = useState(true);
@@ -49,7 +52,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             setPath([]);
             setIsFirstRender(true);
             setCircles([]);
-            setViewPort(properties.viewPort)
+            setNewViewPort(viewPort)
             if (properties.path) {
                 generateFourierProps(properties.path, fourierPoints);
                 fourierPoints.sort((a, b) => {
@@ -158,7 +161,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         return (
             <div className={'fourier-container'}>
                 <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(viewPort)}>
+                     viewBox={getViewPortString(newViewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                     )) : null}

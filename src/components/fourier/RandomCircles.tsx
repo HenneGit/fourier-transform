@@ -19,6 +19,7 @@ type FourierWrapperProps = {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     isPause: boolean;
+    viewPort: ViewPort;
 }
 
 
@@ -27,6 +28,7 @@ const RandomCircles: React.FC<FourierWrapperProps> = ({
                                                           colors,
                                                           strokes,
                                                           isPause,
+                                                          viewPort
                                                       }) => {
         const svgRef = useRef<SVGSVGElement>(null);
         const pathRef = useRef<SVGPathElement>(null);
@@ -35,7 +37,7 @@ const RandomCircles: React.FC<FourierWrapperProps> = ({
         const [currentFrequency, setCurrentFrequency] = useState(0);
         const [path, setPath] = useState<Point[]>([]);
         const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
-        const [viewPort, setViewPort] = useState<ViewPort>(properties.viewPort)
+        const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [isFirstRender, setIsFirstRender] = useState(true);
         const [startingTime, setStartingTime] = useState(2);
@@ -49,7 +51,7 @@ const RandomCircles: React.FC<FourierWrapperProps> = ({
             setPath([]);
             setIsFirstRender(true);
             setCircles([]);
-            setViewPort(properties.viewPort)
+            setNewViewPort(newViewPort)
             generateRandomFourierProps(fourierPoints);
             setFourierSteps(fourierPoints);
             setCircles(renderCircles(savedElapsed, fourierPoints));
@@ -72,7 +74,7 @@ const RandomCircles: React.FC<FourierWrapperProps> = ({
             let animationFrameId: number;
             let startTime: number | null = null;
             let isFirstRender = true;
-            if ( !isPause) {
+            if (!isPause) {
                 startTime = performance.now();
                 const animate = () => {
                     if (!startTime) {
@@ -151,7 +153,7 @@ const RandomCircles: React.FC<FourierWrapperProps> = ({
         return (
             <div className={'fourier-container'}>
                 <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(viewPort)}>
+                     viewBox={getViewPortString(newViewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                     )) : null}

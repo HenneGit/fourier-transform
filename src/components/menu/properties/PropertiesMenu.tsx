@@ -24,7 +24,7 @@ export const PropertiesMenu = ({setProperties, height, width, setStrokes, setCol
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
     setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
-    setPath: React.Dispatch<React.SetStateAction<Point[] | undefined>>;
+    setPath: React.Dispatch<React.SetStateAction<Point[]>>;
     setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
     setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
     height: number

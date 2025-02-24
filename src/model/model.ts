@@ -7,9 +7,7 @@ export interface IFourierProperties {
     radiusDelta: number;
     zoom: number;
     addViewPortZoom: boolean;
-    viewPort: ViewPort;
     path: Point[] | undefined;
-
 }
 
 export interface IFourierStrokeSettings {

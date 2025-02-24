@@ -1,40 +1,30 @@
 import {useEffect, useRef, useState} from "react";
-import Circle from "./Circle.tsx";
-import * as d3 from "d3";
-import {
-    FourierTransform,
-    ICircle,
-    IFourierColorSettings,
-    IFourierProperties,
-    IFourierStrokeSettings,
-    Point,
-    ViewPort
-} from "@/model/model.ts";
-import path from "path";
+import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {getHslString, getViewPortString} from "@/components/fourier/helpers.ts";
 
 
-type FourierWrapperProps = {
+type StaticSVGProps = {
     properties: IFourierProperties;
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
-    inputPath: Point[] | undefined;
-    isPause: boolean;
+    inputPath: Point[];
+    viewPort: ViewPort;
 }
 
 
-const FourierWrapper: React.FC<FourierWrapperProps> = ({
-                                                           properties,
-                                                           colors,
-                                                           strokes,
-                                                           inputPath
-                                                       }) => {
+const StaticSVGPath: React.FC<StaticSVGProps> = ({
+                                                     properties,
+                                                     colors,
+                                                     strokes,
+                                                     inputPath,
+                                                     viewPort,
+                                                 }) => {
 
         const svgRef = useRef<SVGSVGElement>(null);
         const [path, setPath] = useState<string>('');
 
         useEffect(() => {
-            if (inputPath) {
+            if (inputPath && inputPath.length > 0) {
                 const pathD = `M ${inputPath[0].x} ${inputPath[0].y} ` + inputPath.slice(1).map(p => `L ${p.x} ${p.y}`).join(" ");
                 setPath(pathD)
             }
@@ -42,9 +32,9 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
 
 
         return (
-            <div className={'fourier-container'}>
-                <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(properties.viewPort)}>
+            <div className={'svg-container'}>
+                <svg style={{backgroundColor: getHslString(colors.backgroundColor), position:'relative'}} ref={svgRef}
+                     viewBox={getViewPortString(viewPort)}  >
                     <path d={path}
                           stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
                           fill="none"
@@ -56,4 +46,4 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
     }
 ;
 
-export default FourierWrapper;
+export default StaticSVGPath;
