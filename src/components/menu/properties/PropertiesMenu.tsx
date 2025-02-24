@@ -7,23 +7,24 @@ import {
     SidebarGroupLabel,
 } from "@/components/ui/sidebar.tsx";
 
-import {ColorPicker} from "@/components/menu/controll/ColorPicker.tsx";
-import {SliderWithNumber} from "@/components/menu/controll/SliderWithNumber.tsx";
+import {ColorPicker} from "@/components/menu/properties/controll/ColorPicker.tsx";
+import {SliderWithNumber} from "@/components/menu/properties/controll/SliderWithNumber.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {SwitchWithLabel} from "@/components/menu/controll/SwitchWithLabel.tsx";
+import {SwitchWithLabel} from "@/components/menu/properties/controll/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
 import {IFourierColorSettings, IFourierProperties, IFourierStrokeSettings, Point} from "@/model/model.ts";
-import CsvUploader from "@/components/menu/controll/CsvUploader.tsx";
+import CsvUploader from "@/components/menu/properties/controll/CsvUploader.tsx";
 
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};
 
-export const MenuBar = ({setProperties, height, width, setStrokes, setColors, colors, strokes, properties, setKey, setIsUploading}: {
+export const PropertiesMenu = ({setProperties, height, width, setStrokes, setColors, colors, strokes, properties, setKey, setIsUploading, setPath}: {
     colors: IFourierColorSettings;
     strokes: IFourierStrokeSettings;
     properties: IFourierProperties;
     setProperties: React.Dispatch<React.SetStateAction<IFourierProperties>>;
+    setPath: React.Dispatch<React.SetStateAction<Point[] | undefined>>;
     setStrokes: React.Dispatch<React.SetStateAction<IFourierStrokeSettings>>;
     setColors: React.Dispatch<React.SetStateAction<IFourierColorSettings>>;
     height: number
@@ -45,6 +46,7 @@ export const MenuBar = ({setProperties, height, width, setStrokes, setColors, co
             ...prev,
             path: path
         }));
+        setPath(path);
     }
 
 

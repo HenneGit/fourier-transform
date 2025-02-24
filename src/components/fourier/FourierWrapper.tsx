@@ -157,7 +157,7 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
 
         return (
             <div className={'fourier-container'}>
-                <svg fill={'none'} ref={svgRef} width="100%" height="100%"
+                <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
                      viewBox={getViewPortString(viewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
