@@ -25,9 +25,9 @@ const useWindowSize = () => {
 
 function App() {
     const [isPause, setPause] = useState(false);
-    const [strokes, setStrokes] = useState<StrokeSettings>(presets[4].strokes);
-    const [colors, setColors] = useState<ColorSettings>(presets[4].colors);
-    const [properties, setProperties] = useState<RandomCirclesSettings>(presets[4].properties);
+    const [strokes, setStrokes] = useState<StrokeSettings>(presets[0].strokes);
+    const [colors, setColors] = useState<ColorSettings>(presets[0].colors);
+    const [properties, setProperties] = useState<RandomCirclesSettings>(presets[0].properties);
     const {width, height} = useWindowSize();
     const [isUploading, setIsUploading] = useState(false);
     const [key, setKey] = useState(0);

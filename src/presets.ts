@@ -9,23 +9,23 @@ export interface Preset {
 
 
 const LilaGreenPresetStrokes: StrokeSettings = {
-    circleStroke: 0.04,
-    radiusStroke: 0.1,
-    pathStroke: 0.1,
-    jointPointStroke: 0.2,
+    circleStroke: 0.38,
+    radiusStroke: 0.7,
+    pathStroke: 3,
+    jointPointStroke: 2,
     deletePath: true,
     deletePathDelay: 25,
 };
 
 
 const LilaGreenPresetColors: ColorSettings = {
-    rotateCircleColor: true,
+    rotateCircleColor: false,
     rotateCircleColorDelay: 5,
     radiusColor: [65, 82, 50],
     circleColor: [1, 20, 100],
     jointPointColor: [20, 120, 70],
     backgroundColor: [286, 90, 14],
-    showPathGradient: true,
+    showPathGradient: false,
     pathColor: [132, 71, 70],
     gradientColor: [90, 90, 50],
     gradientColor1: [170, 90, 50],
@@ -42,12 +42,6 @@ const LilaGreenPresetProps: RandomCirclesSettings = {
     maxRadius: 5,
     radiusDelta: 1,
     zoom: 90,
-    viewPort:  {
-        minX: -75,
-        minY: -75,
-        height: 150,
-        width: 150
-    }
 }
 
 
@@ -84,12 +78,7 @@ const PinkSolarSystemProperties: RandomCirclesSettings = {
     maxRadius: 5,
     radiusDelta: 5,
     zoom: 90,
-    viewPort:  {
-        minX: -75,
-        minY: -75,
-        height: 150,
-        width: 150
-    }}
+   }
 
 
 const BlueWormsStrokes: StrokeSettings = {
@@ -125,12 +114,6 @@ const BlueWormsProperties: RandomCirclesSettings = {
     maxRadius: 0.1,
     radiusDelta: 8,
     zoom: 90,
-    viewPort:  {
-        minX: -75,
-        minY: -75,
-        height: 150,
-        width: 150
-    }
 }
 
 
@@ -167,12 +150,6 @@ const WindyTreeProperties: RandomCirclesSettings = {
     maxRadius: 2.5,
     radiusDelta: 0,
     zoom: 90,
-    viewPort:  {
-        minX: -75,
-        minY: -75,
-        height: 150,
-        width: 150
-    }
 }
 
 const SlowGreenCirclesProperties: RandomCirclesSettings = {
@@ -184,12 +161,6 @@ const SlowGreenCirclesProperties: RandomCirclesSettings = {
     maxRadius: 10,
     radiusDelta: 20,
     zoom: 90,
-    viewPort:  {
-        minX: -75,
-        minY: -75,
-        height: 150,
-        width: 150
-    }
 }
 
 

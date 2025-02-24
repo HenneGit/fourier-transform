@@ -42,7 +42,6 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
         const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [stepIncrement, setStepIncrement] = useState(0);
-        const [isFirstRender, setIsFirstRender] = useState(true);
         const [animationSpeed, setAnimationSpeed] = useState(16.67);
         const [isCompleteCycle, setIsCompleteCycle] = useState(false);
 
@@ -52,7 +51,6 @@ const FourierWrapper: React.FC<FourierWrapperProps> = ({
             setStepIncrement(0);
             setFourierSteps(undefined)
             setPath([]);
-            setIsFirstRender(true);
             setCircles([]);
             setNewViewPort(viewPort)
             if (inputPath) {
