@@ -7,8 +7,9 @@ import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {presets} from "@/presets.ts";
 import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {SvgMenu} from "@/components/menu/svg/SvgMenu.tsx";
-import FourierWrapper from "@/components/fourier/FourierWrapper.tsx";
+import FourierTransformRenderer from "@/components/fourier/FourierTransformRenderer.tsx";
 import {transformNumberArrayToDimensions, transformPathToDimensions} from "@/components/menu/csv.helper.ts";
+import RandomCirclesRenderer from "@/components/fourier/RandomCirclesRenderer.tsx";
 
 
 const useWindowSize = () => {
@@ -85,9 +86,9 @@ function App() {
                 <main>
                     {properties && strokes && colors && viewPort && path ?
                         <>
-                            <FourierWrapper inputPath={path} isPause={isPause} viewPort={viewPort} key={key}
-                                            properties={properties}
-                                            colors={colors} strokes={strokes}/>
+                            <RandomCirclesRenderer inputPath={path} isPause={isPause} viewPort={viewPort} key={key}
+                                                      properties={properties}
+                                                      colors={colors} strokes={strokes}/>
                         </> : null
                     }
                 </main>

@@ -12,7 +12,7 @@ type StaticSVGProps = {
 }
 
 
-const StaticSVGPath: React.FC<StaticSVGProps> = ({
+const StaticSVGPathRenderer: React.FC<StaticSVGProps> = ({
                                                      properties,
                                                      colors,
                                                      strokes,
@@ -46,4 +46,4 @@ const StaticSVGPath: React.FC<StaticSVGProps> = ({
     }
 ;
 
-export default StaticSVGPath;
+export default StaticSVGPathRenderer;

@@ -1,4 +1,6 @@
-import {ColorSettings, RandomCirclesSettings, ViewPort} from "@/model/model.ts";
+import {ColorSettings, Point, RandomCirclesSettings, ViewPort} from "@/model/model.ts";
+import * as d3 from "d3";
+import path from "path";
 
 export const generateHSLSteps = (startColor: number[], step: number, properties: RandomCirclesSettings): [number, number, number][] => {
     const [h, s, l] = startColor;
@@ -42,6 +44,18 @@ export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateActi
     });
 };
 
+
+export const renderPath = (x: number, y: number, pathRef: React.RefObject<SVGPathElement | null> , setPath: React.Dispatch<React.SetStateAction<Point[]>>, path: Point[]) => {
+    if (!pathRef) {
+        return;
+    }
+    const graph = d3.select(pathRef.current);
+    setPath((prevPath) => [...prevPath, {x, y}]);
+    const pathData = path.map((point, index) => {
+        return index === 0 ? `M${point.x},${point.y}` : `L${point.x},${point.y}`;
+    }).join(" ");
+    graph.attr("d", pathData);
+};
 
 export const cycleCircleColor = (frequency: number, colors: ColorSettings, circleColorArray: [number, number, number][], properties: RandomCirclesSettings) => {
     if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {

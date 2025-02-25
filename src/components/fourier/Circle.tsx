@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import * as d3 from "d3";
-import {ColorSettings, StrokeSettings, RenderedCircle, ICircle} from "@/model/model.ts";
+import {ColorSettings, StrokeSettings, ICircle} from "@/model/model.ts";
 
 
 type RotatingCircleProps = {

@@ -2,7 +2,7 @@ import {Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,} from "@/com
 import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
-import StaticSVGPath from "@/components/fourier/StaticSVGPath.tsx";
+import StaticSVGPathRenderer from "@/components/fourier/StaticSVGPathRenderer.tsx";
 import {transformNumberArrayToDimensions} from "@/components/menu/csv.helper.ts";
 
 
@@ -19,7 +19,7 @@ export const SvgMenu = ({
 }) => {
     const width = 400;
     const height = 200
-    const fileNames = ['butterfly.csv', 'chess.csv', 'star.csv']
+    const fileNames = ['butterfly.csv', 'chess.csv', 'star.csv', 'wildForm.csv'];
     const [viewPort, setViewPort] = useState<ViewPort>()
     const [pathArray, setPathArray] = useState<Point[][]>([]);
 
@@ -75,10 +75,10 @@ export const SvgMenu = ({
                                 {viewPort && pathArray ? pathArray.map((path, index) => (
                                     <div key={index} className={'w-full h-[15vh] cursor-pointer'}
                                          onClick={() => onSVGClick(path)}>
-                                        <StaticSVGPath viewPort={viewPort} key={index} properties={properties}
-                                                       colors={colors}
-                                                       strokes={strokes}
-                                                       inputPath={path}/>
+                                        <StaticSVGPathRenderer viewPort={viewPort} key={index} properties={properties}
+                                                               colors={colors}
+                                                               strokes={strokes}
+                                                               inputPath={path}/>
                                     </div>
                                 )) : null}
                             </div>
