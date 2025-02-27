@@ -1,18 +1,12 @@
 import {useSettings} from "@/context/SettingsContext.tsx";
 import {useActiveRendererId} from "@/context/ActiveRendererContext.tsx";
 import {useEffect, useState} from "react";
-import RandomCirclesRenderer from "@/components/fourier/RandomCirclesRenderer.tsx";
+import RNGCirclesRenderer from "@/components/fourier/RNGCirclesRenderer.tsx";
 import {Point, ViewPort} from "@/model/model.ts";
 import {presets} from "@/presets.ts";
 import {v4 as uuidv4} from "uuid";
 import {transformPathToDimensions} from "@/components/menu/csv.helper.ts";
-import {useRandomCircleSettings} from "@/context/RandomCirclesPropertyContext.tsx";
-import {SliderWithNumber} from "@/components/menu/properties/control/components/SliderWithNumber.tsx";
-import {ColorPicker} from "@/components/menu/properties/control/components/ColorPicker.tsx";
-import {HslColor} from "react-colorful";
-import {Popover, PopoverContent} from "@heroui/popover";
-import {PopoverTrigger} from "@heroui/react";
-import {Button} from "@heroui/button";
+import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
 
 
 const Main = ({width, height, isPause}: { width: number, height: number, isPause: boolean }) => {
@@ -21,7 +15,7 @@ const Main = ({width, height, isPause}: { width: number, height: number, isPause
     const [viewPort, setViewPort] = useState<ViewPort>();
 
     const {addSettings} = useSettings();
-    const {setPropertiesList} = useRandomCircleSettings();
+    const {setRNGSettingsList} = useRNGSettings();
     const {setId, id} = useActiveRendererId();
 
     useEffect(() => {
@@ -37,7 +31,7 @@ const Main = ({width, height, isPause}: { width: number, height: number, isPause
         const id = uuidv4();
         setId(id);
         addSettings({id: id, strokeSettings: presets[0].strokes, colorSettings: presets[0].colors});
-        setPropertiesList([{id: id, properties: presets[0].properties}]);
+        setRNGSettingsList([{id: id, rngSettings: presets[0].properties}]);
         console.log('@sh');
     }, []);
 
@@ -53,7 +47,7 @@ const Main = ({width, height, isPause}: { width: number, height: number, isPause
         <>
             {id && viewPort ?
                 <>
-                    <RandomCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
+                    <RNGCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
                 </> : null
             }
         </>

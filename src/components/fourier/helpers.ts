@@ -1,8 +1,8 @@
-import {ColorSettings, Point, RandomCirclesSettings, ViewPort} from "@/model/model.ts";
+import {ColorSettings, Point, RNGCirclesSettings, ViewPort} from "@/model/model.ts";
 import * as d3 from "d3";
 import path from "path";
 
-export const generateHSLSteps = (startColor: number[], step: number, properties: RandomCirclesSettings): [number, number, number][] => {
+export const generateHSLSteps = (startColor: number[], step: number, properties: RNGCirclesSettings): [number, number, number][] => {
     const [h, s, l] = startColor;
     const colors: [number, number, number][] = [];
     for (let i = 0; i < properties.numberOfCircles; i++) {
@@ -30,7 +30,7 @@ export const getViewPortString = (viewPort: ViewPort) => {
     return `${viewPort.minX} ${viewPort.minY} ${viewPort.width} ${viewPort.height}`;
 };
 
-export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: RandomCirclesSettings) => {
+export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: RNGCirclesSettings) => {
     setViewPort(prevNumbers => {
         if (prevNumbers.width < 10 || prevNumbers.height < 10) {
             return properties.viewPort;
@@ -57,7 +57,7 @@ export const renderPath = (x: number, y: number, pathRef: React.RefObject<SVGPat
     graph.attr("d", pathData);
 };
 
-export const cycleCircleColor = (frequency: number, colors: ColorSettings, circleColorArray: [number, number, number][], properties: RandomCirclesSettings) => {
+export const cycleCircleColor = (frequency: number, colors: ColorSettings, circleColorArray: [number, number, number][], properties: RNGCirclesSettings) => {
     if (frequency % 10 > 0 && frequency % 10 < 1 && colors.rotateCircleColor) {
         for (let i = 0; i < circleColorArray.length; i++) {
             const generateNewColors = generateHSLSteps([90, 30, 30], 1.5, properties);

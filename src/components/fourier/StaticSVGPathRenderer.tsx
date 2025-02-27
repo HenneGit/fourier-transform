@@ -1,10 +1,10 @@
 import {useEffect, useRef, useState} from "react";
-import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
+import {ColorSettings, RNGCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
 import {getHslString, getViewPortString} from "@/components/fourier/helpers.ts";
 
 
 type StaticSVGProps = {
-    properties: RandomCirclesSettings;
+    properties: RNGCirclesSettings;
     colors: ColorSettings;
     strokes: StrokeSettings;
     inputPath: Point[];

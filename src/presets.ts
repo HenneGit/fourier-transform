@@ -1,8 +1,8 @@
-import {ColorSettings, RandomCirclesSettings, StrokeSettings} from "@/model/model.ts";
+import {ColorSettings, RNGCirclesSettings, StrokeSettings} from "@/model/model.ts";
 
 
 export interface Preset {
-    properties: RandomCirclesSettings;
+    properties: RNGCirclesSettings;
     colors: ColorSettings;
     strokes: StrokeSettings;
 }
@@ -25,22 +25,18 @@ const LilaGreenPresetColors: ColorSettings = {
     circleColor: [1, 20, 100],
     jointPointColor: [20, 120, 70],
     backgroundColor: [286, 90, 14],
-    showPathGradient: false,
     pathColor: [132, 71, 70],
-    gradientColor: [90, 90, 50],
-    gradientColor1: [170, 90, 50],
-    gradientColor2: [314, 90, 50],
 
 }
 
-const LilaGreenPresetProps: RandomCirclesSettings = {
+const LilaGreenPresetProps: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 40,
-    maxSpeed: 0.299,
-    minSpeed: -0.299,
+    maxSpeed: 1.299,
+    minSpeed: -1.299,
     speedDelta: 2,
-    maxRadius: 5,
-    radiusDelta: 1,
+    maxRadius: 100,
+    radiusDelta: 30,
     zoom: 90,
 }
 
@@ -62,21 +58,17 @@ const PinkSolarSystemColors: ColorSettings = {
     circleColor: [305, 100, 50],
     jointPointColor: [40, 100, 50],
     backgroundColor: [40, 100, 5],
-    showPathGradient: false,
     pathColor: [132, 71, 70],
-    gradientColor: [90, 90, 50],
-    gradientColor1: [170, 90, 50],
-    gradientColor2: [314, 90, 50],
 
 }
-const PinkSolarSystemProperties: RandomCirclesSettings = {
+const PinkSolarSystemProperties: RNGCirclesSettings = {
     addViewPortZoom: true,
     numberOfCircles: 99,
     maxSpeed: 0.199,
     minSpeed: -0.199,
     speedDelta: 1,
-    maxRadius: 5,
-    radiusDelta: 5,
+    maxRadius: 50,
+    radiusDelta: 50,
     zoom: 90,
    }
 
@@ -98,21 +90,17 @@ const BlueWormsColors: ColorSettings = {
     circleColor: [305, 100, 50],
     jointPointColor: [189, 86, 58],
     backgroundColor: [234, 86, 47],
-    showPathGradient: false,
     pathColor: [132, 71, 70],
-    gradientColor: [90, 90, 50],
-    gradientColor1: [170, 90, 50],
-    gradientColor2: [314, 90, 50],
 
 }
-const BlueWormsProperties: RandomCirclesSettings = {
+const BlueWormsProperties: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 200,
     maxSpeed: 0.199,
     minSpeed: -0.388,
     speedDelta: 0,
-    maxRadius: 0.1,
-    radiusDelta: 8,
+    maxRadius: 10,
+    radiusDelta: 80,
     zoom: 90,
 }
 
@@ -134,25 +122,21 @@ const WindyTreeColors: ColorSettings = {
     circleColor: [305, 100, 50],
     jointPointColor: [360, 98, 65],
     backgroundColor: [54, 87, 95],
-    showPathGradient: false,
     pathColor: [132, 71, 70],
-    gradientColor: [90, 90, 50],
-    gradientColor1: [170, 90, 50],
-    gradientColor2: [314, 90, 50],
 
 }
-const WindyTreeProperties: RandomCirclesSettings = {
+const WindyTreeProperties: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 120,
     maxSpeed: 0.299,
     minSpeed: -0.288,
     speedDelta: 0,
-    maxRadius: 2.5,
+    maxRadius: 25,
     radiusDelta: 0,
     zoom: 90,
 }
 
-const SlowGreenCirclesProperties: RandomCirclesSettings = {
+const SlowGreenCirclesProperties: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 10,
     maxSpeed: 0.299,
@@ -181,12 +165,7 @@ const SlowGreenCirclesColors: ColorSettings = {
     circleColor: [103.57, 51.85, 31.76],
     jointPointColor: [360, 98, 65],
     backgroundColor: [150.86, 49.3, 13.92],
-    showPathGradient: false,
     pathColor: [82.04, 40.83, 47.06],
-    gradientColor: [90, 90, 50],
-    gradientColor1: [170, 90, 50],
-    gradientColor2: [314, 90, 50],
-
 }
 
 

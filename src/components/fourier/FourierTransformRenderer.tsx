@@ -5,7 +5,7 @@ import {
     FourierTransform,
     ICircle,
     Point,
-    RandomCirclesSettings,
+    RNGCirclesSettings,
     StrokeSettings,
     ViewPort
 } from "@/model/model.ts";
@@ -14,7 +14,7 @@ import {getHslString, getViewPortString, renderPath} from "@/components/fourier/
 
 
 type FourierWrapperProps = {
-    properties: RandomCirclesSettings;
+    properties: RNGCirclesSettings;
     colors: ColorSettings;
     strokes: StrokeSettings;
     isPause: boolean;

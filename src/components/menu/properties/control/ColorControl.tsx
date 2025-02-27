@@ -1,17 +1,10 @@
 import {ColorPicker} from "@/components/menu/properties/control/components/ColorPicker.tsx";
 import {useSettings} from "@/context/SettingsContext.tsx";
 import {HslColor} from "react-colorful";
-import {useState} from "react";
 
 const ColorControl = () => {
 
     const {updateColorSettings, currentColorSettings} = useSettings();
-
-    const [colorCopy, setColorCopy] = useState({
-        h: currentColorSettings.circleColor[0],
-        s: currentColorSettings.circleColor[1],
-        l: currentColorSettings.circleColor[2]
-    })
 
     const setCircleColor = (color: HslColor) => {
         updateColorSettings({circleColor: [color.h, color.s, color.l]});
@@ -32,7 +25,6 @@ const ColorControl = () => {
     const setPathColor = (color: HslColor) => {
         updateColorSettings({pathColor: [color.h, color.s, color.l]});
     };
-
 
     return (
         <>

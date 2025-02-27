@@ -1,4 +1,4 @@
-export interface RandomCirclesSettings {
+export interface RNGCirclesSettings {
     numberOfCircles: number;
     maxSpeed: number;
     minSpeed: number;

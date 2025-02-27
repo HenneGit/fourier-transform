@@ -3,7 +3,7 @@ import Circle from "./Circle.tsx";
 import {FourierTransform, ICircle, Point, ViewPort} from "@/model/model.ts";
 import path from "path";
 import {getHslString, getRandomNumber, getViewPortString, renderPath} from "@/components/fourier/helpers.ts";
-import {useRandomCircleSettings} from "@/context/RandomCirclesPropertyContext.tsx";
+import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
 import {useSettings} from "@/context/SettingsContext.tsx";
 
 
@@ -14,7 +14,7 @@ type FourierWrapperProps = {
 }
 
 
-const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
+const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                                                                   isPause,
                                                                   viewPort,
                                                                   id
@@ -30,13 +30,13 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [startingTime, setStartingTime] = useState(2);
         const [savedElapsed, setSavedElapsed] = useState(2);
-        const {propertiesList} = useRandomCircleSettings();
+        const {rngSettingsList} = useRNGSettings();
         const {currentStrokeSettings, settingsList} = useSettings();
 
 
         const properties = useMemo(
-            () => propertiesList.find(p => p.id === id)?.properties,
-            [propertiesList, id]
+            () => rngSettingsList.find(p => p.id === id)?.rngSettings,
+            [rngSettingsList, id]
         );
 
         const colors = useMemo(
@@ -53,6 +53,7 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
             setCurrentFrequency(0);
             setFourierSteps(undefined)
             setPath([]);
+            setSavedElapsed(0);
             setCircles([]);
             setNewViewPort(newViewPort)
             generateRandomFourierProps(fourierPoints);
@@ -157,4 +158,4 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
     }
 ;
 
-export default RandomCirclesRenderer;
+export default RNGCirclesRenderer;

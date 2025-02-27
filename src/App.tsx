@@ -2,7 +2,7 @@ import './App.css'
 import {useEffect, useState} from "react";
 import {HeroUIProvider, PopoverTrigger} from "@heroui/react";
 import {SettingsProvider} from './context/SettingsContext';
-import {RandomCirclesPropertiesProvider} from "@/context/RandomCirclesPropertyContext.tsx";
+import {RNGSettingsContext} from "@/context/RNGSettingsContext.tsx";
 import {ActiveRendererIdProvider} from "@/context/ActiveRendererContext.tsx";
 import Main from "@/components/main/Main.tsx";
 import ColorsAndStrokesDrawer from "@/components/menu/properties/ColorsAndStrokesDrawer.tsx";
@@ -58,14 +58,14 @@ function App() {
             <HeroUIProvider>
                 <ActiveRendererIdProvider>
                     <SettingsProvider>
-                        <RandomCirclesPropertiesProvider>
+                        <RNGSettingsContext>
                             <CircleOverviewDrawer isOpen={isOpen} onOpenChange={onOpenChange}/>
                             <main>
 
                                 <Main isPause={isPause} width={width} height={height} />
                             </main>
                             <MouseTracker isPaused={isPause} onClick={onPauseButtonClick}/>
-                        </RandomCirclesPropertiesProvider>
+                        </RNGSettingsContext>
                     </SettingsProvider>
                 </ActiveRendererIdProvider>
             </HeroUIProvider>

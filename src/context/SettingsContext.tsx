@@ -43,7 +43,7 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
     const updateStrokeSettings = ( updatedStrokeSettings: Partial<StrokeSettings>) => {
         console.log(id, updatedStrokeSettings);
         setSettingsList((prev) =>
-            prev.map((s) => (s.id === id ? {...s, strokeSettings: {...s.strokeSettings, ...updatedStrokeSettings}} : s))
+            prev.map((setting) => (setting.id === id ? {...setting, strokeSettings: {...setting.strokeSettings, ...updatedStrokeSettings}} : setting))
         );
     };
 
@@ -57,7 +57,7 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
     const updateColorSettings = (updatedColorSettings: Partial<ColorSettings>) => {
         console.log(id, updatedColorSettings);
         setSettingsList((prev) =>
-            prev.map((s) => (s.id === id ? {...s, colorSettings: {...s.colorSettings, ...updatedColorSettings}} : s))
+            prev.map((settings) => (settings.id === id ? {...settings, colorSettings: {...settings.colorSettings, ...updatedColorSettings}} : settings))
         );
     };
 

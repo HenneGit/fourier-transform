@@ -13,7 +13,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {SwitchWithLabel} from "@/components/menu/properties/control/components/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
-import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point} from "@/model/model.ts";
+import {ColorSettings, RNGCirclesSettings, StrokeSettings, Point} from "@/model/model.ts";
 import CsvUploader from "@/components/menu/properties/control/components/CsvUploader.tsx";
 
 
@@ -22,8 +22,8 @@ const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSola
 export const PropertiesMenu = ({setProperties, height, width, setStrokes, setColors, colors, strokes, properties, setKey, setIsUploading, setPath}: {
     colors: ColorSettings;
     strokes: StrokeSettings;
-    properties: RandomCirclesSettings;
-    setProperties: React.Dispatch<React.SetStateAction<RandomCirclesSettings>>;
+    properties: RNGCirclesSettings;
+    setProperties: React.Dispatch<React.SetStateAction<RNGCirclesSettings>>;
     setPath: React.Dispatch<React.SetStateAction<Point[]>>;
     setStrokes: React.Dispatch<React.SetStateAction<StrokeSettings>>;
     setColors: React.Dispatch<React.SetStateAction<ColorSettings>>;

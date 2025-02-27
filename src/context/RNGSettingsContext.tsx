@@ -1,0 +1,66 @@
+import {createContext, SetStateAction, useContext, useEffect, useState} from "react";
+import {RNGCirclesSettings} from "@/model/model.ts";
+import {useActiveRendererId} from "@/context/ActiveRendererContext.tsx";
+
+export interface RNGCircleRendererSettings {
+    id: string;
+    rngSettings: RNGCirclesSettings;
+}
+
+interface SettingsContextType {
+    rngSettingsList: RNGCircleRendererSettings[];
+    addRNGSettings: (newSettings: RNGCircleRendererSettings) => void;
+    updateRNGSettings: (updatedSettings: Partial<RNGCirclesSettings>) => void;
+    removeRNGSettings: () => void;
+    setRNGSettingsList: React.Dispatch<SetStateAction<RNGCircleRendererSettings[]>>;
+    currentRNGSettings: RNGCirclesSettings | undefined;
+}
+
+const RandomCircleContext = createContext<SettingsContextType | undefined>(undefined);
+
+
+export function RNGSettingsContext({ children }: { children: React.ReactNode }) {
+    const [rngSettingsList, setRNGSettingsList] = useState<RNGCircleRendererSettings[]>([]);
+    const [currentRNGSettings, setCurrentRNGSettings] = useState<RNGCirclesSettings>()
+    const {id} = useActiveRendererId();
+
+
+    useEffect(() => {
+        if (rngSettingsList && rngSettingsList.length > 0) {
+            const rngSettings = rngSettingsList.filter(s => s.id === id)[0].rngSettings;
+            if (rngSettings) {
+                setCurrentRNGSettings(rngSettings);
+            }
+        }
+    }, [id, rngSettingsList]);
+
+    const addRNGSettings = (newSettings: RNGCircleRendererSettings) => {
+        console.log(newSettings);
+        setRNGSettingsList((prev) => [...prev, newSettings]);
+    };
+
+    const updateRNGSettings = (updatedSettings: Partial<RNGCirclesSettings>) => {
+        console.log(id, updatedSettings);
+        setRNGSettingsList((prev) =>
+            prev.map((settings) => (settings.id === id ? {...settings, rngSettings: {...settings.rngSettings, ...updatedSettings}} : settings))
+        );
+    };
+
+    const removeRNGSettings = () => {
+        setRNGSettingsList((prev) => prev.filter((s) => s.id !== id));
+    };
+
+    return (
+        <RandomCircleContext.Provider value={{ rngSettingsList, addRNGSettings, updateRNGSettings,  removeRNGSettings, setRNGSettingsList , currentRNGSettings}}>
+            {children}
+        </RandomCircleContext.Provider>
+    );
+}
+
+export function useRNGSettings() {
+    const context = useContext(RandomCircleContext);
+    if (!context) {
+        throw new Error("useSettings must be used within a SettingsProvider");
+    }
+    return context;
+}
