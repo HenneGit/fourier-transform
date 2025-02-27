@@ -1,35 +1,24 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
-import * as d3 from "d3";
-import {
-    FourierTransform,
-    ICircle,
-    ColorSettings,
-    RandomCirclesSettings,
-    StrokeSettings,
-    Point,
-    ViewPort
-} from "@/model/model.ts";
+import {FourierTransform, ICircle, Point, ViewPort} from "@/model/model.ts";
 import path from "path";
 import {getHslString, getRandomNumber, getViewPortString, renderPath} from "@/components/fourier/helpers.ts";
+import {useRandomCircleSettings} from "@/context/RandomCirclesPropertyContext.tsx";
+import {useSettings} from "@/context/SettingsContext.tsx";
 
 
 type FourierWrapperProps = {
-    properties: RandomCirclesSettings;
-    colors: ColorSettings;
-    strokes: StrokeSettings;
     isPause: boolean;
     viewPort: ViewPort;
+    id: string
 }
 
 
 const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
-                                                          properties,
-                                                          colors,
-                                                          strokes,
-                                                          isPause,
-                                                          viewPort
-                                                      }) => {
+                                                                  isPause,
+                                                                  viewPort,
+                                                                  id
+                                                              }) => {
         const svgRef = useRef<SVGSVGElement>(null);
         const pathRef = useRef<SVGPathElement>(null);
         const [fourierSteps, setFourierSteps] = useState<FourierTransform[]>();
@@ -41,9 +30,25 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [startingTime, setStartingTime] = useState(2);
         const [savedElapsed, setSavedElapsed] = useState(2);
+        const {propertiesList} = useRandomCircleSettings();
+        const {currentStrokeSettings, settingsList} = useSettings();
+
+
+        const properties = useMemo(
+            () => propertiesList.find(p => p.id === id)?.properties,
+            [propertiesList, id]
+        );
+
+        const colors = useMemo(
+            () => settingsList.find(p => p.id === id)?.colorSettings,
+            [settingsList, id]
+        );
 
 
         useEffect(() => {
+            if (!properties) {
+                return;
+            }
             const fourierPoints: FourierTransform[] = [];
             setCurrentFrequency(0);
             setFourierSteps(undefined)
@@ -71,16 +76,11 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
         useEffect(() => {
             let animationFrameId: number;
             let startTime: number | null = null;
-            let isFirstRender = true;
             if (!isPause) {
                 startTime = performance.now();
                 const animate = () => {
                     if (!startTime) {
                         startTime = 0;
-                    }
-                    if (isFirstRender) {
-                        startTime = startingTime;
-                        isFirstRender = false;
                     }
                     const elapsed = performance.now() - startTime + savedElapsed;
                     setCurrentFrequency(elapsed / 1000);
@@ -139,18 +139,17 @@ const RandomCirclesRenderer: React.FC<FourierWrapperProps> = ({
         }
 
 
-
         return (
             <div className={'fourier-container'}>
                 <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
                      viewBox={getViewPortString(newViewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
-                        <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
+                        <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={colors}/>
                     )) : null}
                     {path.length > 0 ? <path ref={pathRef}
-                                             stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
+                                             stroke={getHslString(colors.pathColor)}
                                              fill="none"
-                                             strokeWidth={strokes.pathStroke}/> : null
+                                             strokeWidth={currentStrokeSettings.pathStroke}/> : null
                     }
                 </svg>
             </div>

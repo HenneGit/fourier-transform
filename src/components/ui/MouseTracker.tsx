@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause } from "lucide-react";
+import {useEffect, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
+import {Pause, Play} from "lucide-react";
 
 interface MouseTrackerProps {
-    setClicked: React.Dispatch<React.SetStateAction<boolean>>;
+    onClick: () => void;
     isPaused: boolean;
+
 }
 
-export default function MouseTracker({ setClicked, isPaused }: MouseTrackerProps) {
+export default function MouseTracker({onClick, isPaused}: MouseTrackerProps) {
     const [visible, setVisible] = useState<boolean>(false);
     const [inactive, setInactive] = useState<boolean>(false);
 
@@ -32,21 +33,23 @@ export default function MouseTracker({ setClicked, isPaused }: MouseTrackerProps
     }, []);
 
     return (
-        <div className={`fixed inset-0 ${inactive ? "cursor-none" : ""} pointer-events-none`}>
+        <div className={`fixed inset-0 z-[200] ${inactive ? "cursor-none" : ""} pointer-events-none`}>
             <AnimatePresence>
                 {visible && (
                     <motion.div
                         className="fixed left-1/2 bottom-32 -translate-x-1/2 cursor-pointer pointer-events-auto"
-                        initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 50, scale: 0.9 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        onClick={() => setClicked(prev => !prev)}
+                        initial={{opacity: 0, y: 50, scale: 0.9}}
+                        animate={{opacity: 1, y: 0, scale: 1}}
+                        exit={{opacity: 0, y: 50, scale: 0.9}}
+                        transition={{duration: 0.4, ease: "easeInOut"}}
+                        onClick={onClick}
                     >
                         {isPaused ? (
-                            <Play className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]" />
+                            <Play
+                                className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]"/>
                         ) : (
-                            <Pause className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]" />
+                            <Pause
+                                className="w-20 h-20 text-white opacity-90 drop-shadow-[0_0_20px_rgba(158,255,255,0.8)]"/>
                         )}
                     </motion.div>
                 )}

@@ -1,5 +1,5 @@
 import {Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,} from "@/components/ui/sidebar.tsx";
-import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
+import {ColorSettings, Point, RandomCirclesSettings, StrokeSettings, ViewPort} from "@/model/model.ts";
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
 import StaticSVGPathRenderer from "@/components/fourier/StaticSVGPathRenderer.tsx";
@@ -15,7 +15,7 @@ export const SvgMenu = ({
     colors: ColorSettings;
     strokes: StrokeSettings;
     properties: RandomCirclesSettings;
-    setPath: (path: Point[])=> void;
+    setPath: (path: Point[]) => void;
 }) => {
     const width = 400;
     const height = 200

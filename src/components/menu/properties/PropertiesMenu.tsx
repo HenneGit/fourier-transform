@@ -7,14 +7,14 @@ import {
     SidebarGroupLabel,
 } from "@/components/ui/sidebar.tsx";
 
-import {ColorPicker} from "@/components/menu/properties/controll/ColorPicker.tsx";
-import {SliderWithNumber} from "@/components/menu/properties/controll/SliderWithNumber.tsx";
+import {ColorPicker} from "@/components/menu/properties/control/components/ColorPicker.tsx";
+import {SliderWithNumber} from "@/components/menu/properties/control/components/SliderWithNumber.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {SwitchWithLabel} from "@/components/menu/properties/controll/SwitchWithLabel.tsx";
+import {SwitchWithLabel} from "@/components/menu/properties/control/components/SwitchWithLabel.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Preset, presets} from "@/presets.ts";
 import {ColorSettings, RandomCirclesSettings, StrokeSettings, Point} from "@/model/model.ts";
-import CsvUploader from "@/components/menu/properties/controll/CsvUploader.tsx";
+import CsvUploader from "@/components/menu/properties/control/components/CsvUploader.tsx";
 
 
 const presetMap: Record<string, Preset> = {lilaGreenPreset: presets[0], pinkSolarSystem: presets[1], blueWorms: presets[2], windyTree: presets[3], slowGreenCircles:presets[4]};

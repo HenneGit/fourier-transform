@@ -27,10 +27,7 @@ export interface ColorSettings {
     pathColor: Array<number>;
     jointPointColor: Array<number>;
     backgroundColor: Array<number>;
-    showPathGradient: boolean,
-    gradientColor: Array<number>;
-    gradientColor1: Array<number>;
-    gradientColor2: Array<number>;
+
 }
 
 export interface Point {
