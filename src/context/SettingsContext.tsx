@@ -14,8 +14,8 @@ interface SettingsContextType {
     updateStrokeSettings: ( updatedSettings: Partial<StrokeSettings>) => void;
     updateColorSettings: (updatedSettings: Partial<ColorSettings>) => void;
     removeSettings: () => void;
-    currentStrokeSettings: StrokeSettings;
-    currentColorSettings: ColorSettings;
+    currentStrokeSettings: StrokeSettings | undefined;
+    currentColorSettings: ColorSettings | undefined;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

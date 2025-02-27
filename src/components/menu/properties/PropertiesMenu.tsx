@@ -201,27 +201,27 @@ export const PropertiesMenu = ({setProperties, height, width, setStrokes, setCol
                                         }))}/> : null
                                 }
                                 <Separator/>
-                                <ColorPicker lable={'circleColor'} color={colors.circleColor}
+                                <ColorPicker label={'circleColor'} color={colors.circleColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  circleColor: [color.h, color.s, color.l]
                                              })))}/>
-                                <ColorPicker lable={'radiusColor'} color={colors.radiusColor}
+                                <ColorPicker label={'radiusColor'} color={colors.radiusColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  radiusColor: [color.h, color.s, color.l]
                                              })))}/>
-                                <ColorPicker lable={'jointPointColor'} color={colors.jointPointColor}
+                                <ColorPicker label={'jointPointColor'} color={colors.jointPointColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  jointPointColor: [color.h, color.s, color.l]
                                              })))}/>
-                                <ColorPicker lable={'backgroundColor'} color={colors.backgroundColor}
+                                <ColorPicker label={'backgroundColor'} color={colors.backgroundColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  backgroundColor: [color.h, color.s, color.l]
                                              })))}/>
-                                <ColorPicker lable={'pathColor'} color={colors.pathColor}
+                                <ColorPicker label={'pathColor'} color={colors.pathColor}
                                              setColor={((color) => setColors((prev) => ({
                                                  ...prev,
                                                  pathColor: [color.h, color.s, color.l]
@@ -235,17 +235,17 @@ export const PropertiesMenu = ({setProperties, height, width, setStrokes, setCol
                                                  }))}/>
                                 {colors.showPathGradient ?
                                     <>
-                                        <ColorPicker lable={'gradientColor'} color={colors.gradientColor}
+                                        <ColorPicker label={'gradientColor'} color={colors.gradientColor}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
                                                          gradientColor: [color.h, color.s, color.l]
                                                      })))}/>
-                                        <ColorPicker lable={'gradientColor1'} color={colors.gradientColor1}
+                                        <ColorPicker label={'gradientColor1'} color={colors.gradientColor1}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
                                                          gradientColor1: [color.h, color.s, color.l]
                                                      })))}/>
-                                        <ColorPicker lable={'gradientColor2'} color={colors.gradientColor2}
+                                        <ColorPicker label={'gradientColor2'} color={colors.gradientColor2}
                                                      setColor={((color) => setColors((prev) => ({
                                                          ...prev,
                                                          gradientColor2: [color.h, color.s, color.l]

@@ -1,6 +1,6 @@
 import './App.css'
 import {useEffect, useState} from "react";
-import {HeroUIProvider} from "@heroui/react";
+import {HeroUIProvider, PopoverTrigger} from "@heroui/react";
 import {SettingsProvider} from './context/SettingsContext';
 import {RandomCirclesPropertiesProvider} from "@/context/RandomCirclesPropertyContext.tsx";
 import {ActiveRendererIdProvider} from "@/context/ActiveRendererContext.tsx";
@@ -9,6 +9,9 @@ import ColorsAndStrokesDrawer from "@/components/menu/properties/ColorsAndStroke
 import CircleOverviewDrawer from "@/components/menu/properties/CircleOverviewDrawer.tsx";
 import MouseTracker from "@/components/ui/MouseTracker.tsx";
 import {useDisclosure} from "@heroui/modal";
+import {Popover, PopoverContent} from "@heroui/popover";
+import {Button} from "@heroui/button";
+import {ColorPicker} from "@/components/menu/properties/control/components/ColorPicker.tsx";
 
 
 const useWindowSize = () => {
@@ -26,7 +29,7 @@ const useWindowSize = () => {
 
 function App() {
     const {width, height} = useWindowSize();
-    const {isOpen, onClose, onOpen, onOpenChange} = useDisclosure();
+    const {isOpen, onOpenChange} = useDisclosure();
     const [isPause, setPause] = useState(false);
 
     useEffect(() => {
@@ -58,6 +61,7 @@ function App() {
                         <RandomCirclesPropertiesProvider>
                             <CircleOverviewDrawer isOpen={isOpen} onOpenChange={onOpenChange}/>
                             <main>
+
                                 <Main isPause={isPause} width={width} height={height} />
                             </main>
                             <MouseTracker isPaused={isPause} onClick={onPauseButtonClick}/>

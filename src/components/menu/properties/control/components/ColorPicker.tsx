@@ -1,10 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 import {HslColor, HslColorPicker} from "react-colorful";
-import {Label} from "@/components/ui/label.tsx";
 
-export const ColorPicker = ({color, setColor, lable}: { color: number[]; setColor: (color: HslColor) => void; lable:string }) => {
+export const ColorPicker = ({color, setColor, label}: { color: number[]; setColor: (color: HslColor) => void; label:string }) => {
     const [isOpen, setIsOpen] = useState(false);
     const pickerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        console.log('1238asldk');
+    }, []);
+
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -22,14 +26,14 @@ export const ColorPicker = ({color, setColor, lable}: { color: number[]; setColo
     return (
         <div>
             <div className=" flex w-full justify-between items-center" ref={pickerRef}>
-                <Label className="font-sans text-xs font-medium text-black" >{lable}</Label>
+                <div className="font-sans text-xs font-medium text-black" >{label}</div>
                 <div
                     className="w-5 h-5 border border-gray-400 cursor-pointer"
                     style={{backgroundColor: getHslString(color)}}
                     onClick={() => setIsOpen(!isOpen)}
                 />
                 {isOpen && (
-                    <div className="absolute bottom-full mb-2 p-2 bg-white shadow-lg border rounded">
+                    <div className="absolute top-32 bottom-full mb-2 p-2 bg-white shadow-lg border rounded">
                         <HslColorPicker color={{h:color[0], s:color[1], l:color[2] }} onChange={setColor}/>
                     </div>
                 )}

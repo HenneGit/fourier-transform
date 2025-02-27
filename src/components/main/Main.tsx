@@ -8,6 +8,11 @@ import {v4 as uuidv4} from "uuid";
 import {transformPathToDimensions} from "@/components/menu/csv.helper.ts";
 import {useRandomCircleSettings} from "@/context/RandomCirclesPropertyContext.tsx";
 import {SliderWithNumber} from "@/components/menu/properties/control/components/SliderWithNumber.tsx";
+import {ColorPicker} from "@/components/menu/properties/control/components/ColorPicker.tsx";
+import {HslColor} from "react-colorful";
+import {Popover, PopoverContent} from "@heroui/popover";
+import {PopoverTrigger} from "@heroui/react";
+import {Button} from "@heroui/button";
 
 
 const Main = ({width, height, isPause}: { width: number, height: number, isPause: boolean }) => {
@@ -26,16 +31,7 @@ const Main = ({width, height, isPause}: { width: number, height: number, isPause
             height: height,
             width: width
         })
-
-        console.log('@asdlkjh2222');
-
     }, []);
-
-
-    const checkNumber = (value) => {
-        console.log(value);
-
-    };
 
     useEffect(() => {
         const id = uuidv4();
@@ -55,7 +51,6 @@ const Main = ({width, height, isPause}: { width: number, height: number, isPause
 
     return (
         <>
-
             {id && viewPort ?
                 <>
                     <RandomCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
