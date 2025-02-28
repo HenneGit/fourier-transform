@@ -1,5 +1,5 @@
 import {Drawer, DrawerContent, Tab, Tabs} from "@heroui/react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import StrokeControl from "@/components/menu/properties/control/StrokeControl.tsx";
 import ColorControl from "@/components/menu/properties/control/ColorControl.tsx";
 import RNGControl from "@/components/menu/properties/control/RNGControl.tsx";
@@ -11,20 +11,22 @@ interface DrawerProps {
 
 export default function CircleOverviewDrawer({isOpen, onOpenChange}: DrawerProps) {
 
+    const [selected, setSelected] = useState("color");
+
     return (
         <>
             <Drawer className={'z-20'} autoFocus={false} isDismissable={false} hideCloseButton isOpen={isOpen} onOpenChange={onOpenChange} placement={'left'}  size={'xs'} backdrop={'transparent'}>
                 <DrawerContent className={'z-20'} >
                     <>
                         <div className={'w-full h-full p-6'}>
-                            <Tabs aria-label="Options">
-                                <Tab key="stroke" title="Stroke">
+                            <Tabs variant={'underlined'} size={'md'} className={'w-full flex flex-row justify-center'}  selectedKey={selected} onSelectionChange={setSelected} aria-label="Options">
+                                <Tab key="stroke" title="Strokes ">
                                     <StrokeControl/>
                                 </Tab>
-                                <Tab key="color" title="Color">
+                                <Tab key="color" title="Color ">
                                     <ColorControl/>
                                 </Tab>
-                                <Tab key="svgs" title="RNG">
+                                <Tab key="rng" title="RNG">
                                     <RNGControl/>
                                 </Tab>
                             </Tabs>

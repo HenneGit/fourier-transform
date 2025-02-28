@@ -40,7 +40,7 @@ const RNGControl = () => {
                                       min={0} max={300}
                                       steps={1} label={'maxRadius'}/>
                     <SliderWithNumber number={currentRNGSettings.radiusDelta} toolTipText={'There is a 5% chance that a the value of radiusDelta is applied to the circle radius'} setNumber={setRadiusDelta}
-                                      min={0} max={300}
+                                      min={0} max={50}
                                       steps={1} label={'radiusDelta'}/>
                     <SliderWithNumber number={currentRNGSettings.maxSpeed} toolTipText={'A number between minSpeed and maxSpeed is randomly generated for each circle spinning speed. Positive speed makes the circle go clock wise.'} setNumber={setMaxSpeed}
                                       min={0} max={0.499}
