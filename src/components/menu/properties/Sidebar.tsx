@@ -7,6 +7,7 @@ import PresetsControl from "@/components/menu/properties/control/PresetsControl.
 import {SvgMenu} from "@/components/menu/svg/SvgMenu.tsx";
 import {Point} from "@/model/model.ts";
 import CSVUpload from "@/components/menu/properties/control/components/CSVUpload.tsx";
+import DrawPath from "@/components/menu/properties/control/components/DrawPath.tsx";
 
 interface DrawerProps {
     isOpen: boolean;
@@ -49,9 +50,13 @@ export default function Sidebar({isOpen, onOpenChange, setPath}: DrawerProps) {
                                 <Tab className={'w-full'} key="stroke" title="Upload ">
                                     <CSVUpload setPath={setPath}/>
                                 </Tab>
+                                <Tab className={'w-full'} key="draw" title="Draw">
+                                    <DrawPath setPath={setPath}/>
+                                </Tab>
                                 <Tab className={'w-full'} key="presets" title="Pictures">
                                     <SvgMenu setPath={setPath}/>
                                 </Tab>
+
                             </Tabs>
 
                         </div>
