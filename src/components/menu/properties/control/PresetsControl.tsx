@@ -26,7 +26,7 @@ const PresetsControl = () => {
                 orientation="vertical"
                 className="w-full max-w-xs"
             >
-                <CarouselContent className="-mt-1 h-[200px]">
+                <CarouselContent className="-mt-1 h-[170px]">
                     {presets.map((setting, index) => (
                         <CarouselItem key={index} className="pt-1 md:basis-1/2">
                             <div onClick={() => setPreset(setting)} className="p-1 cursor-pointer">

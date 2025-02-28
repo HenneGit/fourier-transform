@@ -1,10 +1,9 @@
 import {useEffect, useRef, useState} from "react";
-import {ColorSettings, RNGCirclesSettings, StrokeSettings, Point, ViewPort} from "@/model/model.ts";
+import {ColorSettings, Point, StrokeSettings, ViewPort} from "@/model/model.ts";
 import {getHslString, getViewPortString} from "@/components/fourier/helpers.ts";
 
 
 type StaticSVGProps = {
-    properties: RNGCirclesSettings;
     colors: ColorSettings;
     strokes: StrokeSettings;
     inputPath: Point[];
@@ -13,7 +12,6 @@ type StaticSVGProps = {
 
 
 const StaticSVGPathRenderer: React.FC<StaticSVGProps> = ({
-                                                     properties,
                                                      colors,
                                                      strokes,
                                                      inputPath,
@@ -28,12 +26,12 @@ const StaticSVGPathRenderer: React.FC<StaticSVGProps> = ({
                 const pathD = `M ${inputPath[0].x} ${inputPath[0].y} ` + inputPath.slice(1).map(p => `L ${p.x} ${p.y}`).join(" ");
                 setPath(pathD)
             }
-        }, [properties, colors, strokes, path]);
+        }, [ colors, strokes, path]);
 
 
         return (
-            <div className={'svg-container'}>
-                <svg style={{backgroundColor: getHslString(colors.backgroundColor), position:'relative'}} ref={svgRef}
+            <div className={'svg-container w-full h-full'}>
+                <svg style={{backgroundColor: getHslString(colors.backgroundColor), position:'relative'}} ref={svgRef}  width="100%" height="100%"
                      viewBox={getViewPortString(viewPort)}  >
                     <path d={path}
                           stroke={getHslString(colors.pathColor)}

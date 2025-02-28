@@ -7,9 +7,10 @@ import {presets} from "@/presets.ts";
 import {v4 as uuidv4} from "uuid";
 import {transformPathToDimensions} from "@/components/menu/csv.helper.ts";
 import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
-import CircleOverviewDrawer from "@/components/menu/properties/CircleOverviewDrawer.tsx";
+import Sidebar from "@/components/menu/properties/Sidebar.tsx";
 import {useDisclosure} from "@heroui/modal";
 import MouseTracker from "@/components/ui/MouseTracker.tsx";
+import FourierTransformRenderer from "@/components/fourier/FourierTransformRenderer.tsx";
 
 
 const Main = ({width, height}: { width: number, height: number }) => {
@@ -68,18 +69,23 @@ const Main = ({width, height}: { width: number, height: number }) => {
     };
 
 
-
     return (
         <>
             {currentRNGSettings ?
                 <>
-
-                    <CircleOverviewDrawer isOpen={isOpen} onOpenChange={onOpenChange}/>
-                    {id && viewPort ?
+                    <Sidebar setPath={adjustPathToViewPort} isOpen={isOpen} onOpenChange={onOpenChange}/>
+                    {path && viewPort ?
                         <>
-                            <RNGCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
+                            <FourierTransformRenderer isPause={isPause} viewPort={viewPort} inputPath={path}/>
+                        </> :
+                        <>
+                            {id && viewPort ?
+                                <>
+                                    <RNGCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
+                                </>
+                                : null
+                            }
                         </>
-                        : null
                     }
                 </> : null
             }

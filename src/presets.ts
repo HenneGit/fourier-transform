@@ -77,7 +77,7 @@ const BlueWormsStrokes: StrokeSettings = {
     circleStroke: 0.00,
     radiusStroke: 0,
     pathStroke: 0,
-    jointPointStroke: 0.35,
+    jointPointStroke: 3.35,
     deletePath: true,
     deletePathDelay: 0,
 };
@@ -99,8 +99,8 @@ const BlueWormsProperties: RNGCirclesSettings = {
     maxSpeed: 0.199,
     minSpeed: -0.388,
     speedDelta: 0,
-    maxRadius: 10,
-    radiusDelta: 80,
+    maxRadius: 100,
+    radiusDelta: 180,
     zoom: 90,
 }
 

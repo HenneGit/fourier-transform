@@ -52,6 +52,9 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
 
 
         const generateRandomFourierProps = (fourierProps: FourierTransform[]) => {
+            if (!currentRNGSettings) {
+                return;
+            }
             for (let i = 0; i < currentRNGSettings.numberOfCircles; i++) {
                 const radius = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
                 const phase = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
@@ -133,7 +136,7 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
             <div className={'fourier-container'}>
                 <svg style={{backgroundColor: getHslString(currentColorSettings.backgroundColor)}} ref={svgRef} width="100%" height="100%"
                      viewBox={getViewPortString(newViewPort)}>
-                    {circles && circles.length > 0 ? circles.map((item, index) => (
+                    {circles && currentStrokeSettings && currentColorSettings &&  circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={currentColorSettings}/>
                     )) : null}
                     {path.length > 0 ? <path ref={pathRef}

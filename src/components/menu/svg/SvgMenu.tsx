@@ -1,93 +1,89 @@
-import {Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,} from "@/components/ui/sidebar.tsx";
-import {ColorSettings, Point, RNGCirclesSettings, StrokeSettings, ViewPort} from "@/model/model.ts";
-import {useEffect, useState} from "react";
+import {Point} from "@/model/model.ts";
+import {useEffect, useRef, useState} from "react";
 import Papa from "papaparse";
 import StaticSVGPathRenderer from "@/components/fourier/StaticSVGPathRenderer.tsx";
 import {transformNumberArrayToDimensions} from "@/components/menu/csv.helper.ts";
+import {useSettings} from "@/context/SettingsContext.tsx";
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel.tsx";
+import {Card, CardContent} from "@/components/ui/card.tsx";
 
 
 export const SvgMenu = ({
-                            colors,
-                            strokes,
-                            properties,
                             setPath
                         }: {
-    colors: ColorSettings;
-    strokes: StrokeSettings;
-    properties: RNGCirclesSettings;
     setPath: (path: Point[]) => void;
 }) => {
-    const width = 400;
-    const height = 200
     const fileNames = ['butterfly.csv', 'chess.csv', 'star.csv', 'wildForm.csv'];
-    const [viewPort, setViewPort] = useState<ViewPort>()
     const [pathArray, setPathArray] = useState<Point[][]>([]);
+    const {currentColorSettings, currentStrokeSettings} = useSettings();
+    const dataFetched = useRef(false);
 
-
-    useEffect(() => {
-        setViewPort({
-            minX: -width / 2,
-            minY: -height / 2,
-            height: height,
-            width: width
-        })
-    }, []);
 
     const fetchCSV = async (fileName: string) => {
         const response = await fetch('/csv/' + fileName);
-        const text = await response.text();
-        return text;
+        return await response.text();
     };
 
     useEffect(() => {
-        if (pathArray.length > 0) {
-            return;
-        }
-        fileNames.forEach(fileName => {
-            fetchCSV(fileName)
-                .then((text) => {
+        if (dataFetched.current) return;
+        dataFetched.current = true;
+
+        Promise.all(fileNames.map(fetchCSV))
+            .then((texts) => {
+                const parsedPaths = texts.map(text => {
                     const parsed = Papa.parse(text, {
                         delimiter: ";",
                         header: false,
                         skipEmptyLines: true,
                         dynamicTyping: true
                     });
-                    const transformedPath = transformNumberArrayToDimensions(parsed.data, 200, 100);
-                    if (transformedPath) {
-                        setPathArray(prevState => [...prevState, transformedPath]);
-                    }
+                    return transformNumberArrayToDimensions(parsed.data, 400, 200);
                 });
-        });
+                if (parsedPaths) {
+                    setPathArray(parsedPaths as Point[][]);
+                }
+            });
     }, []);
-
-    const onSVGClick = (path: Point[]) => {
-        setPath(path);
-    }
-
 
     return (
         <>
-            <Sidebar side={'right'}>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarGroupContent>
-                            <div className={'flex flex-col gap-2.5 h-full w-full'}>
-                                {viewPort && pathArray ? pathArray.map((path, index) => (
-                                    <div key={index} className={'w-full h-[15vh] cursor-pointer'}
-                                         onClick={() => onSVGClick(path)}>
-                                        <StaticSVGPathRenderer viewPort={viewPort} key={index} properties={properties}
-                                                               colors={colors}
-                                                               strokes={strokes}
-                                                               inputPath={path}/>
+            <div className={'mt-20 z-[999]'}>
+                {pathArray && pathArray.length > 0 ?
+                    <Carousel
+                        id={'path-carousel'}
+                        opts={{
+                            align: "start",
+                        }}
+                        orientation="vertical"
+                        className="w-full max-w-xs"
+                    >
+                        <CarouselContent className="-mt-1 h-[170px]">
+                            {pathArray.map((path, index) => (
+                                <CarouselItem key={index} className="pt-1 md:basis-1/2">
+                                    <div onClick={() => setPath(path)} className="p-1 cursor-pointer ">
+                                        <Card>
+                                            <CardContent className="flex items-center justify-center p-6 h-full w-full">
+                                                {currentStrokeSettings && currentColorSettings ?
+                                                    <StaticSVGPathRenderer colors={currentColorSettings}
+                                                                           inputPath={path}
+                                                                           strokes={currentStrokeSettings} viewPort={{
+                                                        minY: -100,
+                                                        minX: -200,
+                                                        height: 200,
+                                                        width: 400
+                                                    }}/> : null
+                                                }
+                                            </CardContent>
+                                        </Card>
                                     </div>
-                                )) : null}
-                            </div>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                    <SidebarGroup>
-                    </SidebarGroup>
-                </SidebarContent>
-            </Sidebar>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent >
+                        <CarouselPrevious  id={'path-carousel'}/>
+                        <CarouselNext/>
+                    </Carousel> : null
+                }
+            </div>
         </>
     );
 };

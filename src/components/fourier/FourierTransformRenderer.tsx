@@ -1,22 +1,12 @@
 import {useEffect, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
-import {
-    ColorSettings,
-    FourierTransform,
-    ICircle,
-    Point,
-    RNGCirclesSettings,
-    StrokeSettings,
-    ViewPort
-} from "@/model/model.ts";
+import {FourierTransform, ICircle, Point, ViewPort} from "@/model/model.ts";
 import path from "path";
 import {getHslString, getViewPortString, renderPath} from "@/components/fourier/helpers.ts";
+import {useSettings} from "@/context/SettingsContext.tsx";
 
 
 type FourierWrapperProps = {
-    properties: RNGCirclesSettings;
-    colors: ColorSettings;
-    strokes: StrokeSettings;
     isPause: boolean;
     viewPort: ViewPort;
     inputPath: Point[];
@@ -25,8 +15,6 @@ type FourierWrapperProps = {
 
 
 const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
-                                                                     colors,
-                                                                     strokes,
                                                                      isPause,
                                                                      viewPort,
                                                                      inputPath
@@ -43,6 +31,8 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
         const [stepIncrement, setStepIncrement] = useState(0);
         const [animationSpeed, setAnimationSpeed] = useState(16.67);
         const [isCompleteCycle, setIsCompleteCycle] = useState(false);
+        const {currentStrokeSettings, currentColorSettings} = useSettings();
+
 
         useEffect(() => {
             setIsCompleteCycle(false);
@@ -154,17 +144,19 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
 
         return (
             <div className={'fourier-container'}>
-                <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(newViewPort)}>
-                    {circles && circles.length > 0 ? circles.map((item, index) => (
-                        <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
-                    )) : null}
-                    {path.length > 0 ? <path ref={pathRef} stroke-linejoin={'round'}
-                                             stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
-                                             fill="none"
-                                             strokeWidth={strokes.pathStroke}/> : null
-                    }
-                </svg>
+                {currentColorSettings && currentStrokeSettings ?
+                    <svg style={{backgroundColor: getHslString(currentColorSettings.backgroundColor)}} ref={svgRef} width="100%" height="100%"
+                         viewBox={getViewPortString(newViewPort)}>
+                        {circles && circles.length > 0 ? circles.map((item, index) => (
+                            <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={currentColorSettings}/>
+                        )) : null}
+                        {path.length > 0 ? <path ref={pathRef} strokeLinejoin={'round'}
+                                                 stroke={getHslString(currentColorSettings.pathColor)}
+                                                 fill="none"
+                                                 strokeWidth={currentStrokeSettings.pathStroke}/> : null
+                        }
+                    </svg> : null
+                }
             </div>
         )
     }

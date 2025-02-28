@@ -7,7 +7,7 @@ import {ActiveRendererIdProvider} from "@/context/ActiveRendererContext.tsx";
 import Main from "@/components/main/Main.tsx";
 
 
-const useWindowSize = () => {
+export const useWindowSize = () => {
     const [size, setSize] = useState({width: window.innerWidth, height: window.innerHeight});
 
     useEffect(() => {
