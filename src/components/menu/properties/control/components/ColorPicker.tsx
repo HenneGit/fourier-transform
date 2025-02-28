@@ -47,7 +47,7 @@ export const ColorPicker = ({color, setColor, label}: {
                     onClick={() => setIsOpen(!isOpen)}
                 />
                 {isOpen && (
-                    <div className="absolute z-[900] top-32 bottom-full mb-2 p-2 bg-white shadow-lg border rounded">
+                    <div className="absolute z-[900] top-5 bottom-full mb-2 p-2 bg-white shadow-lg border rounded">
                         <HslColorPicker color={tempColor} onChange={handleColorChange}/>
                     </div>
                 )}

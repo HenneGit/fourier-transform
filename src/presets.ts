@@ -42,10 +42,10 @@ const LilaGreenPresetProps: RNGCirclesSettings = {
 
 
 const PinkSolarSystemStrokes: StrokeSettings = {
-    circleStroke: 0.04,
+    circleStroke: 0.4,
     radiusStroke: 0,
-    pathStroke: 0.1,
-    jointPointStroke: 0.4,
+    pathStroke: 3,
+    jointPointStroke: 4,
     deletePath: true,
     deletePathDelay: 7,
 };
@@ -67,8 +67,8 @@ const PinkSolarSystemProperties: RNGCirclesSettings = {
     maxSpeed: 0.199,
     minSpeed: -0.199,
     speedDelta: 1,
-    maxRadius: 50,
-    radiusDelta: 50,
+    maxRadius: 70,
+    radiusDelta: 70,
     zoom: 90,
    }
 

@@ -5,50 +5,50 @@ const RNGControl = () => {
 
     const {currentRNGSettings, updateRNGSettings} = useRNGSettings();
 
-    const setNumberOfCircles = (value: number) => {
-        updateRNGSettings({numberOfCircles: value});
+    const setNumberOfCircles = (value: number[]) => {
+        updateRNGSettings({numberOfCircles: value[0]});
     };
 
-    const setMaxRadius = (value: number) => {
-        updateRNGSettings({maxRadius: value});
+    const setMaxRadius = (value: number[]) => {
+        updateRNGSettings({maxRadius: value[0]});
     };
 
-    const setRadiusDelta = (value: number) => {
-        updateRNGSettings({radiusDelta: value});
+    const setRadiusDelta = (value: number[]) => {
+        updateRNGSettings({radiusDelta: value[0]});
     };
 
-    const setMaxSpeed = (value: number) => {
-        updateRNGSettings({maxSpeed: value});
+    const setMaxSpeed = (value: number[]) => {
+        updateRNGSettings({maxSpeed: value[0]});
     };
 
-    const setMinSpeed = (value: number) => {
-        updateRNGSettings({minSpeed: value});
+    const setMinSpeed = (value: number[]) => {
+        updateRNGSettings({minSpeed: value[0]});
     };
 
-    const setSpeedDelta = (value: number) => {
-        updateRNGSettings({speedDelta: value});
+    const setSpeedDelta = (value: number[]) => {
+        updateRNGSettings({speedDelta: value[0]});
     };
 
     return (
         <>
             {currentRNGSettings ?
-                <div>
-                    <SliderWithNumber defaultValue={currentRNGSettings.numberOfCircles} setNumber={setNumberOfCircles}
+                <div className={'flex-col gap-2.5'}>
+                    <SliderWithNumber number={currentRNGSettings.numberOfCircles} setNumber={setNumberOfCircles}
                                       min={0} max={200}
                                       steps={1} label={'numberOfCircles'}/>
-                    <SliderWithNumber defaultValue={currentRNGSettings.maxRadius} setNumber={setMaxRadius}
+                    <SliderWithNumber number={currentRNGSettings.maxRadius} setNumber={setMaxRadius}
                                       min={0} max={300}
                                       steps={1} label={'maxRadius'}/>
-                    <SliderWithNumber defaultValue={currentRNGSettings.radiusDelta} setNumber={setRadiusDelta}
+                    <SliderWithNumber number={currentRNGSettings.radiusDelta} setNumber={setRadiusDelta}
                                       min={0} max={300}
                                       steps={1} label={'radiusDelta'}/>
-                    <SliderWithNumber defaultValue={currentRNGSettings.maxSpeed} setNumber={setMaxSpeed}
+                    <SliderWithNumber number={currentRNGSettings.maxSpeed} setNumber={setMaxSpeed}
                                       min={0} max={0.499}
                                       steps={0.001} label={'maxSpeed'}/>
-                    <SliderWithNumber defaultValue={currentRNGSettings.minSpeed} setNumber={setMinSpeed}
+                    <SliderWithNumber number={currentRNGSettings.minSpeed} setNumber={setMinSpeed}
                                       min={-0.499} max={0}
                                       steps={0.001} label={'minSpeed'}/>
-                    <SliderWithNumber defaultValue={currentRNGSettings.speedDelta} setNumber={setSpeedDelta}
+                    <SliderWithNumber number={currentRNGSettings.speedDelta} setNumber={setSpeedDelta}
                                       min={0} max={5}
                                       steps={1} label={'speedDelta'}/>
 
