@@ -31,19 +31,12 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
         const [startingTime, setStartingTime] = useState(2);
         const [savedElapsed, setSavedElapsed] = useState(2);
         const {rngSettingsList} = useRNGSettings();
-        const {currentStrokeSettings, settingsList} = useSettings();
-
+        const {currentStrokeSettings, currentColorSettings} = useSettings();
 
         const properties = useMemo(
             () => rngSettingsList.find(p => p.id === id)?.rngSettings,
             [rngSettingsList, id]
         );
-
-        const colors = useMemo(
-            () => settingsList.find(p => p.id === id)?.colorSettings,
-            [settingsList, id]
-        );
-
 
         useEffect(() => {
             if (!properties) {
@@ -142,13 +135,13 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
 
         return (
             <div className={'fourier-container'}>
-                <svg style={{backgroundColor: getHslString(colors.backgroundColor)}} ref={svgRef} width="100%" height="100%"
+                <svg style={{backgroundColor: getHslString(currentColorSettings.backgroundColor)}} ref={svgRef} width="100%" height="100%"
                      viewBox={getViewPortString(newViewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
-                        <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={colors}/>
+                        <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={currentColorSettings}/>
                     )) : null}
                     {path.length > 0 ? <path ref={pathRef}
-                                             stroke={getHslString(colors.pathColor)}
+                                             stroke={getHslString(currentColorSettings.pathColor)}
                                              fill="none"
                                              strokeWidth={currentStrokeSettings.pathStroke}/> : null
                     }

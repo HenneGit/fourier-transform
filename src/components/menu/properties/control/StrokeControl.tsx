@@ -1,6 +1,8 @@
 import {SliderWithNumber} from "@/components/menu/properties/control/components/SliderWithNumber.tsx";
 import {useSettings} from "@/context/SettingsContext.tsx";
 import {Switch} from "@heroui/switch";
+import {Tooltip} from "@heroui/tooltip";
+import QuestionMarkIcon from "@/components/ui/icons/QuestionMarkIcon.tsx";
 
 
 const StrokeControl = () => {
@@ -35,6 +37,7 @@ const StrokeControl = () => {
         <>
             {currentStrokeSettings ?
                 <div>
+
                     <SliderWithNumber defaultValue={currentStrokeSettings.circleStroke} setNumber={setCircleStroke}
                                       min={0} max={1}
                                       steps={0.1} label={'Circle stroke'}/>

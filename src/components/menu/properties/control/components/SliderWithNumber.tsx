@@ -1,14 +1,17 @@
 import {Slider} from "@/components/ui/slider.tsx";
 import {Label} from "@radix-ui/react-label";
 import {useState} from "react";
+import {Tooltip} from "@heroui/tooltip";
+import QuestionMarkIcon from "@/components/ui/icons/QuestionMarkIcon.tsx";
 
-export const SliderWithNumber = ({number, setNumber, min, max, steps, label}: {
+export const SliderWithNumber = ({number, setNumber, min, max, steps, label, toolTipText}: {
     number: number;
     setNumber: (value: number[]) => void;
     min: number;
     max: number;
     steps: number;
     label: string;
+    toolTipText: string | undefined;
 }) => {
 
     const [isDragging, setIsDragging] = useState(false);
@@ -31,17 +34,28 @@ export const SliderWithNumber = ({number, setNumber, min, max, steps, label}: {
     };
 
 
-
     return (
         <div className={"flex flex-col gap-[.5em] items-center justify-center"}>
             <div className={"flex w-full justify-between items-center"}>
-                <Label
-                    className="font-sans text-xs font-medium text-black"
-                    htmlFor={"number-slider" + '-' + label}
-                    aria-checked={"true"}
-                >
-                    {label}
-                </Label>
+                <div className={'flex flex-row '}>
+                    <div className={'flex flex-row gap-1 justify-center'}>
+                        <Label
+                            className="font-sans text-xs font-medium text-black"
+                            htmlFor={"number-slider" + '-' + label}
+                            aria-checked={"true"}
+                        >
+                            {label}
+                        </Label>
+                        {toolTipText ?
+                            <Tooltip className={'text-black z-[999] w-[21em] '} content={toolTipText} showArrow={true}>
+                            <span className={" relative text-black cursor-pointer "}>
+                                <QuestionMarkIcon/>
+                            </span>
+                            </Tooltip> : null
+                        }
+                    </div>
+
+                </div>
                 <span className="font-sans text-xs font-medium text-black">
       {number}
     </span>
