@@ -1,6 +1,5 @@
 import {ColorSettings, Point, RNGCirclesSettings, ViewPort} from "@/model/model.ts";
 import * as d3 from "d3";
-import path from "path";
 
 export const generateHSLSteps = (startColor: number[], step: number, properties: RNGCirclesSettings): [number, number, number][] => {
     const [h, s, l] = startColor;
@@ -30,19 +29,6 @@ export const getViewPortString = (viewPort: ViewPort) => {
     return `${viewPort.minX} ${viewPort.minY} ${viewPort.width} ${viewPort.height}`;
 };
 
-export const incrementViewPort = (setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, viewPortIncrement: number, properties: RNGCirclesSettings) => {
-    setViewPort(prevNumbers => {
-        if (prevNumbers.width < 10 || prevNumbers.height < 10) {
-            return properties.viewPort;
-        }
-        return {
-            minX: prevNumbers.minX + viewPortIncrement / 2,
-            minY: prevNumbers.minY + viewPortIncrement / 2,
-            height: prevNumbers.height - viewPortIncrement,
-            width: prevNumbers.width - viewPortIncrement
-        }
-    });
-};
 
 
 export const renderPath = (x: number, y: number, pathRef: React.RefObject<SVGPathElement | null> , setPath: React.Dispatch<React.SetStateAction<Point[]>>, path: Point[]) => {
@@ -66,18 +52,3 @@ export const cycleCircleColor = (frequency: number, colors: ColorSettings, circl
     }
 }
 
-export const renderFastZoom = (viewPort: ViewPort, viewPortIncrement: number, setViewPort: React.Dispatch<React.SetStateAction<ViewPort>>, setSetViewPortIncrement: React.Dispatch<React.SetStateAction<number>>) => {
-    if (viewPort.height <= 100) {
-        return;
-    }
-    setViewPort(prevNumbers => {
-        return {
-            minX: prevNumbers.minX + viewPortIncrement / 2,
-            minY: prevNumbers.minY + viewPortIncrement / 2,
-            height: prevNumbers.height - viewPortIncrement,
-            width: prevNumbers.width - viewPortIncrement
-        }
-
-    });
-    setSetViewPortIncrement((prevState) => prevState + 0.011);
-}

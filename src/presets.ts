@@ -14,7 +14,7 @@ const LilaGreenPresetStrokes: StrokeSettings = {
     pathStroke: 3,
     jointPointStroke: 2,
     deletePath: true,
-    deletePathDelay: 25,
+    deletePathDelay: 10,
 };
 
 
@@ -32,11 +32,11 @@ const LilaGreenPresetColors: ColorSettings = {
 const LilaGreenPresetProps: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 40,
-    maxSpeed: 1.299,
-    minSpeed: -1.299,
-    speedDelta: 2,
-    maxRadius: 100,
-    radiusDelta: 30,
+    maxSpeed: 0.499,
+    minSpeed: -0.499,
+    speedDelta: 1,
+    maxRadius: 150,
+    radiusDelta: 20,
     zoom: 90,
 }
 
@@ -66,7 +66,7 @@ const PinkSolarSystemProperties: RNGCirclesSettings = {
     numberOfCircles: 99,
     maxSpeed: 0.199,
     minSpeed: -0.199,
-    speedDelta: 1,
+    speedDelta: 0,
     maxRadius: 70,
     radiusDelta: 70,
     zoom: 90,
@@ -77,7 +77,7 @@ const BlueWormsStrokes: StrokeSettings = {
     circleStroke: 0.00,
     radiusStroke: 0,
     pathStroke: 0,
-    jointPointStroke: 3.35,
+    jointPointStroke: 2.35,
     deletePath: true,
     deletePathDelay: 0,
 };
@@ -96,20 +96,20 @@ const BlueWormsColors: ColorSettings = {
 const BlueWormsProperties: RNGCirclesSettings = {
     addViewPortZoom: false,
     numberOfCircles: 200,
-    maxSpeed: 0.199,
-    minSpeed: -0.388,
+    maxSpeed: 0.299,
+    minSpeed: -0.399,
     speedDelta: 0,
-    maxRadius: 100,
-    radiusDelta: 180,
+    maxRadius: 10,
+    radiusDelta: 100,
     zoom: 90,
 }
 
 
 const WindyTreeStrokes: StrokeSettings = {
     circleStroke: 0.00,
-    radiusStroke: 0.2,
+    radiusStroke: 2,
     pathStroke: 0,
-    jointPointStroke: 0.35,
+    jointPointStroke: 3.35,
     deletePath: true,
     deletePathDelay: 1,
 };
@@ -142,16 +142,16 @@ const SlowGreenCirclesProperties: RNGCirclesSettings = {
     maxSpeed: 0.299,
     minSpeed: -0.288,
     speedDelta: 0.8,
-    maxRadius: 10,
-    radiusDelta: 20,
+    maxRadius: 30,
+    radiusDelta: 30,
     zoom: 90,
 }
 
 
 const SlowGreenCirclestrokes: StrokeSettings = {
-    circleStroke: 0.5,
-    radiusStroke: 0.3,
-    pathStroke: 0.49,
+    circleStroke: 5,
+    radiusStroke: 3,
+    pathStroke: 1.49,
     jointPointStroke: 0,
     deletePath: true,
     deletePathDelay: 15,

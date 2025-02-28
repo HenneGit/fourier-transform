@@ -37,16 +37,16 @@ const StrokeControl = () => {
             {currentStrokeSettings ?
                 <div className={'flex flex-col gap-2.5'}>
                     <SliderWithNumber number={currentStrokeSettings.circleStroke} setNumber={setCircleStroke}
-                                      min={0} max={1}
+                                      min={0} max={5}
                                       steps={0.1} label={'Circle stroke'} toolTipText={undefined}/>
                     <SliderWithNumber number={currentStrokeSettings.pathStroke} setNumber={setPathStroke} min={0}
-                                      max={1}
+                                      max={5}
                                       steps={0.1} label={'Path stroke'} toolTipText={undefined}/>
                     <SliderWithNumber number={currentStrokeSettings.radiusStroke} setNumber={setRadiusStroke}
-                                      min={0} max={1}
+                                      min={0} max={5}
                                       steps={0.1} label={'Radius stroke'} toolTipText={undefined}/>
                     <SliderWithNumber number={currentStrokeSettings.jointPointStroke}
-                                      setNumber={setJointPointStroke} min={0} max={1}
+                                      setNumber={setJointPointStroke} min={0} max={5}
                                       steps={0.1} label={'Joint point stroke'} toolTipText={undefined}/>
                     <Switch size="sm" className={'mt-2 mb-2'} color={'default'} onValueChange={setDeletePath} isSelected={currentStrokeSettings.deletePath}>
                        <Label>Delete Path</Label>

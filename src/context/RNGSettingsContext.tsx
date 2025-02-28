@@ -14,7 +14,7 @@ interface SettingsContextType {
     removeRNGSettings: () => void;
     setRNGSettingsList: React.Dispatch<SetStateAction<RNGCircleRendererSettings[]>>;
     currentRNGSettings: RNGCirclesSettings | undefined;
-    setCurrentRNGSettings: React.Dispatch<SetStateAction<RNGCirclesSettings>>
+    setCurrentRNGSettings: React.Dispatch<SetStateAction<RNGCirclesSettings | undefined>>
 }
 
 const RandomCircleContext = createContext<SettingsContextType | undefined>(undefined);

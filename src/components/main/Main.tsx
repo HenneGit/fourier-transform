@@ -14,7 +14,6 @@ import FourierTransformRenderer from "@/components/fourier/FourierTransformRende
 
 
 const Main = ({width, height}: { width: number, height: number }) => {
-    const [key, setKey] = useState(0);
     const [path, setPath] = useState<Point[]>([]);
     const [viewPort, setViewPort] = useState<ViewPort>();
     const {isOpen, onOpenChange} = useDisclosure();
@@ -40,6 +39,10 @@ const Main = ({width, height}: { width: number, height: number }) => {
 
 
     useEffect(() => {
+        setPath([])
+    }, [currentRNGSettings]);
+
+    useEffect(() => {
         setViewPort({
             minX: -width / 2,
             minY: -height / 2,
@@ -51,8 +54,8 @@ const Main = ({width, height}: { width: number, height: number }) => {
     useEffect(() => {
         const id = uuidv4();
         setId(id);
-        addSettings({id: id, strokeSettings: presets[1].strokes, colorSettings: presets[1].colors});
-        setRNGSettingsList([{id: id, rngSettings: presets[1].rngSettings}]);
+        addSettings({id: id, strokeSettings: presets[0].strokes, colorSettings: presets[0].colors});
+        setRNGSettingsList([{id: id, rngSettings: presets[0].rngSettings}]);
         console.log('@sh');
     }, []);
 
@@ -71,25 +74,20 @@ const Main = ({width, height}: { width: number, height: number }) => {
 
     return (
         <>
-            {currentRNGSettings ?
+            <Sidebar setPath={adjustPathToViewPort} isOpen={isOpen} onOpenChange={onOpenChange}/>
+            {path && path.length > 0 && viewPort ?
                 <>
-                    <Sidebar setPath={adjustPathToViewPort} isOpen={isOpen} onOpenChange={onOpenChange}/>
-                    {path && viewPort ?
+                    <FourierTransformRenderer isPause={isPause} viewPort={viewPort} inputPath={path}/>
+                </> :
+                <>
+                    {currentRNGSettings && id && viewPort ?
                         <>
-                            <FourierTransformRenderer isPause={isPause} viewPort={viewPort} inputPath={path}/>
-                        </> :
-                        <>
-                            {id && viewPort ?
-                                <>
-                                    <RNGCirclesRenderer isPause={isPause} viewPort={viewPort} key={key} id={id}/>
-                                </>
-                                : null
-                            }
+                            <RNGCirclesRenderer isPause={isPause} viewPort={viewPort} id={id}/>
                         </>
+                        : null
                     }
-                </> : null
+                </>
             }
-
             <MouseTracker isPaused={isPause} onClick={onPauseButtonClick}/>
         </>
     );

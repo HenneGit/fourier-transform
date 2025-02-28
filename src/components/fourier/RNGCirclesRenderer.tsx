@@ -1,7 +1,6 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
 import {FourierTransform, ICircle, Point, ViewPort} from "@/model/model.ts";
-import path from "path";
 import {getHslString, getRandomNumber, getViewPortString, renderPath} from "@/components/fourier/helpers.ts";
 import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
 import {useSettings} from "@/context/SettingsContext.tsx";
@@ -17,7 +16,6 @@ type FourierWrapperProps = {
 const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                                                                   isPause,
                                                                   viewPort,
-                                                                  id
                                                               }) => {
         const svgRef = useRef<SVGSVGElement>(null);
         const pathRef = useRef<SVGPathElement>(null);
@@ -25,10 +23,7 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
         const [circles, setCircles] = useState<ICircle[]>();
         const [currentFrequency, setCurrentFrequency] = useState(0);
         const [path, setPath] = useState<Point[]>([]);
-        const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
         const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
-        const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
-        const [startingTime, setStartingTime] = useState(2);
         const [savedElapsed, setSavedElapsed] = useState(2);
         const {currentRNGSettings} = useRNGSettings();
         const {currentStrokeSettings, currentColorSettings} = useSettings();
@@ -56,7 +51,7 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                 return;
             }
             for (let i = 0; i < currentRNGSettings.numberOfCircles; i++) {
-                const radius = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
+                const radius = parseFloat((getRandomNumber(0.1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
                 const phase = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
                 const min = currentRNGSettings.minSpeed;
                 const max = currentRNGSettings.maxSpeed;
@@ -95,8 +90,8 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
             if (!fourierSteps) {
                 return;
             }
-            if (path.length > fourierSteps.length) {
-                // path.splice(0, 2);
+            if (currentStrokeSettings && currentStrokeSettings.deletePath && currentFrequency > currentStrokeSettings.deletePathDelay + savedElapsed / 1000 ) {
+                path.splice(0, 1)
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));
         }, [currentFrequency]);
@@ -118,7 +113,6 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                     centerY,
                     radius,
                     angle,
-                    color: circleColorArray[i],
                 };
                 newCircles.push(newCircle);
                 prevCircle = newCircle;
@@ -134,17 +128,20 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
 
         return (
             <div className={'fourier-container'}>
-                <svg style={{backgroundColor: getHslString(currentColorSettings.backgroundColor)}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(newViewPort)}>
-                    {circles && currentStrokeSettings && currentColorSettings &&  circles.length > 0 ? circles.map((item, index) => (
-                        <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={currentColorSettings}/>
-                    )) : null}
-                    {path.length > 0 ? <path ref={pathRef}
-                                             stroke={getHslString(currentColorSettings.pathColor)}
-                                             fill="none"
-                                             strokeWidth={currentStrokeSettings.pathStroke}/> : null
-                    }
-                </svg>
+                {currentStrokeSettings && currentColorSettings ?
+                    <svg style={{backgroundColor: getHslString(currentColorSettings.backgroundColor)}} ref={svgRef} width="100%" height="100%"
+                         viewBox={getViewPortString(newViewPort)}>
+                        {circles && currentStrokeSettings && currentColorSettings &&  circles.length > 0 ? circles.map((item, index) => (
+                            <Circle key={index} circle={item} strokeSettings={currentStrokeSettings} colorSettings={currentColorSettings}/>
+                        )) : null}
+                        {path.length > 0 ? <path ref={pathRef}
+                                                 stroke={getHslString(currentColorSettings.pathColor)}
+                                                 fill="none"
+                                                 strokeWidth={currentStrokeSettings.pathStroke}/> : null
+                        }
+                    </svg> : null
+                }
+
             </div>
         )
     }

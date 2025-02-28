@@ -53,6 +53,5 @@ export interface ICircle {
     centerY: number;
     radius: number;
     angle: number;
-    color: number[];
 }
 

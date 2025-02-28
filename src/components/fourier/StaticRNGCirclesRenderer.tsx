@@ -30,7 +30,6 @@ const StaticRNGCirclesRenderer: React.FC<StaticSVGProps> = ({
         const pathRef = useRef<SVGPathElement>(null);
         const [circles, setCircles] = useState<ICircle[]>();
         const [path, setPath] = useState<Point[]>([]);
-        const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
 
         useEffect(() => {
             const fourierPoints: FourierTransform[] = [];
@@ -68,7 +67,6 @@ const StaticRNGCirclesRenderer: React.FC<StaticSVGProps> = ({
                     centerY,
                     radius,
                     angle,
-                    color: colors.circleColor,
                 };
                 newCircles.push(newCircle);
                 prevCircle = newCircle;
@@ -85,7 +83,7 @@ const StaticRNGCirclesRenderer: React.FC<StaticSVGProps> = ({
         return (
             <div className={'fourier-container'}>
                 <svg style={{backgroundColor: getHslString(colors.backgroundColor), position:'relative'}} ref={svgRef} width="100%" height="100%"
-                     viewBox={getViewPortString(newViewPort)}>
+                     viewBox={getViewPortString(viewPort)}>
                     {circles && circles.length > 0 ? circles.map((item, index) => (
                         <Circle key={index} circle={item} strokeSettings={strokes} colorSettings={colors}/>
                     )) : null}

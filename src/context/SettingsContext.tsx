@@ -16,8 +16,8 @@ interface SettingsContextType {
     removeSettings: () => void;
     currentStrokeSettings: StrokeSettings | undefined;
     currentColorSettings: ColorSettings | undefined;
-    setCurrentStrokeSettings: React.Dispatch<SetStateAction<StrokeSettings>>
-    setCurrentColorSettings: React.Dispatch<SetStateAction<ColorSettings>>
+    setCurrentStrokeSettings: React.Dispatch<SetStateAction<StrokeSettings | undefined>>
+    setCurrentColorSettings: React.Dispatch<SetStateAction<ColorSettings | undefined>>
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

@@ -37,7 +37,7 @@ export const getInputCanvasDimension = (path: Point[]): {
 };
 
 
-export const transformNumberArrayToDimensions = (inputPathData: [number, number][], width: number, height: number) => {
+export const transformNumberArrayToDimensions = (inputPathData: number[][], width: number, height: number) => {
 
     const transformedPath: Point[] = inputPathData.map(([x, y]) => ({
         x: x,

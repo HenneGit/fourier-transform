@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Papa from "papaparse";
-import {Point, ViewPort} from "@/model/model.ts";
+import {Point} from "@/model/model.ts";
 import {transformNumberArrayToDimensions} from "@/components/menu/csv.helper.ts";
 import {useWindowSize} from "@/App.tsx";
 
@@ -24,7 +24,10 @@ const CsvUploader = ({setPath}: {
             skipEmptyLines: true,
             dynamicTyping: true,
             complete: (result) => {
-                let inputPathData: [number, number][] = result.data;
+                let inputPathData: number[][] = result.data.map(row => {
+                    const values = Object.values(row).map(Number);
+                    return [values[0], values[1]];
+                }).filter(([x, y]) => !isNaN(x) && !isNaN(y));
 
                 if (result.data.length > 1000) {
                     let pathLength = result.data.length;
@@ -42,8 +45,8 @@ const CsvUploader = ({setPath}: {
         });
     };
 
-    const shrinkPathData = (inputPathData: [number, number][]) => {
-        const newPath: [number, number][] = [];
+    const shrinkPathData = (inputPathData: number[][]) => {
+        const newPath: number[][] = [];
         for (let i = 0; i < inputPathData.length; i++) {
             if (i % 2 === 0) {
                 newPath.push(inputPathData[i]);
@@ -56,7 +59,7 @@ const CsvUploader = ({setPath}: {
 
     return (
         <div className={' flex flex-col mt-3'}>
-            <span className={'text-black'}>You can upload a .csv file with a ';' delimiter.</span>
+            <span className={'text-black'}>You can upload a .csv file where x and y coordinates are seperated with a ';' delimiter.</span>
             <input className={'cursor-pointer ml-20 mt-4'} type="file" accept=".csv" onChange={handleFileUpload}/>
         </div>
     );

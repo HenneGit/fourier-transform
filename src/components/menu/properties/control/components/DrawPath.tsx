@@ -6,13 +6,13 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
     const [pathData, setPathData] = useState<Point[]>([]);
     const svgRef = useRef(null);
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = (e: { nativeEvent: { offsetX: number; offsetY: number; }; }) => {
         setIsDrawing(true);
         const { offsetX, offsetY } = e.nativeEvent;
         setPathData([{ x: offsetX, y: offsetY }]);
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: { nativeEvent: { offsetX: number; offsetY: number; }; }) => {
         if (!isDrawing) return;
         const { offsetX, offsetY } = e.nativeEvent;
         setPathData((prevData) => [...prevData, { x: offsetX, y: offsetY }]);
@@ -44,7 +44,7 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp} // End drawing if mouse leaves canvas
+                onMouseLeave={handleMouseUp}
             >
                 <path d={drawPath()} stroke="black" fill="transparent" strokeWidth="2" />
             </svg>

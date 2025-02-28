@@ -1,5 +1,5 @@
-import {Drawer, DrawerContent, Tab, Tabs} from "@heroui/react";
-import {useState} from "react";
+import {Drawer, DrawerContent, DrawerFooter, Tab, Tabs} from "@heroui/react";
+import {Key, useState} from "react";
 import StrokeControl from "@/components/menu/properties/control/StrokeControl.tsx";
 import ColorControl from "@/components/menu/properties/control/ColorControl.tsx";
 import RNGControl from "@/components/menu/properties/control/RNGControl.tsx";
@@ -21,6 +21,15 @@ export default function Sidebar({isOpen, onOpenChange, setPath}: DrawerProps) {
     const [selectedSetting, setSelectedSetting] = useState("presets");
     const [selected, setSelected] = useState("presets");
 
+
+    const selectionChange = (key: Key) => {
+      setSelectedSetting(key.toString())
+    }
+
+    const onSVGTabChange = (key: Key) => {
+        setSelected(key.toString())
+    }
+
     return (
         <>
             <Drawer className={'z-20'} autoFocus={false} isDismissable={false} hideCloseButton isOpen={isOpen}
@@ -29,7 +38,7 @@ export default function Sidebar({isOpen, onOpenChange, setPath}: DrawerProps) {
                     <>
                         <div className={'w-full h-1/2 p-6 flex flex-col items-center '}>
                             <Tabs variant={'underlined'} size={'md'} selectedKey={selectedSetting}
-                                  onSelectionChange={setSelectedSetting} aria-label="Options">
+                                  onSelectionChange={selectionChange} aria-label="Options">
                                 <Tab className={'w-full'} key="stroke" title="Strokes ">
                                     <StrokeControl/>
                                 </Tab>
@@ -46,7 +55,7 @@ export default function Sidebar({isOpen, onOpenChange, setPath}: DrawerProps) {
                         </div>
                         <div className={'w-full h-1/2 p-6 flex flex-col items-center '}>
                             <Tabs variant={'underlined'} size={'md'} selectedKey={selected}
-                                  onSelectionChange={setSelected} aria-label="Options">
+                                  onSelectionChange={onSVGTabChange} aria-label="Options">
                                 <Tab className={'w-full'} key="stroke" title="Upload ">
                                     <CSVUpload setPath={setPath}/>
                                 </Tab>
@@ -62,6 +71,9 @@ export default function Sidebar({isOpen, onOpenChange, setPath}: DrawerProps) {
                         </div>
                     </>
                 </DrawerContent>
+                <DrawerFooter>
+                    <span className={'text-gray-600 text-xs'}>v1.0.0</span>
+                </DrawerFooter>
             </Drawer>
         </>
     );

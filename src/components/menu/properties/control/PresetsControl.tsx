@@ -4,17 +4,19 @@ import {Preset, presets} from "@/presets.ts";
 import StaticRNGCirclesRenderer from "@/components/fourier/StaticRNGCirclesRenderer.tsx";
 import {useSettings} from "@/context/SettingsContext.tsx";
 import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
+import {useIsMobile} from "@/hooks/use-mobile.tsx";
 
 const PresetsControl = () => {
 
     const {setCurrentStrokeSettings, setCurrentColorSettings} = useSettings();
     const {setCurrentRNGSettings} = useRNGSettings();
-
+    const isMobile = useIsMobile();
 
     const setPreset = (setting: Preset) => {
         setCurrentStrokeSettings(setting.strokes);
         setCurrentColorSettings(setting.colors);
         setCurrentRNGSettings(setting.rngSettings)
+
     }
 
     return (
@@ -23,7 +25,7 @@ const PresetsControl = () => {
                 opts={{
                     align: "start",
                 }}
-                orientation="vertical"
+                orientation={isMobile ? "horizontal" : 'vertical'}
                 className="w-full max-w-xs"
             >
                 <CarouselContent className="-mt-1 h-[170px]">
@@ -39,8 +41,9 @@ const PresetsControl = () => {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious />
                 <CarouselNext />
+
+                <CarouselPrevious />
             </Carousel>
         </div>
     );

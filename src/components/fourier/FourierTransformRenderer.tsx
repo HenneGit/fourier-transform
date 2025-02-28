@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import Circle from "./Circle.tsx";
 import {FourierTransform, ICircle, Point, ViewPort} from "@/model/model.ts";
-import path from "path";
 import {getHslString, getViewPortString, renderPath} from "@/components/fourier/helpers.ts";
 import {useSettings} from "@/context/SettingsContext.tsx";
 
@@ -25,9 +24,7 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
         const [circles, setCircles] = useState<ICircle[]>();
         const [currentFrequency, setCurrentFrequency] = useState(0);
         const [path, setPath] = useState<Point[]>(inputPath);
-        const [circleColorArray, setCircleColorArray] = useState<[number, number, number][]>([]);
         const [newViewPort, setNewViewPort] = useState<ViewPort>(viewPort)
-        const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [stepIncrement, setStepIncrement] = useState(0);
         const [animationSpeed, setAnimationSpeed] = useState(16.67);
         const [isCompleteCycle, setIsCompleteCycle] = useState(false);
@@ -42,6 +39,7 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
             setPath([]);
             setCircles([]);
             setNewViewPort(viewPort)
+            setAnimationSpeed(16.67);
             if (inputPath) {
                 const fourierCoefficient = generateFourierProps(inputPath);
                 fourierCoefficient.sort((a, b) => {
@@ -127,7 +125,6 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
                     centerY,
                     radius,
                     angle,
-                    color: circleColorArray[i],
                 };
                 newCircles.push(newCircle);
                 prevCircle = newCircle;
