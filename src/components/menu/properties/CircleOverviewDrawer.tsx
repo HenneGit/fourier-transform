@@ -11,12 +11,6 @@ interface DrawerProps {
 
 export default function CircleOverviewDrawer({isOpen, onOpenChange}: DrawerProps) {
 
-
-    useEffect(() => {
-        console.log('open');
-    }, []);
-
-
     return (
         <>
             <Drawer className={'z-20'} autoFocus={false} isDismissable={false} hideCloseButton isOpen={isOpen} onOpenChange={onOpenChange} placement={'left'}  size={'xs'} backdrop={'transparent'}>

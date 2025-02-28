@@ -32,7 +32,7 @@ export function RNGSettingsContext({ children }: { children: React.ReactNode }) 
                 setCurrentRNGSettings(rngSettings);
             }
         }
-    }, [id]);
+    }, [id, rngSettingsList]);
 
     const addRNGSettings = (newSettings: RNGCircleRendererSettings) => {
         console.log(newSettings);

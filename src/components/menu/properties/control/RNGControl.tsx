@@ -32,7 +32,7 @@ const RNGControl = () => {
     return (
         <>
             {currentRNGSettings ?
-                <div className={'flex-col gap-2.5'}>
+                <div className={'flex flex-col gap-3'}>
                     <SliderWithNumber number={currentRNGSettings.numberOfCircles} setNumber={setNumberOfCircles}
                                       min={0} max={200}
                                       steps={1} label={'numberOfCircles'}/>
