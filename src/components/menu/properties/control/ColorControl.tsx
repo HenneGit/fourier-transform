@@ -29,7 +29,7 @@ const ColorControl = () => {
     return (
         <>
             {currentColorSettings ?
-                <div>
+                <div className={'flex flex-col gap-2.5'}>
                     <ColorPicker label={'Circle'} color={currentColorSettings.circleColor}
                                  setColor={(color) => setCircleColor(color)}/>
                     <ColorPicker label={'Radius'} color={currentColorSettings.radiusColor}

@@ -30,16 +30,12 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
         const [viewPortIncrement, setSetViewPortIncrement] = useState(0.05);
         const [startingTime, setStartingTime] = useState(2);
         const [savedElapsed, setSavedElapsed] = useState(2);
-        const {rngSettingsList} = useRNGSettings();
+        const {currentRNGSettings} = useRNGSettings();
         const {currentStrokeSettings, currentColorSettings} = useSettings();
 
-        const properties = useMemo(
-            () => rngSettingsList.find(p => p.id === id)?.rngSettings,
-            [rngSettingsList, id]
-        );
 
         useEffect(() => {
-            if (!properties) {
+            if (!currentRNGSettings) {
                 return;
             }
             const fourierPoints: FourierTransform[] = [];
@@ -52,16 +48,16 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
             generateRandomFourierProps(fourierPoints);
             setFourierSteps(fourierPoints);
             setCircles(renderCircles(savedElapsed, fourierPoints));
-        }, [properties]);
+        }, [currentRNGSettings]);
 
 
         const generateRandomFourierProps = (fourierProps: FourierTransform[]) => {
-            for (let i = 0; i < properties.numberOfCircles; i++) {
-                const radius = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
-                const phase = parseFloat((getRandomNumber(1, properties.maxRadius, properties.radiusDelta)).toFixed(3));
-                const min = properties.minSpeed;
-                const max = properties.maxSpeed;
-                const frequency = parseFloat(getRandomNumber(min, max, properties.speedDelta).toFixed(3));
+            for (let i = 0; i < currentRNGSettings.numberOfCircles; i++) {
+                const radius = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
+                const phase = parseFloat((getRandomNumber(1, currentRNGSettings.maxRadius, currentRNGSettings.radiusDelta)).toFixed(3));
+                const min = currentRNGSettings.minSpeed;
+                const max = currentRNGSettings.maxSpeed;
+                const frequency = parseFloat(getRandomNumber(min, max, currentRNGSettings.speedDelta).toFixed(3));
                 fourierProps.push({radius: radius, frequency: frequency, phase: phase});
             }
             return fourierProps

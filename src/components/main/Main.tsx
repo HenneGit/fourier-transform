@@ -51,7 +51,7 @@ const Main = ({width, height}: { width: number, height: number }) => {
         const id = uuidv4();
         setId(id);
         addSettings({id: id, strokeSettings: presets[1].strokes, colorSettings: presets[1].colors});
-        setRNGSettingsList([{id: id, rngSettings: presets[1].properties}]);
+        setRNGSettingsList([{id: id, rngSettings: presets[1].rngSettings}]);
         console.log('@sh');
     }, []);
 

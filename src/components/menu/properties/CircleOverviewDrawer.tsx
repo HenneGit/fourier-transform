@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import StrokeControl from "@/components/menu/properties/control/StrokeControl.tsx";
 import ColorControl from "@/components/menu/properties/control/ColorControl.tsx";
 import RNGControl from "@/components/menu/properties/control/RNGControl.tsx";
+import PresetsControl from "@/components/menu/properties/control/PresetsControl.tsx";
 
 interface DrawerProps {
     isOpen: boolean;
@@ -18,16 +19,19 @@ export default function CircleOverviewDrawer({isOpen, onOpenChange}: DrawerProps
             <Drawer className={'z-20'} autoFocus={false} isDismissable={false} hideCloseButton isOpen={isOpen} onOpenChange={onOpenChange} placement={'left'}  size={'xs'} backdrop={'transparent'}>
                 <DrawerContent className={'z-20'} >
                     <>
-                        <div className={'w-full h-full p-6'}>
-                            <Tabs variant={'underlined'} size={'md'} className={'w-full flex flex-row justify-center'}  selectedKey={selected} onSelectionChange={setSelected} aria-label="Options">
-                                <Tab key="stroke" title="Strokes ">
+                        <div className={'w-full h-full p-6 flex flex-col items-center '}>
+                            <Tabs variant={'underlined'} size={'md'}   selectedKey={selected} onSelectionChange={setSelected} aria-label="Options">
+                                <Tab className={'w-full'} key="stroke" title="Strokes ">
                                     <StrokeControl/>
                                 </Tab>
-                                <Tab key="color" title="Color ">
+                                <Tab className={'w-full'} key="color" title="Color ">
                                     <ColorControl/>
                                 </Tab>
-                                <Tab key="rng" title="RNG">
+                                <Tab  className={'w-full'} key="rng" title="RNG">
                                     <RNGControl/>
+                                </Tab>
+                                <Tab className={'w-full'} key="presets" title="Presets">
+                                    <PresetsControl/>
                                 </Tab>
                             </Tabs>
                         </div>

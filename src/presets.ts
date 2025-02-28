@@ -2,7 +2,7 @@ import {ColorSettings, RNGCirclesSettings, StrokeSettings} from "@/model/model.t
 
 
 export interface Preset {
-    properties: RNGCirclesSettings;
+    rngSettings: RNGCirclesSettings;
     colors: ColorSettings;
     strokes: StrokeSettings;
 }
@@ -170,9 +170,9 @@ const SlowGreenCirclesColors: ColorSettings = {
 
 
 export const presets: Preset[] = [
-    {properties: LilaGreenPresetProps, colors: LilaGreenPresetColors, strokes: LilaGreenPresetStrokes},
-    {properties: PinkSolarSystemProperties, colors: PinkSolarSystemColors, strokes: PinkSolarSystemStrokes},
-    {properties: BlueWormsProperties, colors: BlueWormsColors, strokes: BlueWormsStrokes},
-    {properties: WindyTreeProperties, colors: WindyTreeColors, strokes: WindyTreeStrokes},
-    {properties: SlowGreenCirclesProperties, colors: SlowGreenCirclesColors, strokes: SlowGreenCirclestrokes},
+    {rngSettings: LilaGreenPresetProps, colors: LilaGreenPresetColors, strokes: LilaGreenPresetStrokes},
+    {rngSettings: PinkSolarSystemProperties, colors: PinkSolarSystemColors, strokes: PinkSolarSystemStrokes},
+    {rngSettings: BlueWormsProperties, colors: BlueWormsColors, strokes: BlueWormsStrokes},
+    {rngSettings: WindyTreeProperties, colors: WindyTreeColors, strokes: WindyTreeStrokes},
+    {rngSettings: SlowGreenCirclesProperties, colors: SlowGreenCirclesColors, strokes: SlowGreenCirclestrokes},
 ];

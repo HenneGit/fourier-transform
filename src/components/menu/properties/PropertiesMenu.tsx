@@ -36,7 +36,7 @@ export const PropertiesMenu = ({setProperties, height, width, setStrokes, setCol
 
     const onSelectChange = (value: string) => {
         const preset: Preset = presetMap[value];
-        setProperties(preset.properties);
+        setProperties(preset.rngSettings);
         setColors(preset.colors);
         setStrokes(preset.strokes);
     };

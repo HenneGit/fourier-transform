@@ -36,7 +36,7 @@ const StaticSVGPathRenderer: React.FC<StaticSVGProps> = ({
                 <svg style={{backgroundColor: getHslString(colors.backgroundColor), position:'relative'}} ref={svgRef}
                      viewBox={getViewPortString(viewPort)}  >
                     <path d={path}
-                          stroke={colors.showPathGradient ? "url(#grad)" : getHslString(colors.pathColor)}
+                          stroke={getHslString(colors.pathColor)}
                           fill="none"
                           strokeWidth={strokes.pathStroke}/>
 

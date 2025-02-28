@@ -14,6 +14,7 @@ interface SettingsContextType {
     removeRNGSettings: () => void;
     setRNGSettingsList: React.Dispatch<SetStateAction<RNGCircleRendererSettings[]>>;
     currentRNGSettings: RNGCirclesSettings | undefined;
+    setCurrentRNGSettings: React.Dispatch<SetStateAction<RNGCirclesSettings>>
 }
 
 const RandomCircleContext = createContext<SettingsContextType | undefined>(undefined);
@@ -51,7 +52,7 @@ export function RNGSettingsContext({ children }: { children: React.ReactNode }) 
     };
 
     return (
-        <RandomCircleContext.Provider value={{ rngSettingsList, addRNGSettings, updateRNGSettings,  removeRNGSettings, setRNGSettingsList , currentRNGSettings}}>
+        <RandomCircleContext.Provider value={{ rngSettingsList, addRNGSettings, updateRNGSettings,  removeRNGSettings, setRNGSettingsList , currentRNGSettings, setCurrentRNGSettings}}>
             {children}
         </RandomCircleContext.Provider>
     );

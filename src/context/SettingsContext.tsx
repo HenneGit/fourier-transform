@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, SetStateAction, useContext, useEffect, useState} from "react";
 import {ColorSettings, StrokeSettings} from "@/model/model.ts";
 import {useActiveRendererId} from "@/context/ActiveRendererContext.tsx";
 
@@ -16,6 +16,8 @@ interface SettingsContextType {
     removeSettings: () => void;
     currentStrokeSettings: StrokeSettings | undefined;
     currentColorSettings: ColorSettings | undefined;
+    setCurrentStrokeSettings: React.Dispatch<SetStateAction<StrokeSettings>>
+    setCurrentColorSettings: React.Dispatch<SetStateAction<ColorSettings>>
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -47,7 +49,6 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
         );
     };
 
-
     const addSettings = (newSettings: ColorAndStrokeSettings) => {
         console.log(newSettings);
         setSettingsList((prev) => [...prev, newSettings]);
@@ -74,7 +75,9 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
             updateColorSettings,
             removeSettings,
             currentStrokeSettings,
-            currentColorSettings
+            currentColorSettings,
+            setCurrentColorSettings,
+            setCurrentStrokeSettings
         }}>
             {children}
         </SettingsContext.Provider>
