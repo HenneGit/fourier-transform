@@ -15,6 +15,7 @@ interface SettingsContextType {
     setRNGSettingsList: React.Dispatch<SetStateAction<RNGCircleRendererSettings[]>>;
     currentRNGSettings: RNGCirclesSettings | undefined;
     setCurrentRNGSettings: React.Dispatch<SetStateAction<RNGCirclesSettings | undefined>>
+    updateCurrentRNGSettings: (updatedSettings: Partial<RNGCirclesSettings>) => void
 }
 
 const RandomCircleContext = createContext<SettingsContextType | undefined>(undefined);
@@ -22,9 +23,15 @@ const RandomCircleContext = createContext<SettingsContextType | undefined>(undef
 
 export function RNGSettingsContext({ children }: { children: React.ReactNode }) {
     const [rngSettingsList, setRNGSettingsList] = useState<RNGCircleRendererSettings[]>([]);
-    const [currentRNGSettings, setCurrentRNGSettings] = useState<RNGCirclesSettings>()
     const {id} = useActiveRendererId();
+    const [currentRNGSettings, setCurrentRNGSettings] = useState<RNGCirclesSettings>()
 
+
+    const updateCurrentRNGSettings = (updatedSettings: Partial<RNGCirclesSettings>) => {
+        setCurrentRNGSettings((prevSettings) =>
+            prevSettings ? { ...prevSettings, ...updatedSettings } : prevSettings
+        );
+    };
 
     useEffect(() => {
         if (rngSettingsList && rngSettingsList.length > 0) {
@@ -39,18 +46,21 @@ export function RNGSettingsContext({ children }: { children: React.ReactNode }) 
         setRNGSettingsList((prev) => [...prev, newSettings]);
     };
 
+
     const updateRNGSettings = (updatedSettings: Partial<RNGCirclesSettings>) => {
         setRNGSettingsList((prev) =>
             prev.map((settings) => (settings.id === id ? {...settings, rngSettings: {...settings.rngSettings, ...updatedSettings}} : settings))
         );
     };
 
+
+
     const removeRNGSettings = () => {
         setRNGSettingsList((prev) => prev.filter((s) => s.id !== id));
     };
 
     return (
-        <RandomCircleContext.Provider value={{ rngSettingsList, addRNGSettings, updateRNGSettings,  removeRNGSettings, setRNGSettingsList , currentRNGSettings, setCurrentRNGSettings}}>
+        <RandomCircleContext.Provider value={{ rngSettingsList, addRNGSettings, updateRNGSettings,  removeRNGSettings, setRNGSettingsList , currentRNGSettings, setCurrentRNGSettings, updateCurrentRNGSettings}}>
             {children}
         </RandomCircleContext.Provider>
     );

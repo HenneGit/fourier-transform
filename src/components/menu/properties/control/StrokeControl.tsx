@@ -6,30 +6,30 @@ import {Label} from "@/components/ui/label.tsx";
 
 const StrokeControl = () => {
 
-    const {updateStrokeSettings, currentStrokeSettings} = useSettings();
+    const {updateCurrentStrokeSettings, currentStrokeSettings} = useSettings();
 
     const setCircleStroke = (value: number[]) => {
-        updateStrokeSettings({circleStroke: value[0]});
+        updateCurrentStrokeSettings({circleStroke: value[0]});
     };
 
     const setPathStroke = (value: number[]) => {
-        updateStrokeSettings({pathStroke: value[0]});
+        updateCurrentStrokeSettings({pathStroke: value[0]});
     };
 
     const setRadiusStroke = (value: number[]) => {
-        updateStrokeSettings({radiusStroke: value[0]});
+        updateCurrentStrokeSettings({radiusStroke: value[0]});
     };
 
     const setJointPointStroke = (value: number[]) => {
-        updateStrokeSettings({jointPointStroke: value[0]});
+        updateCurrentStrokeSettings({jointPointStroke: value[0]});
     };
 
     const setDeletePathDelay = (value: number[]) => {
-        updateStrokeSettings({deletePathDelay: value[0]});
+        updateCurrentStrokeSettings({deletePathDelay: value[0]});
     };
 
     const setDeletePath = (value: boolean) => {
-        updateStrokeSettings({deletePath: value});
+        updateCurrentStrokeSettings({deletePath: value});
     };
 
     return (

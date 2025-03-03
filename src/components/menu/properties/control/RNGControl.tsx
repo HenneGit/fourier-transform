@@ -1,32 +1,38 @@
 import {SliderWithNumber} from "@/components/menu/properties/control/components/SliderWithNumber.tsx";
 import {useRNGSettings} from "@/context/RNGSettingsContext.tsx";
+import {Label} from "@/components/ui/label.tsx";
+import {Switch} from "@heroui/switch";
 
 const RNGControl = () => {
 
-    const {currentRNGSettings, updateRNGSettings} = useRNGSettings();
+    const {currentRNGSettings, updateCurrentRNGSettings} = useRNGSettings();
 
     const setNumberOfCircles = (value: number[]) => {
-        updateRNGSettings({numberOfCircles: value[0]});
+        updateCurrentRNGSettings({numberOfCircles: value[0]});
     };
 
     const setMaxRadius = (value: number[]) => {
-        updateRNGSettings({maxRadius: value[0]});
+        updateCurrentRNGSettings({maxRadius: value[0]});
     };
 
     const setRadiusDelta = (value: number[]) => {
-        updateRNGSettings({radiusDelta: value[0]});
+        updateCurrentRNGSettings({radiusDelta: value[0]});
     };
 
     const setMaxSpeed = (value: number[]) => {
-        updateRNGSettings({maxSpeed: value[0]});
+        updateCurrentRNGSettings({maxSpeed: value[0]});
     };
 
     const setMinSpeed = (value: number[]) => {
-        updateRNGSettings({minSpeed: value[0]});
+        updateCurrentRNGSettings({minSpeed: value[0]});
     };
 
     const setSpeedDelta = (value: number[]) => {
-        updateRNGSettings({speedDelta: value[0]});
+        updateCurrentRNGSettings({speedDelta: value[0]});
+    };
+
+    const setSortCircles = (value: boolean) => {
+        updateCurrentRNGSettings({sortCircles: value});
     };
 
     return (
@@ -51,7 +57,9 @@ const RNGControl = () => {
                     <SliderWithNumber number={currentRNGSettings.speedDelta}  toolTipText={'There is a 5% chance that a the value of speedDelta is applied to the circle spinning speed'} setNumber={setSpeedDelta}
                                       min={-5} max={5}
                                       steps={1} label={'speedDelta'}/>
-
+                    <Switch size="sm" className={'mt-2 mb-2'} color={'default'} onValueChange={setSortCircles} isSelected={currentRNGSettings.sortCircles}>
+                        <Label>Sort Circles</Label>
+                    </Switch>L
                 </div> : null
             }
         </>

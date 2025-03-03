@@ -20,7 +20,6 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
 
     const handleMouseUp = () => {
         setIsDrawing(false);
-        console.log('Path data:', pathData);
         setPathData([]);
         setPath(pathData);
     };
@@ -52,7 +51,6 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
 
     const handleTouchEnd = () => {
         setIsDrawing(false);
-        console.log('Path data:', pathData);
         setPathData([]);
         setPath(pathData);
     };

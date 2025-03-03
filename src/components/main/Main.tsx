@@ -56,7 +56,6 @@ const Main = ({width, height}: { width: number, height: number }) => {
         setId(id);
         addSettings({id: id, strokeSettings: presets[0].strokes, colorSettings: presets[0].colors});
         setRNGSettingsList([{id: id, rngSettings: presets[0].rngSettings}]);
-        console.log('@sh');
     }, []);
 
     const onPauseButtonClick = () => {

@@ -38,6 +38,7 @@ const LilaGreenPresetProps: RNGCirclesSettings = {
     maxRadius: 150,
     radiusDelta: 20,
     zoom: 90,
+    sortCircles: false,
 }
 
 
@@ -70,6 +71,8 @@ const PinkSolarSystemProperties: RNGCirclesSettings = {
     maxRadius: 70,
     radiusDelta: 70,
     zoom: 90,
+    sortCircles: false,
+
    }
 
 
@@ -102,6 +105,8 @@ const BlueWormsProperties: RNGCirclesSettings = {
     maxRadius: 10,
     radiusDelta: 100,
     zoom: 90,
+    sortCircles: false,
+
 }
 
 
@@ -134,27 +139,31 @@ const WindyTreeProperties: RNGCirclesSettings = {
     maxRadius: 25,
     radiusDelta: 0,
     zoom: 90,
+    sortCircles: false,
+
 }
 
 const SlowGreenCirclesProperties: RNGCirclesSettings = {
     addViewPortZoom: false,
-    numberOfCircles: 10,
+    numberOfCircles: 25,
     maxSpeed: 0.299,
     minSpeed: -0.288,
     speedDelta: 0.8,
     maxRadius: 30,
     radiusDelta: 30,
     zoom: 90,
+    sortCircles: true,
+
 }
 
 
-const SlowGreenCirclestrokes: StrokeSettings = {
-    circleStroke: 5,
+const SlowGreenCircleStrokes: StrokeSettings = {
+    circleStroke: 2,
     radiusStroke: 3,
-    pathStroke: 1.49,
-    jointPointStroke: 0,
+    pathStroke: 2.49,
+    jointPointStroke: 1,
     deletePath: true,
-    deletePathDelay: 15,
+    deletePathDelay: 10,
 };
 
 
@@ -174,5 +183,5 @@ export const presets: Preset[] = [
     {rngSettings: PinkSolarSystemProperties, colors: PinkSolarSystemColors, strokes: PinkSolarSystemStrokes},
     {rngSettings: BlueWormsProperties, colors: BlueWormsColors, strokes: BlueWormsStrokes},
     {rngSettings: WindyTreeProperties, colors: WindyTreeColors, strokes: WindyTreeStrokes},
-    {rngSettings: SlowGreenCirclesProperties, colors: SlowGreenCirclesColors, strokes: SlowGreenCirclestrokes},
+    {rngSettings: SlowGreenCirclesProperties, colors: SlowGreenCirclesColors, strokes: SlowGreenCircleStrokes},
 ];

@@ -10,10 +10,6 @@ export const ColorPicker = ({color, setColor, label}: {
     const [isOpen, setIsOpen] = useState(false);
     const pickerRef = useRef<HTMLDivElement>(null);
     const [tempColor, setTempColor] = useState({h: color[0], s: color[1], l: color[2]})
-    useEffect(() => {
-        console.log('1238asldk');
-    }, []);
-
 
     const debouncedUpdateColor = debounce((newColor: HslColor) => {
         setColor(newColor);

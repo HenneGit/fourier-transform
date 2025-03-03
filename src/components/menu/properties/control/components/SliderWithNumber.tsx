@@ -18,7 +18,6 @@ export const SliderWithNumber = ({number, setNumber, min, max, steps, label, too
 
     const handleMouseDown = () => {
         setIsDragging(true);
-        console.log('mouse down')
 
     };
     const handleMouseUp = () => setIsDragging(false);
@@ -47,7 +46,7 @@ export const SliderWithNumber = ({number, setNumber, min, max, steps, label, too
                             {label}
                         </Label>
                         {toolTipText ?
-                            <Tooltip className={'text-black z-[999] w-[21em] '} content={toolTipText} showArrow={true}>
+                            <Tooltip className={'text-black z-[999] w-[21em] '} delay={600} content={toolTipText} showArrow={true}>
                             <span className={" relative text-black cursor-pointer "}>
                                 <QuestionMarkIcon/>
                             </span>

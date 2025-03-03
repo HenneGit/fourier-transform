@@ -4,26 +4,26 @@ import {HslColor} from "react-colorful";
 
 const ColorControl = () => {
 
-    const {updateColorSettings, currentColorSettings} = useSettings();
+    const {updateCurrentColorSettings, currentColorSettings} = useSettings();
 
     const setCircleColor = (color: HslColor) => {
-        updateColorSettings({circleColor: [color.h, color.s, color.l]});
+        updateCurrentColorSettings({circleColor: [color.h, color.s, color.l]});
     };
 
     const setRadiusColor = (color: HslColor) => {
-        updateColorSettings({radiusColor: [color.h, color.s, color.l]});
+        updateCurrentColorSettings({radiusColor: [color.h, color.s, color.l]});
     };
 
     const setJointPointColor = (color: HslColor) => {
-        updateColorSettings({jointPointColor: [color.h, color.s, color.l]});
+        updateCurrentColorSettings({jointPointColor: [color.h, color.s, color.l]});
     };
 
     const setBackgroundColor = (color: HslColor) => {
-        updateColorSettings({backgroundColor: [color.h, color.s, color.l]});
+        updateCurrentColorSettings({backgroundColor: [color.h, color.s, color.l]});
     };
 
     const setPathColor = (color: HslColor) => {
-        updateColorSettings({pathColor: [color.h, color.s, color.l]});
+        updateCurrentColorSettings({pathColor: [color.h, color.s, color.l]});
     };
 
     return (

@@ -18,6 +18,8 @@ interface SettingsContextType {
     currentColorSettings: ColorSettings | undefined;
     setCurrentStrokeSettings: React.Dispatch<SetStateAction<StrokeSettings | undefined>>
     setCurrentColorSettings: React.Dispatch<SetStateAction<ColorSettings | undefined>>
+    updateCurrentColorSettings: (updatedSettings: Partial<ColorSettings>) => void
+    updateCurrentStrokeSettings: (updatedSettings: Partial<StrokeSettings>) => void
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -42,21 +44,32 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
         }
     }, [id, settingsList]);
 
+    const updateCurrentColorSettings = (updatedSettings: Partial<ColorSettings>) => {
+        setCurrentColorSettings((prevSettings) =>
+            prevSettings ? { ...prevSettings, ...updatedSettings } : prevSettings
+        );
+    };
+
+    const updateCurrentStrokeSettings = (updatedSettings: Partial<StrokeSettings>) => {
+        setCurrentStrokeSettings((prevSettings) =>
+            prevSettings ? { ...prevSettings, ...updatedSettings } : prevSettings
+        );
+    };
+
+
+
     const updateStrokeSettings = ( updatedStrokeSettings: Partial<StrokeSettings>) => {
-        console.log(id, updatedStrokeSettings);
         setSettingsList((prev) =>
             prev.map((setting) => (setting.id === id ? {...setting, strokeSettings: {...setting.strokeSettings, ...updatedStrokeSettings}} : setting))
         );
     };
 
     const addSettings = (newSettings: ColorAndStrokeSettings) => {
-        console.log(newSettings);
         setSettingsList((prev) => [...prev, newSettings]);
     };
 
 
     const updateColorSettings = (updatedColorSettings: Partial<ColorSettings>) => {
-        console.log(id, updatedColorSettings);
         setSettingsList((prev) =>
             prev.map((settings) => (settings.id === id ? {...settings, colorSettings: {...settings.colorSettings, ...updatedColorSettings}} : settings))
         );
@@ -77,7 +90,9 @@ export function SettingsProvider({children}: { children: React.ReactNode }) {
             currentStrokeSettings,
             currentColorSettings,
             setCurrentColorSettings,
-            setCurrentStrokeSettings
+            setCurrentStrokeSettings,
+            updateCurrentColorSettings,
+            updateCurrentStrokeSettings
         }}>
             {children}
         </SettingsContext.Provider>

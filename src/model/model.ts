@@ -7,6 +7,7 @@ export interface RNGCirclesSettings {
     radiusDelta: number;
     zoom: number;
     addViewPortZoom: boolean;
+    sortCircles: boolean;
 }
 
 export interface StrokeSettings {

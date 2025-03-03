@@ -30,8 +30,7 @@ export const getViewPortString = (viewPort: ViewPort) => {
 };
 
 
-
-export const renderPath = (x: number, y: number, pathRef: React.RefObject<SVGPathElement | null> , setPath: React.Dispatch<React.SetStateAction<Point[]>>, path: Point[]) => {
+export const renderPath = (x: number, y: number, pathRef: React.RefObject<SVGPathElement | null>, setPath: React.Dispatch<React.SetStateAction<Point[]>>, path: Point[]) => {
     if (!pathRef) {
         return;
     }
