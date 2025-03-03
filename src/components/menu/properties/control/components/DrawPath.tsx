@@ -4,7 +4,7 @@ import {Point} from "@/model/model.ts";
 const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [pathData, setPathData] = useState<Point[]>([]);
-    const svgRef = useRef(null);
+    const svgRef = useRef<SVGSVGElement | null>(null);
 
     const handleMouseDown = (e: { nativeEvent: { offsetX: number; offsetY: number; }; }) => {
         setIsDrawing(true);
@@ -34,19 +34,55 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
             .join(' ');
     };
 
+
+    const handleTouchStart = (e: React.TouchEvent<SVGElement>) => {
+        e.preventDefault(); // Prevents scrolling while drawing
+        setIsDrawing(true);
+        const { clientX, clientY } = e.touches[0];
+        const { x, y } = getSVGCoords(clientX, clientY);
+        setPathData([{ x, y }]);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent<SVGElement>) => {
+        if (!isDrawing) return;
+        const { clientX, clientY } = e.touches[0];
+        const { x, y } = getSVGCoords(clientX, clientY);
+        setPathData((prevData) => [...prevData, { x, y }]);
+    };
+
+    const handleTouchEnd = () => {
+        setIsDrawing(false);
+        console.log('Path data:', pathData);
+        setPathData([]);
+        setPath(pathData);
+    };
+
+    const getSVGCoords = (clientX: number, clientY: number) => {
+        if (!svgRef.current) return { x: 0, y: 0 };
+        const svg = svgRef.current;
+        const point = svg.createSVGPoint();
+        point.x = clientX;
+        point.y = clientY;
+        const { x, y } = point.matrixTransform(svg.getScreenCTM()?.inverse());
+        return { x, y };
+    };
+
     return (
         <div>
             <svg
                 ref={svgRef}
-                width="260"
-                height="200"
-                style={{ border: '1px solid black', position: 'relative' }}
+                width="200"
+                height="150"
+                style={{border: '1px solid black', position: 'relative'}}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
             >
-                <path d={drawPath()} stroke="black" fill="transparent" strokeWidth="2" />
+                <path d={drawPath()} stroke="black" fill="transparent" strokeWidth="2"/>
             </svg>
         </div>
     );
