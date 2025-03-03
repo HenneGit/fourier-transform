@@ -1,6 +1,6 @@
 # Visualization of fourier transformations
 
-https://www.hennegit.github.io
+www.hennegit.github.io
 
 The fourier transform sandbox you didn't know you need. Change colors, spinning speed and radius and create stunning 
 animations. You can select pre-designed pictures to be drawn by the fourier step function, draw your own or upload path 
