@@ -44,8 +44,6 @@ export const SvgMenu = ({
                         skipEmptyLines: true,
                         dynamicTyping: true
                     });
-
-                    // Convert parsed data to the required format
                     let inputPathData: number[][] = parsed.data.map(row => {
                         const values = Object.values(row).map(Number);
                         return [values[0], values[1]];

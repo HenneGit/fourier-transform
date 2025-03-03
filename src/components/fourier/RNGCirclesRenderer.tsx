@@ -58,6 +58,10 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                 const frequency = parseFloat(getRandomNumber(min, max, currentRNGSettings.speedDelta).toFixed(3));
                 fourierProps.push({radius: radius, frequency: frequency, phase: phase});
             }
+
+            fourierProps.sort((a, b) => {
+                return b.radius - a.radius;
+            })
             return fourierProps
         }
 

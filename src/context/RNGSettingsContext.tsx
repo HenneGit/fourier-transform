@@ -36,12 +36,10 @@ export function RNGSettingsContext({ children }: { children: React.ReactNode }) 
     }, [id, rngSettingsList]);
 
     const addRNGSettings = (newSettings: RNGCircleRendererSettings) => {
-        console.log(newSettings);
         setRNGSettingsList((prev) => [...prev, newSettings]);
     };
 
     const updateRNGSettings = (updatedSettings: Partial<RNGCirclesSettings>) => {
-        console.log(id, updatedSettings);
         setRNGSettingsList((prev) =>
             prev.map((settings) => (settings.id === id ? {...settings, rngSettings: {...settings.rngSettings, ...updatedSettings}} : settings))
         );

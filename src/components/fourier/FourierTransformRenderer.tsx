@@ -70,8 +70,6 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
                 fourierPoints.push({radius: amplitude, frequency: k, phase: phase});
             }
             setStepIncrement(1 / fourierPoints.length)
-            console.log(fourierPoints.length)
-
             return fourierPoints;
         }
 
@@ -101,7 +99,7 @@ const FourierTransformRenderer: React.FC<FourierWrapperProps> = ({
             if (!fourierSteps) {
                 return;
             }
-            if (currentFrequency > 1) {
+            if (currentFrequency >= 1) {
                 setIsCompleteCycle(true);
             }
             setCircles(renderCircles(currentFrequency, fourierSteps));

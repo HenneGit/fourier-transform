@@ -16,7 +16,6 @@ const PresetsControl = () => {
         setCurrentStrokeSettings(setting.strokes);
         setCurrentColorSettings(setting.colors);
         setCurrentRNGSettings(setting.rngSettings)
-
     }
 
     return (
