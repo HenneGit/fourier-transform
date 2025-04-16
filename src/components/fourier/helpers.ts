@@ -14,7 +14,7 @@ export const generateHSLSteps = (startColor: number[], step: number, properties:
 
 export const getRandomNumber = (min: number, max: number, delta: number) => {
     if (Math.random() < 1 / 20) {
-        return Math.random() * (max + delta - min + delta) + min + delta;
+        return Math.random() * (max + delta - min + delta *-1) + min + delta;
     } else {
         return Math.random() * (max - min) + min;
     }

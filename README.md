@@ -1,15 +1,13 @@
-# Visualization of fourier transformations
+# Fourier Transform Sandbox
 
 https://hennegit.github.io
 
-The fourier transform sandbox you didn't know you need. Change colors, spinning speed and radius and create stunning 
-animations. You can select pre-designed pictures to be drawn by the fourier step function, draw your own or upload path 
-to be drawn. 
-
+The Fourier Transform sandbox you didn’t know you needed. Change colors, spinning speed, and radius to create stunning animations.
+Choose from pre-designed images, draw your own, or upload a path to be drawn by the Fourier step function.
 
 Select colors, strokes and rng settings for randomized spinning circles: 
 
-![alt text](./screenshot/pink_solar.png)
+![alt text](./screenshot/sidebar.png)
 
 ![alt text](./screenshot/yellow_red.png)
 

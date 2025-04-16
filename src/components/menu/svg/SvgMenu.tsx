@@ -47,7 +47,7 @@ export const SvgMenu = ({
                     let inputPathData: number[][] = parsed.data.map(row => {
                         const values = Object.values(row).map(Number);
                         return [values[0], values[1]];
-                    }).filter(([x, y]) => !isNaN(x) && !isNaN(y)); // Ensure valid numbers
+                    }).filter(([x, y]) => !isNaN(x) && !isNaN(y));
 
                     if (inputPathData.length > 1000) {
                         let pathLength = inputPathData.length;
@@ -56,7 +56,6 @@ export const SvgMenu = ({
                             pathLength = inputPathData.length;
                         }
                     }
-
                     return transformNumberArrayToDimensions(inputPathData, 400, 200);
                 });
 

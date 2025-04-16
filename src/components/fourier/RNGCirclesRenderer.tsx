@@ -34,9 +34,9 @@ const RNGCirclesRenderer: React.FC<FourierWrapperProps> = ({
                 return;
             }
             const fourierPoints: FourierTransform[] = [];
-            setCurrentFrequency(0);
+            setCurrentFrequency(() => 0);
             setFourierSteps(undefined)
-            setSavedElapsed(0);
+            setSavedElapsed(() => 0);
             setPath(() => []);
             setNewViewPort(newViewPort)
             generateRandomFourierProps(fourierPoints);

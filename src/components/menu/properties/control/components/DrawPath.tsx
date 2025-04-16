@@ -35,7 +35,7 @@ const DrawPath = ({setPath} : {    setPath: (path: Point[]) => void;}) => {
 
 
     const handleTouchStart = (e: React.TouchEvent<SVGElement>) => {
-        e.preventDefault(); // Prevents scrolling while drawing
+        e.preventDefault();
         setIsDrawing(true);
         const { clientX, clientY } = e.touches[0];
         const { x, y } = getSVGCoords(clientX, clientY);

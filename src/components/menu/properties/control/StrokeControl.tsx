@@ -52,9 +52,9 @@ const StrokeControl = () => {
                        <Label>Delete Path</Label>
                     </Switch>
                     {currentStrokeSettings.deletePath ?
-                        <SliderWithNumber toolTipText={'number of seconds after which the end of the path will be deleted.'} number={currentStrokeSettings.deletePathDelay}
+                        <SliderWithNumber toolTipText={'number of seconds after which the end of the path will be deleted. Only applies when the animations starts.'} number={currentStrokeSettings.deletePathDelay}
                                           setNumber={setDeletePathDelay} min={0} max={20}
-                                          steps={1} label={'Joint point stroke'}/> : null}
+                                          steps={1} label={'Delete path delay'}/> : null}
                 </div>
                 : null
             }
